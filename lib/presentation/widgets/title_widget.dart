@@ -16,17 +16,24 @@ class _TitleWidgetState extends State<TitleWidget> {
     return Row(
       children: [
         SvgPicture.asset(
+          color: Colors.red,
           'assets/icons/dashboard.svg',
-          width: 50,
-          height: 50,
+          width: 20,
+          height: 20,
         ),
         Text(
           widget.title,
           style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            fontWeight: FontWeight.normal,
           ),
         ),
+        IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.expand_more,
+              color: Colors.red,
+            ))
       ],
     );
   }
