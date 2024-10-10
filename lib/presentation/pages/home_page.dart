@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qms_app/common/color.dart';
 import 'package:qms_app/common/icon_path.dart';
+import 'package:qms_app/common/widgets/side_bar.dart';
 import 'package:qms_app/presentation/widgets/title_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -105,38 +106,18 @@ class _HomePageState extends State<HomePage> {
             ),
             body: Row(
               children: [
-                Container(
-                  width: 330,
-                  decoration: const BoxDecoration(
-                    color: QMSColor.main_grey,
-                  ),
-                  child: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TitleWidget(
-                          icon: IconPath.dashboard, title: 'QUẢN LÝ DANH MỤC'),
-                      TitleWidget(
-                          icon: IconPath.dashboard, title: 'KIỂM TRA IQC'),
-                      TitleWidget(
-                          icon: IconPath.dashboard, title: 'KIỂM TRA PQC'),
-                      TitleWidget(
-                          icon: IconPath.dashboard, title: 'KIỂM TRA OQC'),
-                      TitleWidget(
-                          icon: IconPath.dashboard, title: 'BÁO CÁO, THÔNG KÊ'),
-                    ],
-                  ),
-                ),
+                const SideBarWidget(),
                 Expanded(
                     child: Container(
                   color: Colors.black12,
+                  margin: const EdgeInsets.only(left: 24, right: 24, top: 60),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                            ),
-                            padding: const EdgeInsets.only(left: 24, top: 14),
+                            color: Colors.white,
+                            padding: const EdgeInsets.only(left: 23),
+                            // padding: const EdgeInsets.only(left: 24, top: 14),
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -169,10 +150,10 @@ class _HomePageState extends State<HomePage> {
                           decoration: InputDecoration(
                               hintText:
                                   'Nhập thông tin và nhấn Enter để tìm kiếm',
-                              prefixIcon: SvgPicture.asset(
+                              prefixIcon: Image.asset(
                                 IconPath.search,
-                                width: 16,
-                                height: 16,
+                                width: 5,
+                                height: 5,
                               ),
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -180,27 +161,36 @@ class _HomePageState extends State<HomePage> {
                                       color: Colors.black.withOpacity(0.2)),
                                   borderRadius: BorderRadius.circular(4))),
                         ),
-                        const Row(
-                          children: [
-                            Text(
-                              'Danh sách yêu cầu IQC(10)',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400, fontSize: 18),
-                            ),
-                          ],
-                        ),
-                        const Text(
-                          'Kiểm tra IQC',
+                        Text(
+                          'Danh sách yêu cầu IQC(10)',
                           style: TextStyle(
                               fontWeight: FontWeight.w400, fontSize: 18),
                         ),
-                        const Text(
-                          'Danh sách yêu cầu IQC hàng hóa',
+                        Row(
+                          children: [
+                            Text('Mã nhóm lỗi'),
+                            Text('Nhóm lỗi'),
+                            Text('Mô tả'),
+                            Text('Người tạo'),
+                            Text('Thời gian tạo'),
+                            Text('Trạng thái'),
+                          ],
+                        ),
+                        Text(
+                          'Danh sách lỗi(4)',
                           style: TextStyle(
-                              color: QMSColor.main_orange,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 18),
-                        )
+                              fontWeight: FontWeight.w400, fontSize: 18),
+                        ),
+                        Row(
+                          children: [
+                            Text('Mã lỗi'),
+                            Text('Tên lỗi'),
+                            Text('Mô tả'),
+                            Text('Người tạo'),
+                            Text('Thời gian tạo'),
+                            Text('Trạng thái'),
+                          ],
+                        ),
                       ]),
                 ))
               ],

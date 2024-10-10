@@ -1,0 +1,10 @@
+{
+    "title": "QMS",
+    "greeting": "Chào mừng đến với ứng dụng của tôi!",
+    "categoryManage"  : "Quản lý danh mục",
+    "testIQC" : "Kiểm tra IQC",
+    "testPQC" : "Kiểm tra PQC",
+    "testOQC" : "Kiểm tra OQC",
+    "report" : "Báo cáo, thống kê"
+  }
+  
