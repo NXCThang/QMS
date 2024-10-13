@@ -4,6 +4,7 @@ import 'package:qms_app/common/color.dart';
 import 'package:qms_app/common/icon_path.dart';
 import 'package:qms_app/common/widgets/side_bar.dart';
 import 'package:qms_app/presentation/widgets/title_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,95 +16,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
     return SafeArea(
         child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: QMSColor.blueheader,
-              title: Row(
-                children: [
-                  SizedBox(
-                    width: 330,
-                    child: GestureDetector(
-                        onTap: () {}, child: const Text('Facenet')),
-                  ),
-                  SvgPicture.asset(
-                    IconPath.menu,
-                    width: 22,
-                    height: 18,
-                  ),
-                  const SizedBox(width: 19),
-                  const Text(
-                    'Quality Management System',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  )
-                ],
-              )
-              // const Text('FaceNet')
-              ,
-              actions: [
-                const Icon(
-                  Icons.person_pin,
-                  weight: 40,
-                ),
-                const SizedBox(
-                  width: 7,
-                ),
-                const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Xin chào',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        'Lô Quỳnh Như',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16),
-                      )
-                    ]),
-                const SizedBox(width: 24),
-                GestureDetector(
-                    onTap: () {},
-                    child: SvgPicture.asset(
-                      IconPath.fullscreen,
-                      width: 24,
-                      height: 24,
-                    )),
-                const SizedBox(
-                  width: 24,
-                ),
-                GestureDetector(
-                    onTap: () {},
-                    child: SvgPicture.asset(
-                      IconPath.notification,
-                      width: 24,
-                      height: 24,
-                    )),
-                const SizedBox(
-                  width: 24,
-                ),
-                GestureDetector(
-                    onTap: () {},
-                    child: SvgPicture.asset(
-                      IconPath.logout,
-                      width: 24,
-                      height: 24,
-                    )),
-                const SizedBox(
-                  width: 40,
-                )
-              ],
-            ),
+            appBar: _appbar(context),
             body: Row(
               children: [
                 const SideBarWidget(),
@@ -140,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                         // )
                         ,
                         Text(
-                          'Tìm kiếm chung',
+                          appLocalizations?.generalSearch ?? '',
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
@@ -161,19 +77,61 @@ class _HomePageState extends State<HomePage> {
                                       color: Colors.black.withOpacity(0.2)),
                                   borderRadius: BorderRadius.circular(4))),
                         ),
-                        Text(
-                          'Danh sách yêu cầu IQC(10)',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400, fontSize: 18),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Danh sách yêu cầu IQC(10)',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400, fontSize: 18),
+                            ),
+                            SvgPicture.asset(
+                              IconPath.addData,
+                              width: 36,
+                              height: 36,
+                            ),
+                          ],
                         ),
                         Row(
                           children: [
                             Text('Mã nhóm lỗi'),
+                            SvgPicture.asset(
+                              IconPath.filter,
+                              width: 10,
+                              height: 10,
+                            ),
                             Text('Nhóm lỗi'),
+                            SvgPicture.asset(
+                              IconPath.filter,
+                              width: 10,
+                              height: 10,
+                            ),
                             Text('Mô tả'),
+                            SvgPicture.asset(
+                              IconPath.filter,
+                              width: 10,
+                              height: 10,
+                            ),
                             Text('Người tạo'),
+                            SvgPicture.asset(
+                              IconPath.filter,
+                              width: 10,
+                              height: 10,
+                            ),
                             Text('Thời gian tạo'),
+                            SvgPicture.asset(
+                              IconPath.filter,
+                              width: 10,
+                              height: 10,
+                            ),
                             Text('Trạng thái'),
+                            SvgPicture.asset(IconPath.arrowDown,
+                                width: 12, height: 12),
+                            SvgPicture.asset(
+                              IconPath.filter,
+                              width: 10,
+                              height: 10,
+                            ),
                           ],
                         ),
                         Text(
@@ -196,4 +154,92 @@ class _HomePageState extends State<HomePage> {
               ],
             )));
   }
+}
+
+@override
+PreferredSizeWidget _appbar(BuildContext context) {
+  return AppBar(
+    backgroundColor: QMSColor.blueheader,
+    title: Row(
+      children: [
+        SizedBox(
+          width: 330,
+          child: GestureDetector(onTap: () {}, child: const Text('Facenet')),
+        ),
+        SvgPicture.asset(
+          IconPath.menu,
+          width: 22,
+          height: 18,
+        ),
+        const SizedBox(width: 19),
+        const Text(
+          'Quality Management System',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+          ),
+        )
+      ],
+    ),
+    actions: [
+      const Icon(
+        Icons.person_pin,
+        weight: 40,
+      ),
+      const SizedBox(
+        width: 7,
+      ),
+      const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Xin chào',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
+            ),
+            Text(
+              'Lô Quỳnh Như',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16),
+            )
+          ]),
+      const SizedBox(width: 24),
+      GestureDetector(
+          onTap: () {},
+          child: SvgPicture.asset(
+            IconPath.fullscreen,
+            width: 24,
+            height: 24,
+          )),
+      const SizedBox(
+        width: 24,
+      ),
+      GestureDetector(
+          onTap: () {},
+          child: SvgPicture.asset(
+            IconPath.notification,
+            width: 24,
+            height: 24,
+          )),
+      const SizedBox(
+        width: 24,
+      ),
+      GestureDetector(
+          onTap: () {},
+          child: SvgPicture.asset(
+            IconPath.logout,
+            width: 24,
+            height: 24,
+          )),
+      const SizedBox(
+        width: 40,
+      )
+    ],
+  );
 }

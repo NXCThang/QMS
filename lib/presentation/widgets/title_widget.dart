@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qms_app/common/color.dart';
 
-class TitleWidget extends StatelessWidget {
+class TitleWidget extends StatefulWidget {
   final String title;
   final String icon;
   final bool isSelected;
@@ -19,6 +20,13 @@ class TitleWidget extends StatelessWidget {
   });
 
   @override
+  State<TitleWidget> createState() => _TitleWidgetState();
+}
+
+class _TitleWidgetState extends State<TitleWidget> {
+  int selectedIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 24, top: 14, bottom: 14, right: 12),
@@ -27,50 +35,72 @@ class TitleWidget extends StatelessWidget {
           Row(
             children: [
               SvgPicture.asset(
-                icon,
+                widget.icon,
                 width: 24,
                 height: 24,
-                color: isSelected ? QMSColor.main_orange : Colors.black,
+                color: widget.isSelected ? QMSColor.mainorange : Colors.black,
               ),
               const SizedBox(width: 14),
               Text(
-                title,
+                widget.title,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: FontWeight.normal,
-                  color: isSelected ? QMSColor.main_orange : Colors.black,
+                  color: widget.isSelected ? QMSColor.mainorange : Colors.black,
                 ),
               ),
               const Spacer(),
               IconButton(
-                onPressed: onTap,
+                onPressed: widget.onTap,
                 icon: Icon(
-                  isSelected ? Icons.expand_less : Icons.expand_more,
-                  color: isSelected ? QMSColor.main_orange : Colors.black,
+                  widget.isSelected ? Icons.expand_less : Icons.expand_more,
+                  color: widget.isSelected ? QMSColor.mainorange : Colors.black,
                 ),
               ),
               const SizedBox(width: 16),
             ],
           ),
           Divider(
-            color: isSelected ? QMSColor.main_orange : Colors.transparent,
+            color: widget.isSelected ? QMSColor.mainorange : Colors.transparent,
             thickness: 1,
           ),
-          Container(
-            padding: const EdgeInsets.only(top: 8.0),
-            height: items.length * 40.0, // Chiều cao dựa trên số lượng item
+          Visibility(
+            visible: widget.isSelected,
             child: ListView.builder(
-              physics:
-                  const NeverScrollableScrollPhysics(), // Ngăn không cho cuộn
-              itemCount: items.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: widget.items.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: Text(
-                    items[index],
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                    },
+                    behavior: HitTestBehavior.translucent,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: selectedIndex == index
+                              ? QMSColor.mainorange
+                              : Colors.transparent,
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomLeft: Radius.circular(10))),
+                      padding:
+                          const EdgeInsets.only(left: 38, top: 10, bottom: 10),
+                      child: Text(
+                        widget.items[index],
+                        style: TextStyle(
+                          color: selectedIndex == index
+                              ? Colors.white
+                              : Colors.black,
+                          fontSize: 16,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 );

@@ -1,10 +1,29 @@
 {
-    "title": "QMS",
-    "greeting": "Chào mừng đến với ứng dụng của tôi!",
-    "categoryManage"  : "Quản lý danh mục",
-    "testIQC" : "Kiểm tra IQC",
-    "testPQC" : "Kiểm tra PQC",
-    "testOQC" : "Kiểm tra OQC",
-    "report" : "Báo cáo, thống kê"
-  }
-  
+  "title": "QMS",
+  "greeting": "Chào mừng đến với ứng dụng của tôi!",
+  "categoryManage": "Quản lý danh mục",
+  "testIQC": "Kiểm tra IQC",
+  "testPQC": "Kiểm tra PQC",
+  "testOQC": "Kiểm tra OQC",
+  "report": "Báo cáo, thống kê",
+  "inspectionReportSample": "Mẫu biên bản kiểm tra",
+  "expenseManagement": "Quản lý chi tiêu",
+  "approveInspectionRecords": "Phê duyệt biên bản kiểm tra",
+  "listofIQCRequirements": "Danh sách yêu cầu IQC",
+  "listofProductionOrders": "Danh sách lệnh sản xuất",
+  "checkProductQualityFirst": "Kiểm tra chất lượng sản phẩm đầu",
+  "checkProductQuality": "Kiểm tra chất lượng sản phẩm",
+  "checkOQC": "Kiểm tra OQC",
+  "approvalForWarehouseEntry": "Phê duyệt nhập kho",
+  "report_NG_OK_ratio": "Báo cáo tỉ lệ NG/OK",
+  "order_completion_rate_report": "Báo cáo tỷ lệ hoàn thành theo đơn đặt hàng",
+  "production_order_completion_rate_report": "Báo cáo tỷ lệ hoàn thành theo lệnh sản xuất",
+  "generalSearch": "Tìm kiếm chung",
+    "enterInfoToSearch": "Nhập thông tin và nhấn Enter để tìm kiếm",
+    "errorGroupCode": "Mã nhóm lỗi",
+    "errorGroup": "Nhóm lỗi",
+    "description": "Mô tả",
+    "creator": "Người tạo",
+    "creationTime": "Thời gian tạo",
+    "status": "Trạng thái"
+    }

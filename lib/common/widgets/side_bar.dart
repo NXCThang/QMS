@@ -12,7 +12,7 @@ class SideBarWidget extends StatefulWidget {
 }
 
 class _SideBarWidgetState extends State<SideBarWidget> {
-  int selectedIndex = 0; // Track the index of the selected widget
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class _SideBarWidgetState extends State<SideBarWidget> {
     return Container(
       width: 330,
       decoration: const BoxDecoration(
-        color: QMSColor.main_grey,
+        color: QMSColor.maingrey,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,57 +29,69 @@ class _SideBarWidgetState extends State<SideBarWidget> {
           TitleWidget(
             icon: IconPath.dashboard,
             title: appLocalizations?.categoryManage.toUpperCase() ?? '',
-            isSelected: selectedIndex == 0, // Check if this widget is selected
+            isSelected: selectedIndex == 0,
             onTap: () {
-              setState(() {
-                selectedIndex = 0; // Set selected index
-              });
+              selectedIndex == 0 ? selectedIndex = -1 : selectedIndex = 0;
+              setState(() {});
             },
-            items: ['Danh mục lỗi/ nhóm lỗi'],
+            items: [
+              appLocalizations?.inspectionReportSample ?? '',
+              appLocalizations?.expenseManagement ?? '',
+            ],
           ),
           TitleWidget(
             icon: IconPath.dashboard,
             title: appLocalizations?.testIQC.toUpperCase() ?? '',
             isSelected: selectedIndex == 1,
             onTap: () {
-              setState(() {
-                selectedIndex = 1;
-              });
+              selectedIndex == 1 ? selectedIndex = -1 : selectedIndex = 1;
+              setState(() {});
             },
-            items: [],
+            items: [
+              appLocalizations?.approveInspectionRecords ?? '',
+              appLocalizations?.listofIQCRequirements ?? ''
+            ],
           ),
           TitleWidget(
             icon: IconPath.dashboard,
             title: appLocalizations?.testPQC.toUpperCase() ?? '',
             isSelected: selectedIndex == 2,
             onTap: () {
-              setState(() {
-                selectedIndex = 2;
-              });
+              selectedIndex == 2 ? selectedIndex = -1 : selectedIndex = 2;
+              setState(() {});
             },
-            items: [],
+            items: [
+              appLocalizations?.listofProductionOrders ?? '',
+              appLocalizations?.checkProductQualityFirst ?? '',
+              appLocalizations?.checkProductQuality ?? ''
+            ],
           ),
           TitleWidget(
             icon: IconPath.dashboard,
             title: appLocalizations?.testOQC.toUpperCase() ?? '',
             isSelected: selectedIndex == 3,
             onTap: () {
-              setState(() {
-                selectedIndex = 3;
-              });
+              selectedIndex == 3 ? selectedIndex = -1 : selectedIndex = 3;
+              setState(() {});
             },
-            items: [],
+            items: [
+              appLocalizations?.checkOQC ?? '',
+              appLocalizations?.approvalForWarehouseEntry ?? ''
+            ],
           ),
           TitleWidget(
             icon: IconPath.dashboard,
             title: appLocalizations?.report.toUpperCase() ?? '',
             isSelected: selectedIndex == 4,
             onTap: () {
-              setState(() {
-                selectedIndex = 4;
-              });
+              selectedIndex == 4 ? selectedIndex = -1 : selectedIndex = 4;
+              setState(() {});
             },
-            items: [],
+            items: [
+              appLocalizations?.report_NG_OK_ratio ?? '',
+              appLocalizations?.order_completion_rate_report ?? '',
+              appLocalizations?.production_order_completion_rate_report ?? '',
+            ],
           ),
         ],
       ),
