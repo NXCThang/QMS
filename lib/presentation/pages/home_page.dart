@@ -3,8 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qms_app/common/color.dart';
 import 'package:qms_app/common/icon_path.dart';
 import 'package:qms_app/common/widgets/side_bar.dart';
-import 'package:qms_app/presentation/widgets/title_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qms_app/presentation/widgets/data_table_row.dart';
+import 'package:qms_app/presentation/widgets/title_table.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -92,63 +93,24 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Text('Mã nhóm lỗi'),
-                            SvgPicture.asset(
-                              IconPath.filter,
-                              width: 10,
-                              height: 10,
-                            ),
-                            Text('Nhóm lỗi'),
-                            SvgPicture.asset(
-                              IconPath.filter,
-                              width: 10,
-                              height: 10,
-                            ),
-                            Text('Mô tả'),
-                            SvgPicture.asset(
-                              IconPath.filter,
-                              width: 10,
-                              height: 10,
-                            ),
-                            Text('Người tạo'),
-                            SvgPicture.asset(
-                              IconPath.filter,
-                              width: 10,
-                              height: 10,
-                            ),
-                            Text('Thời gian tạo'),
-                            SvgPicture.asset(
-                              IconPath.filter,
-                              width: 10,
-                              height: 10,
-                            ),
-                            Text('Trạng thái'),
-                            SvgPicture.asset(IconPath.arrowDown,
-                                width: 12, height: 12),
-                            SvgPicture.asset(
-                              IconPath.filter,
-                              width: 10,
-                              height: 10,
-                            ),
-                          ],
-                        ),
-                        Text(
-                          'Danh sách lỗi(4)',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400, fontSize: 18),
-                        ),
-                        Row(
-                          children: [
-                            Text('Mã lỗi'),
-                            Text('Tên lỗi'),
-                            Text('Mô tả'),
-                            Text('Người tạo'),
-                            Text('Thời gian tạo'),
-                            Text('Trạng thái'),
-                          ],
-                        ),
+                        ErrorTable(),
+                        // TitleTable(),
+                        // SearchTitle(),
+                        // Text(
+                        //   'Danh sách lỗi(4)',
+                        //   style: TextStyle(
+                        //       fontWeight: FontWeight.w400, fontSize: 18),
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Text(appLocalizations?.errorCode ?? ''),
+                        //     Text(appLocalizations?.errorName ?? ''),
+                        //     Text(appLocalizations?.description ?? ''),
+                        //     Text(appLocalizations?.creator ?? ''),
+                        //     Text(appLocalizations?.creationTime ?? ''),
+                        //     Text(appLocalizations?.status ?? ''),
+                        //   ],
+                        // ),
                       ]),
                 ))
               ],
@@ -242,4 +204,168 @@ PreferredSizeWidget _appbar(BuildContext context) {
       )
     ],
   );
+}
+
+class ErrorTable extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Table(
+        border: TableBorder(
+          horizontalInside: BorderSide(
+            width: 1,
+            color: Colors.grey,
+          ),
+          verticalInside: BorderSide(
+            width: 1,
+            color: Colors.grey,
+          ),
+        ),
+        columnWidths: const <int, TableColumnWidth>{
+          0: FlexColumnWidth(1),
+          1: FlexColumnWidth(8),
+          2: FlexColumnWidth(13),
+          3: FlexColumnWidth(9),
+          4: FlexColumnWidth(6),
+          5: FlexColumnWidth(6),
+          6: FlexColumnWidth(5),
+        },
+        children: [
+          TableRow(
+            decoration: BoxDecoration(
+              color: QMSColor.orangetableheader,
+            ),
+            children: [
+              TableCell(
+                  child:
+                      Padding(padding: EdgeInsets.all(8.0), child: Text(''))),
+              TableCell(
+                  child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Mã nhóm lỗi'))),
+              TableCell(
+                  child: Padding(
+                      padding: EdgeInsets.all(8.0), child: Text('Nhóm lỗi'))),
+              TableCell(
+                  child: Padding(
+                      padding: EdgeInsets.all(8.0), child: Text('Mô tả'))),
+              TableCell(
+                  child: Padding(
+                      padding: EdgeInsets.all(8.0), child: Text('Người tạo'))),
+              TableCell(
+                  child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Thời gian tạo'))),
+              TableCell(
+                  child: Padding(
+                      padding: EdgeInsets.all(8.0), child: Text('Trạng thái'))),
+            ],
+          ),
+          for (int i = 0; i < 2; i++)
+            TableRow(
+              decoration: BoxDecoration(
+                color: i % 2 == 0 ? QMSColor.orangetableheader : Colors.white,
+              ),
+              children: [
+                TableCell(
+                    child: Padding(
+                        padding: EdgeInsets.all(8.0), child: Text('icon'))),
+                TableCell(
+                    child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('error_0001'))),
+                TableCell(
+                    child: Padding(
+                        padding: EdgeInsets.all(8.0), child: Text('Lỗi xước'))),
+                TableCell(
+                    child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('Người phụ trách'))),
+                TableCell(
+                    child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('Người tạo'))),
+                TableCell(
+                    child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('19-07-2023'))),
+                TableCell(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Text(
+                        'Hoạt động',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class ItemTitleWidget extends StatelessWidget {
+  ItemTitleWidget({
+    super.key,
+    required this.title,
+    required this.flex,
+    this.assetname,
+  });
+
+  final int flex;
+  final String title;
+  String? assetname;
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      flex: flex,
+      child: Container(
+        decoration: BoxDecoration(
+          // color: QMSColor.orangetableheader,
+          border: Border.all(color: Colors.black.withOpacity(0.1), width: 1),
+        ),
+        constraints: BoxConstraints.expand(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              if (assetname != null)
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: SvgPicture.asset(
+                    assetname!,
+                    width: 10,
+                    height: 10,
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

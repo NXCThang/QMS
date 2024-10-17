@@ -25,5 +25,7 @@
     "description": "Mô tả",
     "creator": "Người tạo",
     "creationTime": "Thời gian tạo",
-    "status": "Trạng thái"
+    "status": "Trạng thái",
+  "errorName" : "Tên lỗi",
+  "errorCode" : "Mã lỗi"
     }
