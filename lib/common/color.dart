@@ -5,4 +5,5 @@ class QMSColor {
   static const Color blueheader = Color(0xFF2A3884);
   static const Color mainorange = Color(0xFFFF7A00);
   static const Color orangetableheader = Color(0xffFFE0C2);
+  static const Color black11 = Color(0xFF8C8C8C);
 }

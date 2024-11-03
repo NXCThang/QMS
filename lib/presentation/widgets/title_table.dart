@@ -54,7 +54,6 @@ class TitleTable extends StatelessWidget {
 
 class _ItemTitleTable extends StatelessWidget {
   _ItemTitleTable({
-    super.key,
     required this.title,
     required this.flex,
     this.assetname,
@@ -78,7 +77,7 @@ class _ItemTitleTable extends StatelessWidget {
             ),
           ),
         ),
-        constraints: BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
           child: Row(
@@ -114,6 +113,8 @@ class _ItemTitleTable extends StatelessWidget {
 }
 
 class SearchTitle extends StatelessWidget {
+  const SearchTitle({super.key});
+
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
@@ -121,12 +122,12 @@ class SearchTitle extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _ItemTitleTable(flex: 1, title: ''),
-          _ItemTitleSearch(flex: 8, title: ''),
-          _ItemTitleSearch(flex: 13, title: ''),
-          _ItemTitleSearch(flex: 9, title: ''),
-          _ItemTitleSearch(flex: 6, title: ''),
-          _ItemTitleSearch(flex: 6, title: ''),
-          _ItemTitleSearch(flex: 5, title: ''),
+          const _ItemTitleSearch(flex: 8, title: ''),
+          const _ItemTitleSearch(flex: 13, title: ''),
+          const _ItemTitleSearch(flex: 9, title: ''),
+          const _ItemTitleSearch(flex: 6, title: ''),
+          const _ItemTitleSearch(flex: 6, title: ''),
+          const _ItemTitleSearch(flex: 5, title: ''),
         ],
       ),
     );
@@ -134,8 +135,7 @@ class SearchTitle extends StatelessWidget {
 }
 
 class _ItemTitleSearch extends StatelessWidget {
-  _ItemTitleSearch({
-    super.key,
+  const _ItemTitleSearch({
     required this.title,
     required this.flex,
   });
@@ -157,7 +157,7 @@ class _ItemTitleSearch extends StatelessWidget {
             ),
           ),
         ),
-        constraints: BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
           child: Row(

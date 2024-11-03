@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:qms_app/common/color.dart';
+import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
 
 class TitleWidget extends StatefulWidget {
   final String title;
@@ -25,6 +26,7 @@ class TitleWidget extends StatefulWidget {
 
 class _TitleWidgetState extends State<TitleWidget> {
   int selectedIndex = 0;
+  var controller = Get.find<SideBarController>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,33 +34,39 @@ class _TitleWidgetState extends State<TitleWidget> {
       padding: const EdgeInsets.only(left: 24, top: 14, bottom: 14, right: 12),
       child: Column(
         children: [
-          Row(
-            children: [
-              SvgPicture.asset(
-                widget.icon,
-                width: 24,
-                height: 24,
-                color: widget.isSelected ? QMSColor.mainorange : Colors.black,
-              ),
-              const SizedBox(width: 14),
-              Text(
-                widget.title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal,
+          GestureDetector(
+            onTap: () {
+              (widget.items.isNotEmpty)
+                  ? controller.changePage(widget.items[0])
+                  : controller.changePage(widget.title);
+              widget.onTap();
+            },
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  widget.icon,
+                  width: 24,
+                  height: 24,
                   color: widget.isSelected ? QMSColor.mainorange : Colors.black,
                 ),
-              ),
-              const Spacer(),
-              IconButton(
-                onPressed: widget.onTap,
-                icon: Icon(
+                const SizedBox(width: 14),
+                Text(
+                  widget.title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                    color:
+                        widget.isSelected ? QMSColor.mainorange : Colors.black,
+                  ),
+                ),
+                const Spacer(),
+                Icon(
                   widget.isSelected ? Icons.expand_less : Icons.expand_more,
                   color: widget.isSelected ? QMSColor.mainorange : Colors.black,
                 ),
-              ),
-              const SizedBox(width: 16),
-            ],
+                const SizedBox(width: 16),
+              ],
+            ),
           ),
           Divider(
             color: widget.isSelected ? QMSColor.mainorange : Colors.transparent,
@@ -75,6 +83,7 @@ class _TitleWidgetState extends State<TitleWidget> {
                   padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                   child: GestureDetector(
                     onTap: () {
+                      controller.changePage(widget.items[index]);
                       setState(() {
                         selectedIndex = index;
                       });

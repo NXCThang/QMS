@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:qms_app/common/color.dart';
 import 'package:qms_app/common/icon_path.dart';
 
 class DataTableRow extends StatelessWidget {
@@ -26,7 +23,7 @@ class DataTableRow extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _item_data_table(flex: 1, title: ''),
+          const _item_data_table(flex: 1, title: ''),
           _item_data_table(flex: 8, title: errorGroupCode),
           _item_data_table(flex: 13, title: errorGroup),
           _item_data_table(flex: 9, title: description),
@@ -40,7 +37,7 @@ class DataTableRow extends StatelessWidget {
 }
 
 class _item_data_table extends StatelessWidget {
-  _item_data_table({super.key, required this.title, required this.flex});
+  const _item_data_table({required this.title, required this.flex});
 
   final int flex;
   final String title;
@@ -59,7 +56,7 @@ class _item_data_table extends StatelessWidget {
             ),
           ),
         ),
-        constraints: BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Row(
