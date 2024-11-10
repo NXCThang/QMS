@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:qms_app/common/color.dart';
 import 'package:qms_app/common/icon_path.dart';
+import 'package:qms_app/presentation/controllers/product_c.dart';
+import 'package:qms_app/presentation/controllers/work_order_c.dart';
 import 'package:qms_app/presentation/widgets/add_error.dart';
 import 'package:qms_app/presentation/widgets/table_custom.dart';
 
@@ -12,6 +15,7 @@ class ListProductOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
+    final controller = Get.find<ProductController>();
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -105,15 +109,32 @@ class ListProductOrder extends StatelessWidget {
         const SizedBox(
           height: 0,
         ),
-        const TableCustom(
+        TableCustom(
           title: {
-            'Tên mẫu biên bản': 4,
-            'Mã biên bản': 2,
-            'Trạng thái': 2,
-            'Loại biên bản': 2,
-            'Ngày tạo': 2,
-            'Tùy chọn': 2
+            ItemTitleWidget(title: 'Tên mẫu biên bản'): 4,
+            ItemTitleWidget(title: 'Mã biên bản'): 2,
+            ItemTitleWidget(title: 'Trạng thái'): 2,
+            ItemTitleWidget(title: 'Loại biên bản'): 2,
+            ItemTitleWidget(title: 'Ngày tạo'): 2,
+            ItemTitleWidget(title: 'Tùy chọn'): 2
           },
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: controller.productList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return TableCustom(
+                color: Colors.white,
+                title: {
+                  // '$index': 1,
+                  // controller.productList[index].id.toString(): 1,
+                  // controller.productList[index].productName.toString(): 4,
+                  // controller.productList[index].soId.toString(): 2,
+                  // controller.productList[index].isActive.toString(): 2,
+                },
+              );
+            },
+          ),
         ),
       ]),
     );

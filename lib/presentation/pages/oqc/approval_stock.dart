@@ -105,14 +105,14 @@ class ApprovalStock extends StatelessWidget {
         const SizedBox(
           height: 0,
         ),
-        const TableCustom(
+        TableCustom(
           title: {
-            'Tên mẫu biên bản': 4,
-            'Mã biên bản': 2,
-            'Trạng thái': 2,
-            'Loại biên bản': 2,
-            'Ngày tạo': 2,
-            'Tùy chọn': 2
+            ItemTitleWidget(title: 'Tên mẫu biên bản'): 4,
+            ItemTitleWidget(title: 'Mã biên bản'): 2,
+            ItemTitleWidget(title: 'Trạng thái'): 2,
+            ItemTitleWidget(title: 'Loại biên bản'): 2,
+            ItemTitleWidget(title: 'Ngày tạo'): 2,
+            ItemTitleWidget(title: 'Tùy chọn'): 2
           },
         ),
       ]),

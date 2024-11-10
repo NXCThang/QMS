@@ -1,28 +1,40 @@
-class IQCRequestModel {
-  String? id;
+class IqcRequestModel {
+  int? id;
+  String? iqcRequestCode;
   String? poCode;
+  String? warehouseName;
+  String? warehouseType;
   String? dueDate;
   String? createdAt;
-  String? updatedAt;
 
-  IQCRequestModel(
-      {this.id, this.poCode, this.dueDate, this.createdAt, this.updatedAt});
+  IqcRequestModel(
+      {this.id,
+      this.iqcRequestCode,
+      this.poCode,
+      this.warehouseName,
+      this.warehouseType,
+      this.dueDate,
+      this.createdAt});
 
-  IQCRequestModel.fromJson(Map<String, dynamic> json) {
+  IqcRequestModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    iqcRequestCode = json['iqc_request_code'];
     poCode = json['po_code'];
+    warehouseName = json['warehouse_name'];
+    warehouseType = json['warehouse_type'];
     dueDate = json['due_date'];
     createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['po_code'] = poCode;
-    data['due_date'] = dueDate;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['iqc_request_code'] = this.iqcRequestCode;
+    data['po_code'] = this.poCode;
+    data['warehouse_name'] = this.warehouseName;
+    data['warehouse_type'] = this.warehouseType;
+    data['due_date'] = this.dueDate;
+    data['created_at'] = this.createdAt;
     return data;
   }
 }

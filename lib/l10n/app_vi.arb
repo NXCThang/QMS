@@ -39,5 +39,6 @@
   "testLevel" : "Mức kiểm tra",
   "acceptanceLevel" : "Mức chấp nhận",
   "allowableDefects" : "Lỗi cho phép",
-  "dashboard" : "Dashboard"
+  "dashboard" : "Dashboard",
+  "editTemplate" : "Chỉnh sửa thông tin mẫu biên bản"
 }

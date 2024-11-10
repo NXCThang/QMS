@@ -1,5 +1,5 @@
 class WareHouseModel {
-  int? id;
+  num? id;
   String? warehouseName;
   String? warehouseType;
 

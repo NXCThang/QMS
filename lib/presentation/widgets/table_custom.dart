@@ -5,54 +5,32 @@ import 'package:qms_app/common/icon_path.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TableCustom extends StatelessWidget {
-  const TableCustom({super.key, required this.title});
-  final Map<String, int> title;
+  TableCustom({
+    super.key,
+    required this.title,
+    this.color = QMSColor.orangetableheader,
+  });
+  final Map<Widget, int> title;
+  Color? color;
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
-
     return SingleChildScrollView(
       child: Table(
         border: TableBorder.all(color: Colors.black.withOpacity(0.1)),
         columnWidths: <int, TableColumnWidth>{
-          0: const FlexColumnWidth(1),
           for (int i = 0; i < title.length; i++)
-            i + 1: FlexColumnWidth(title.values.elementAt(i).toDouble()),
+            i: FlexColumnWidth(title.values.elementAt(i).toDouble()),
         },
         children: [
           TableRow(
-            decoration: const BoxDecoration(
-              color: QMSColor.orangetableheader,
+            decoration: BoxDecoration(
+              color: color!,
             ),
             children: [
-              const TableCell(
-                child: ItemTitleWidget(
-                  title: '#',
-                ),
-              ),
-              for (var key in title.keys)
-                TableCell(
-                  child: ItemTitleWidget(
-                    title: key,
-                    asset: IconPath.filter,
-                  ),
-                ),
+              for (var key in title.keys) TableCell(child: key),
             ],
           ),
-          // Hàng chứa các mục tìm kiếm
-          // TableRow(
-          //   decoration: const BoxDecoration(
-          //     color: Colors.white,
-          //   ),
-          //   children: [
-          //     const TableCell(child: Text('')),
-          //     for (int i = 1; i < title.length; i++)
-          //       const TableCell(
-          //           child:
-          //               ItemSearch()), // Widget ItemSearch() được sử dụng cho từng cột
-          //   ],
-          // ),
         ],
       ),
     );

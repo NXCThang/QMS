@@ -22,7 +22,10 @@ enum SideBarOption {
   reportNGOKRatio('Báo cáo tỉ lệ NG/OK'),
   orderCompletionRateReport('Báo cáo tỷ lệ hoàn thành theo đơn đặt hàng'),
   productionOrderCompletionRateReport(
-      'Báo cáo tỷ lệ hoàn thành theo lệnh sản xuất');
+      'Báo cáo tỷ lệ hoàn thành theo lệnh sản xuất'),
+  product('Sản phẩm'),
+  material('Danh sách NVL, LKDT'),
+  iqcResult('Chỉnh sửa thông tin mẫu biên bản');
 
   final String value;
 
