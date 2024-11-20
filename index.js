@@ -30,7 +30,7 @@ async function importData(fileName) {
 
 // Gọi hàm importData cho nhiều file khác nhau
 async function importMultipleFiles() {
-  const filesToImport = ['iqc_request.json', 'template.json']; // Danh sách các file cần import
+  const filesToImport = ['work_order.json']; // Danh sách các file cần import
 
   for (const file of filesToImport) {
     await importData(file); // Gọi hàm importData cho từng file

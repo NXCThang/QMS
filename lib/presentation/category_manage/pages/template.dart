@@ -14,14 +14,14 @@ import 'package:qms_app/presentation/category_manage/widgets/material_list.dart'
 import 'package:qms_app/presentation/pages/dashboard/dashboard_page.dart';
 import 'package:qms_app/presentation/iqc/pages/approve_inspection_records.dart';
 import 'package:qms_app/presentation/iqc/pages/iqc_request.dart';
-import 'package:qms_app/presentation/pages/oqc/approval_stock.dart';
-import 'package:qms_app/presentation/pages/oqc/check_oqc.dart';
-import 'package:qms_app/presentation/pages/pqc/check_quality.dart';
-import 'package:qms_app/presentation/pages/pqc/check_quality_first.dart';
-import 'package:qms_app/presentation/pages/pqc/list_product_order.dart';
-import 'package:qms_app/presentation/pages/report/order_completion_rate_report.dart';
-import 'package:qms_app/presentation/pages/report/production_complete_rate_report.dart';
-import 'package:qms_app/presentation/pages/report/rate_product_quantity.dart';
+import 'package:qms_app/presentation/oqc/approval_stock.dart';
+import 'package:qms_app/presentation/oqc/check_oqc.dart';
+import 'package:qms_app/presentation/pqc/pages/check_quality.dart';
+import 'package:qms_app/presentation/pqc/pages/check_quality_first.dart';
+import 'package:qms_app/presentation/pqc/pages/list_product_order.dart';
+import 'package:qms_app/presentation/report/pages/order_completion_rate_report.dart';
+import 'package:qms_app/presentation/report/pages/production_complete_rate_report.dart';
+import 'package:qms_app/presentation/report/pages/rate_product_quantity.dart';
 import 'package:qms_app/presentation/widgets/add_error.dart';
 import 'package:qms_app/presentation/widgets/table_custom.dart';
 
@@ -80,7 +80,7 @@ class MainPage extends StatelessWidget {
         case SideBarOption.iqcResult:
           return IqcResultList();
         default:
-          return MaterialList();
+          return DashboardPages();
         // return DashboardPages();
       }
     });
@@ -215,21 +215,21 @@ class InspectionRecordPage extends StatelessWidget {
               itemCount: controller.templateList.length,
               itemBuilder: (BuildContext context, int index) {
                 return TableCustom(color: Colors.white, title: {
-                  ItemTitleWidget(
+                  ItemBodyWidget(
                       title: controller.templateList[index].id.toString()): 1,
-                  ItemTitleWidget(
+                  ItemBodyWidget(
                       title: controller.templateList[index].templateName
                           .toString()): 4,
-                  ItemTitleWidget(
+                  ItemBodyWidget(
                       title: controller.templateList[index].templateCode
                           .toString()): 2,
-                  ItemTitleWidget(
+                  ItemBodyWidget(
                       title: controller.templateList[index].isActive
                           .toString()): 2,
-                  ItemTitleWidget(
+                  ItemBodyWidget(
                       title: controller.templateList[index].templateType
                           .toString()): 2,
-                  ItemTitleWidget(
+                  ItemBodyWidget(
                       title: controller.templateList[index].createdAt
                           .toString()): 2,
                   CustomButtonRow(

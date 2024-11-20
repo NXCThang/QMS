@@ -27,14 +27,14 @@ class IqcRequestModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['iqc_request_code'] = this.iqcRequestCode;
-    data['po_code'] = this.poCode;
-    data['warehouse_name'] = this.warehouseName;
-    data['warehouse_type'] = this.warehouseType;
-    data['due_date'] = this.dueDate;
-    data['created_at'] = this.createdAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['iqc_request_code'] = iqcRequestCode;
+    data['po_code'] = poCode;
+    data['warehouse_name'] = warehouseName;
+    data['warehouse_type'] = warehouseType;
+    data['due_date'] = dueDate;
+    data['created_at'] = createdAt;
     return data;
   }
 }

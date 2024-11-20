@@ -81,3 +81,47 @@ class ItemTitleWidget extends StatelessWidget {
     );
   }
 }
+
+class ItemBodyWidget extends StatelessWidget {
+  const ItemBodyWidget({
+    super.key,
+    required this.title,
+    this.asset,
+  });
+  final String title;
+  final String? asset;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          if (asset != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: SvgPicture.asset(
+                  asset!,
+                  width: 10,
+                  height: 10,
+                  fit: BoxFit.scaleDown,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}

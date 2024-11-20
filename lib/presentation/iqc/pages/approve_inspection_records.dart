@@ -129,30 +129,33 @@ class ApproveInspectionRecords extends StatelessWidget {
               return TableCustom(
                 color: Colors.white,
                 title: {
-                  ItemTitleWidget(title: '+'): 1,
-                  ItemTitleWidget(
+                  ItemBodyWidget(title: '+'): 1,
+                  ItemBodyWidget(
                       title: controller.IqcRequestList[index].iqcRequestCode
                           .toString()): 4,
-                  ItemTitleWidget(
+                  ItemBodyWidget(
                       title: controller.IqcRequestList[index].poCode
                           .toString()): 2,
-                  ItemTitleWidget(
+                  ItemBodyWidget(
                     title: controller.IqcRequestList[index].warehouseType
                         .toString(),
                   ): 2,
-                  ItemTitleWidget(
+                  ItemBodyWidget(
                     title: controller.IqcRequestList[index].warehouseName
                         .toString(),
                   ): 2,
-                  ItemTitleWidget(
+                  ItemBodyWidget(
                     title: controller.IqcRequestList[index].dueDate!
                         .formatDateTime(),
                   ): 2,
-                  ItemTitleWidget(
+                  ItemBodyWidget(
                     title: controller.IqcRequestList[index].createdAt!
                         .formatDateTime(),
                   ): 2,
-                  CustomButtonCircleRow(onApprove: (){}, onReject: (){},) : 2
+                  CustomButtonCircleRow(
+                    onApprove: () {},
+                    onReject: () {},
+                  ): 2
                 },
               );
             },

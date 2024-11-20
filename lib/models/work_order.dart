@@ -1,21 +1,25 @@
+import 'package:qms_app/models/oqc_info.dart';
+
 class WorkOrderModel {
-  String? id;
+  int? id;
   String? workOrderCode;
-  String? productId;
-  String? quantity;
+  int? productId;
+  String? productName;
+  int? quantity;
   String? createdBy;
   String? createdAt;
   String? startDate;
   String? dueDate;
   String? note;
-  String? isActive;
-  String? updatedAt;
-  String? updatedBy;
+  int? isActive;
+  int? updatedAt;
+  int? updatedBy;
 
   WorkOrderModel(
       {this.id,
       this.workOrderCode,
       this.productId,
+      this.productName,
       this.quantity,
       this.createdBy,
       this.createdAt,
@@ -30,6 +34,7 @@ class WorkOrderModel {
     id = json['id'];
     workOrderCode = json['work_order_code'];
     productId = json['product_id'];
+    productName = json['product_name'];
     quantity = json['quantity'];
     createdBy = json['created_by'];
     createdAt = json['created_at'];
@@ -42,19 +47,20 @@ class WorkOrderModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['work_order_code'] = workOrderCode;
-    data['product_id'] = productId;
-    data['quantity'] = quantity;
-    data['created_by'] = createdBy;
-    data['created_at'] = createdAt;
-    data['start_date'] = startDate;
-    data['due_date'] = dueDate;
-    data['note'] = note;
-    data['is_active'] = isActive;
-    data['updated_at'] = updatedAt;
-    data['updated_by'] = updatedBy;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['work_order_code'] = this.workOrderCode;
+    data['product_id'] = this.productId;
+    data['product_name'] = this.productName;
+    data['quantity'] = this.quantity;
+    data['created_by'] = this.createdBy;
+    data['created_at'] = this.createdAt;
+    data['start_date'] = this.startDate;
+    data['due_date'] = this.dueDate;
+    data['note'] = this.note;
+    data['is_active'] = this.isActive;
+    data['updated_at'] = this.updatedAt;
+    data['updated_by'] = this.updatedBy;
     return data;
   }
 }

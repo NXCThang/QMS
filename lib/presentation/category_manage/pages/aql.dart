@@ -139,16 +139,16 @@ class ExpensePage extends StatelessWidget {
                   return TableCustom(
                     color: Colors.white,
                     title: {
-                      ItemTitleWidget(title: '$index'): 1,
-                      ItemTitleWidget(
+                      ItemBodyWidget(title: '$index'): 1,
+                      ItemBodyWidget(
                           title: controller.aqlList[index].id.toString()): 3,
-                      ItemTitleWidget(
+                      ItemBodyWidget(
                           title: controller.aqlList[index].acceptanceLimit
                               .toString()): 3,
-                      ItemTitleWidget(
+                      ItemBodyWidget(
                           title:
                               controller.aqlList[index].ngLimit.toString()): 3,
-                      ItemTitleWidget(
+                      ItemBodyWidget(
                           title: controller.aqlList[index].note.toString()): 3,
                       CustomButtonRow(onEdit: () {}, onDelete: () {}): 2,
                     },

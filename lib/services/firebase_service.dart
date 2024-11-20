@@ -96,4 +96,52 @@ class FirebaseService {
       return [];
     }
   }
+
+  /// Tìm kiếm và trả về danh sách kết quả
+  Future<List<T>> searchList<T>({
+    required String table,
+    required String field,
+    required dynamic value,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    try {
+      final querySnapshot = await _firestore
+          .collection('qms')
+          .doc(table)
+          .collection('items')
+          .where(field, isEqualTo: value)
+          .get();
+
+      return querySnapshot.docs.map((e) => fromJson(e.data())).toList();
+    } catch (e) {
+      print("Error searching list in $table: $e");
+      return [];
+    }
+  }
+
+  /// Tìm kiếm và trả về một đối tượng duy nhất
+  Future<T?> searchOne<T>({
+    required String table,
+    required String field,
+    required dynamic value,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    try {
+      final querySnapshot = await _firestore
+          .collection('qms')
+          .doc(table)
+          .collection('items')
+          .where(field, isEqualTo: value)
+          .limit(1)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        return fromJson(querySnapshot.docs.first.data());
+      }
+      return null;
+    } catch (e) {
+      print("Error searching one in $table: $e");
+      return null;
+    }
+  }
 }

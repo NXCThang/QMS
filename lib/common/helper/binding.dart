@@ -16,7 +16,8 @@ import 'package:qms_app/presentation/controllers/product_c.dart';
 import 'package:qms_app/presentation/controllers/sell_order_c.dart';
 import 'package:qms_app/presentation/category_manage/controllers/template_c.dart';
 import 'package:qms_app/presentation/controllers/ware_house_c.dart';
-import 'package:qms_app/presentation/controllers/work_order_c.dart';
+import 'package:qms_app/presentation/pqc/controllers/work_order_c.dart';
+import 'package:qms_app/presentation/report/controllers/report_ng_ok_c.dart';
 
 class Binding extends Bindings {
   @override
@@ -39,5 +40,6 @@ class Binding extends Bindings {
     Get.lazyPut(() => TemplateController());
     Get.lazyPut(() => WareHouseController());
     Get.lazyPut(() => WorkOrderController());
+    Get.lazyPut(() => ReportNgOkController());
   }
 }

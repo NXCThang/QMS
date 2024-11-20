@@ -1,6 +1,6 @@
 class OQCInfoModel {
-  String? id;
-  String? workOrderId;
+  int? id;
+  int? workOrderId;
   String? model;
   String? quantity;
   String? note;
@@ -8,7 +8,7 @@ class OQCInfoModel {
   String? createdBy;
   String? updatedAt;
   String? updatedBy;
-  String? isActive;
+  int? isActive;
 
   OQCInfoModel(
       {this.id,
