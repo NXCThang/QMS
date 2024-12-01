@@ -2,26 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:qms_app/common/color.dart';
+import 'package:qms_app/common/components/main_page.dart';
+import 'package:qms_app/common/extensions/date_time_format.dart';
 import 'package:qms_app/common/icon_path.dart';
 import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
 import 'package:qms_app/common/sidebar/widgets/side_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qms_app/common/components/two_button.dart';
-import 'package:qms_app/presentation/category_manage/pages/aql.dart';
 import 'package:qms_app/presentation/category_manage/controllers/template_c.dart';
-import 'package:qms_app/presentation/category_manage/widgets/iqc_result_list.dart';
-import 'package:qms_app/presentation/category_manage/widgets/material_list.dart';
-import 'package:qms_app/presentation/pages/dashboard/dashboard_page.dart';
-import 'package:qms_app/presentation/iqc/pages/approve_inspection_records.dart';
-import 'package:qms_app/presentation/iqc/pages/iqc_request.dart';
-import 'package:qms_app/presentation/oqc/approval_stock.dart';
-import 'package:qms_app/presentation/oqc/check_oqc.dart';
-import 'package:qms_app/presentation/pqc/pages/check_quality.dart';
-import 'package:qms_app/presentation/pqc/pages/check_quality_first.dart';
-import 'package:qms_app/presentation/pqc/pages/list_product_order.dart';
-import 'package:qms_app/presentation/report/pages/order_completion_rate_report.dart';
-import 'package:qms_app/presentation/report/pages/production_complete_rate_report.dart';
-import 'package:qms_app/presentation/report/pages/rate_product_quantity.dart';
 import 'package:qms_app/presentation/widgets/add_error.dart';
 import 'package:qms_app/presentation/widgets/table_custom.dart';
 
@@ -45,48 +33,6 @@ class _MinutesPageState extends State<MinutesPage> {
   }
 }
 
-class MainPage extends StatelessWidget {
-  MainPage({super.key});
-  var sidebarController = Get.find<SideBarController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      switch (sidebarController.currentPage.value) {
-        case SideBarOption.inspectionReportSample:
-          return InspectionRecordPage();
-        case SideBarOption.expenseManagement:
-          return ExpensePage();
-        case SideBarOption.approveInspectionRecords:
-          return ApproveInspectionRecords();
-        case SideBarOption.listofIQCRequirements:
-          return ListIQC();
-        case SideBarOption.approvalForWarehouseEntry:
-          return ApprovalStock();
-        case SideBarOption.checkOQC:
-          return CheckOQC();
-        case SideBarOption.checkProductQualityFirst:
-          return CheckQualityFirst();
-        case SideBarOption.checkProductQuality:
-          return CheckQuality();
-        case SideBarOption.listofProductionOrders:
-          return ListProductOrder();
-        case SideBarOption.reportNGOKRatio:
-          return const RateProductQuantity();
-        case SideBarOption.orderCompletionRateReport:
-          return const OrderCompletionRateReport();
-        case SideBarOption.productionOrderCompletionRateReport:
-          return const ProductionCompleteRateReport();
-        case SideBarOption.iqcResult:
-          return IqcResultList();
-        default:
-          return DashboardPages();
-        // return DashboardPages();
-      }
-    });
-  }
-}
-
 class InspectionRecordPage extends StatelessWidget {
   InspectionRecordPage({
     super.key,
@@ -97,13 +43,14 @@ class InspectionRecordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
-    if (controller.isLoading.value) {
-      return const Center(
-        child: CircularProgressIndicator(
-          color: QMSColor.mainorange,
-        ),
-      );
-    } else {
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return const Center(
+          child: CircularProgressIndicator(
+            color: QMSColor.mainorange,
+          ),
+        );
+      }
       return Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -127,33 +74,14 @@ class InspectionRecordPage extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              TextFieldCustom(
-                label: appLocalizations?.minutesTemplateName ?? '',
-                width: 300,
-                hintText: appLocalizations?.minutesTemplateName ?? '',
-              ),
-              TextFieldCustom(
-                label: appLocalizations?.minutesTemplateType ?? '',
-                width: 300,
-              ),
-              TextFieldCustom(
-                label: appLocalizations?.minutesTemplateCode ?? '',
-                width: 300,
-                hintText: appLocalizations?.minutesTemplateCode ?? '',
-              ),
-            ],
-          ),
           const SizedBox(
             height: 10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Danh sách yêu cầu IQC(10)',
+              Text(
+                'Danh sách mẫu biên bản kiểm tra (${controller.templateList.length})',
                 style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
               ),
               const Spacer(),
@@ -231,7 +159,8 @@ class InspectionRecordPage extends StatelessWidget {
                           .toString()): 2,
                   ItemBodyWidget(
                       title: controller.templateList[index].createdAt
-                          .toString()): 2,
+                              ?.formatDateTime() ??
+                          ''): 2,
                   CustomButtonRow(
                     onDelete: () {},
                     onEdit: () {
@@ -245,7 +174,7 @@ class InspectionRecordPage extends StatelessWidget {
           ),
         ]),
       );
-    }
+    });
   }
 }
 

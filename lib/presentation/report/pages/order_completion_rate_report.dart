@@ -38,20 +38,20 @@ class OrderCompletionRateReport extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            TextFieldCustom(
-              label: appLocalizations?.minutesTemplateName ?? '',
-              width: 300,
-              hintText: appLocalizations?.minutesTemplateName ?? '',
-            ),
-            TextFieldCustom(
-              label: appLocalizations?.minutesTemplateType ?? '',
-              width: 300,
-            ),
-            TextFieldCustom(
-              label: appLocalizations?.minutesTemplateCode ?? '',
-              width: 300,
-              hintText: appLocalizations?.minutesTemplateCode ?? '',
-            ),
+            // TextFieldCustom(
+            //   label: appLocalizations?.minutesTemplateName ?? '',
+            //   width: 300,
+            //   hintText: appLocalizations?.minutesTemplateName ?? '',
+            // ),
+            // TextFieldCustom(
+            //   label: appLocalizations?.minutesTemplateType ?? '',
+            //   width: 300,
+            // ),
+            // TextFieldCustom(
+            //   label: appLocalizations?.minutesTemplateCode ?? '',
+            //   width: 300,
+            //   hintText: appLocalizations?.minutesTemplateCode ?? '',
+            // ),
           ],
         ),
         const SizedBox(
@@ -107,14 +107,86 @@ class OrderCompletionRateReport extends StatelessWidget {
         ),
         TableCustom(
           title: {
-            ItemTitleWidget(title: 'Tên mẫu biên bản'): 4,
-            ItemTitleWidget(title: 'Mã biên bản'): 2,
+            ItemTitleWidget(title: 'STT'): 1,
+            ItemTitleWidget(title: 'Mã đơn hàng'): 2,
+            ItemTitleWidget(title: 'Mã sản phẩm'): 2,
+            ItemTitleWidget(title: 'Tên sản phẩm'): 2,
+            ItemTitleWidget(title: 'Thời gian bắt đầu'): 2,
+            ItemTitleWidget(title: 'Thời gian kết thúc'): 2,
+            ItemTitleWidget(title: 'Sản lượng kế hoạch'): 2,
+            ItemTitleWidget(title: 'Tổng số lượng nhập kho'): 2,
+            ItemTitleWidget(title: 'Tỉ lệ hoàn thành'): 2,
             ItemTitleWidget(title: 'Trạng thái'): 2,
-            ItemTitleWidget(title: 'Loại biên bản'): 2,
-            ItemTitleWidget(title: 'Ngày tạo'): 2,
-            ItemTitleWidget(title: 'Tùy chọn'): 2
           },
         ),
+        // Expanded(
+        //   child: ListView.builder(
+        //     itemCount: controller.reportList.length,
+        //     itemBuilder: (BuildContext context, int index) {
+        //       var okQuantity =
+        //           controller.reportList[index].oqcResultModel?.testQuantity ??
+        //               0 -
+        //                   (controller.reportList[index].oqcResultModel
+        //                           ?.nGQuantity ??
+        //                       0);
+        //       return TableCustom(
+        //         color: Colors.white,
+        //         title: {
+        //           ItemBodyWidget(title: '$index'.toString()): 1,
+        //           ItemBodyWidget(
+        //               title: controller
+        //                       .reportList[index].workOrderModel?.productId
+        //                       .toString() ??
+        //                   ''): 2,
+        //           ItemBodyWidget(
+        //               title: controller
+        //                       .reportList[index].workOrderModel?.productName
+        //                       .toString() ??
+        //                   ''): 4,
+        //           ItemBodyWidget(
+        //               title: controller.reportList[index].workOrderModel?.id
+        //                       .toString() ??
+        //                   ''): 2,
+        //           ItemBodyWidget(
+        //               title: controller
+        //                       .reportList[index].workOrderModel?.startDate
+        //                       ?.formatDateTime() ??
+        //                   ''): 2,
+        //           ItemBodyWidget(
+        //               title: controller
+        //                       .reportList[index].workOrderModel?.dueDate
+        //                       ?.formatDateTime() ??
+        //                   ''): 2,
+        //           ItemBodyWidget(
+        //               title: controller
+        //                       .reportList[index].workOrderModel?.quantity
+        //                       .toString() ??
+        //                   ''): 2,
+        //           ItemBodyWidget(
+        //               title: controller
+        //                       .reportList[index].oqcResultModel?.totalQuantity
+        //                       .toString() ??
+        //                   ''): 2,
+        //           ItemBodyWidget(title: (okQuantity).toString()): 2,
+        //           ItemBodyWidget(
+        //               title: controller
+        //                       .reportList[index].oqcResultModel?.nGQuantity
+        //                       .toString() ??
+        //                   ''): 2,
+        //           ItemBodyWidget(
+        //               title: (controller.reportList[index].oqcResultModel
+        //                           ?.nGQuantity ??
+        //                       0 / okQuantity)
+        //                   .toString()): 2,
+        //           ItemBodyWidget(
+        //               title: (controller
+        //                       .reportList[index].oqcResultModel?.isActive)
+        //                   .toString()): 2,
+        //         },
+        //       );
+        //     },
+        //   ),
+        // ),
       ]),
     );
   }

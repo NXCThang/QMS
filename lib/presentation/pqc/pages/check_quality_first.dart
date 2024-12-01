@@ -48,20 +48,20 @@ class CheckQualityFirst extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              TextFieldCustom(
-                label: appLocalizations?.minutesTemplateName ?? '',
-                width: 300,
-                hintText: appLocalizations?.minutesTemplateName ?? '',
-              ),
-              TextFieldCustom(
-                label: appLocalizations?.minutesTemplateType ?? '',
-                width: 300,
-              ),
-              TextFieldCustom(
-                label: appLocalizations?.minutesTemplateCode ?? '',
-                width: 300,
-                hintText: appLocalizations?.minutesTemplateCode ?? '',
-              ),
+              // TextFieldCustom(
+              //   label: appLocalizations?.minutesTemplateName ?? '',
+              //   width: 300,
+              //   hintText: appLocalizations?.minutesTemplateName ?? '',
+              // ),
+              // TextFieldCustom(
+              //   label: appLocalizations?.minutesTemplateType ?? '',
+              //   width: 300,
+              // ),
+              // TextFieldCustom(
+              //   label: appLocalizations?.minutesTemplateCode ?? '',
+              //   width: 300,
+              //   hintText: appLocalizations?.minutesTemplateCode ?? '',
+              // ),
             ],
           ),
           const SizedBox(

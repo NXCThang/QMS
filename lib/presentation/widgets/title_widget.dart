@@ -35,6 +35,7 @@ class _TitleWidgetState extends State<TitleWidget> {
       child: Column(
         children: [
           GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: () {
               (widget.items.isNotEmpty)
                   ? controller.changePage(widget.items[0])

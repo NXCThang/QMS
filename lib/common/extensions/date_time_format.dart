@@ -6,7 +6,7 @@ extension DateTimeFormat on String {
       DateTime parsedDate = DateTime.parse(this);
       return DateFormat('dd/MM/yyyy').format(parsedDate);
     } catch (e) {
-      return ''; // Nếu không thể parse, trả về chuỗi rỗng
+      return '';
     }
   }
 }

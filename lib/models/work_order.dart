@@ -1,4 +1,4 @@
-import 'package:qms_app/models/oqc_info.dart';
+import 'package:qms_app/models/material.dart';
 
 class WorkOrderModel {
   int? id;
@@ -14,6 +14,7 @@ class WorkOrderModel {
   int? isActive;
   int? updatedAt;
   int? updatedBy;
+  List<MaterialModel>? materials;
 
   WorkOrderModel(
       {this.id,
@@ -28,7 +29,8 @@ class WorkOrderModel {
       this.note,
       this.isActive,
       this.updatedAt,
-      this.updatedBy});
+      this.updatedBy,
+      this.materials});
 
   WorkOrderModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -47,20 +49,20 @@ class WorkOrderModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['work_order_code'] = this.workOrderCode;
-    data['product_id'] = this.productId;
-    data['product_name'] = this.productName;
-    data['quantity'] = this.quantity;
-    data['created_by'] = this.createdBy;
-    data['created_at'] = this.createdAt;
-    data['start_date'] = this.startDate;
-    data['due_date'] = this.dueDate;
-    data['note'] = this.note;
-    data['is_active'] = this.isActive;
-    data['updated_at'] = this.updatedAt;
-    data['updated_by'] = this.updatedBy;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['work_order_code'] = workOrderCode;
+    data['product_id'] = productId;
+    data['product_name'] = productName;
+    data['quantity'] = quantity;
+    data['created_by'] = createdBy;
+    data['created_at'] = createdAt;
+    data['start_date'] = startDate;
+    data['due_date'] = dueDate;
+    data['note'] = note;
+    data['is_active'] = isActive;
+    data['updated_at'] = updatedAt;
+    data['updated_by'] = updatedBy;
     return data;
   }
 }

@@ -1,10 +1,16 @@
 import 'package:get/get.dart';
+import 'package:qms_app/common/components/paginated_c.dart';
 import 'package:qms_app/models/work_order.dart';
+import 'package:qms_app/presentation/controllers/material_c.dart';
 import 'package:qms_app/services/firebase_service.dart';
 
 class WorkOrderController extends GetxController {
   final RxList<WorkOrderModel> workorderList = <WorkOrderModel>[].obs;
-  final RxBool isLoading = false.obs;
+  final RxBool isLoading = true.obs;
+
+  final PaginatedController<WorkOrderModel> paginatedController =
+      PaginatedController<WorkOrderModel>();
+  final materialController = Get.find<MaterialController>();
 
   @override
   void onInit() {
@@ -20,8 +26,19 @@ class WorkOrderController extends GetxController {
         fromJson: (data) => WorkOrderModel.fromJson(data),
       );
       workorderList.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));
+      await searchMaterial();
+      paginatedController.setList(workorderList);
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> searchMaterial() async {
+    for (var workOrder in workorderList) {
+      workOrder.materials = materialController.materialList
+          .where(
+              (element) => element.productId == workOrder.productId.toString())
+          .toList();
     }
   }
 }

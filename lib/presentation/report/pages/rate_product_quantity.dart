@@ -3,8 +3,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:qms_app/common/color.dart';
+import 'package:qms_app/common/components/build_pagination_controls.dart';
+import 'package:qms_app/common/extensions/date_time_format.dart';
 import 'package:qms_app/common/icon_path.dart';
 import 'package:qms_app/presentation/report/controllers/report_ng_ok_c.dart';
+import 'package:qms_app/presentation/report/model/report_ng_ok.dart';
 import 'package:qms_app/presentation/widgets/add_error.dart';
 import 'package:qms_app/presentation/widgets/table_custom.dart';
 
@@ -44,25 +47,6 @@ class RateProductQuantity extends StatelessWidget {
           ),
           const SizedBox(
             height: 16,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              TextFieldCustom(
-                label: appLocalizations?.minutesTemplateName ?? '',
-                width: 300,
-                hintText: appLocalizations?.minutesTemplateName ?? '',
-              ),
-              TextFieldCustom(
-                label: appLocalizations?.minutesTemplateType ?? '',
-                width: 300,
-              ),
-              TextFieldCustom(
-                label: appLocalizations?.minutesTemplateCode ?? '',
-                width: 300,
-                hintText: appLocalizations?.minutesTemplateCode ?? '',
-              ),
-            ],
           ),
           const SizedBox(
             height: 10,
@@ -133,70 +117,61 @@ class RateProductQuantity extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: controller.reportList.length,
+              itemCount: controller.paginatedController.paginatedItems.length,
               itemBuilder: (BuildContext context, int index) {
-                var okQuantity =
-                    controller.reportList[index].oqcResultModel?.testQuantity ??
-                        0 -
-                            (controller.reportList[index].oqcResultModel
-                                    ?.nGQuantity ??
-                                0);
+                final item =
+                    controller.paginatedController.paginatedItems[index];
+                var okQuantity = item.oqcResultModel?.testQuantity ??
+                    0 - (item.oqcResultModel?.nGQuantity ?? 0);
+                final stt = index +
+                    1 +
+                    controller.paginatedController.currentPage.value *
+                        controller.paginatedController.itemsPerPage;
                 return TableCustom(
                   color: Colors.white,
                   title: {
-                    ItemBodyWidget(title: '$index'.toString()): 1,
+                    ItemBodyWidget(title: '$stt'): 1,
                     ItemBodyWidget(
-                        title: controller
-                                .reportList[index].workOrderModel?.productId
-                                .toString() ??
-                            ''): 2,
+                        title:
+                            item.workOrderModel?.productId.toString() ?? ''): 2,
                     ItemBodyWidget(
-                        title: controller
-                                .reportList[index].workOrderModel?.productName
-                                .toString() ??
+                        title: item.workOrderModel?.productName.toString() ??
                             ''): 4,
                     ItemBodyWidget(
-                        title: controller.reportList[index].workOrderModel?.id
-                                .toString() ??
+                        title: item.workOrderModel?.id.toString() ?? ''): 2,
+                    ItemBodyWidget(
+                        title:
+                            item.workOrderModel?.startDate?.formatDateTime() ??
+                                ''): 2,
+                    ItemBodyWidget(
+                        title: item.workOrderModel?.dueDate?.formatDateTime() ??
                             ''): 2,
                     ItemBodyWidget(
-                        title: controller
-                                .reportList[index].workOrderModel?.startDate ??
-                            ''): 2,
+                        title:
+                            item.workOrderModel?.quantity.toString() ?? ''): 2,
                     ItemBodyWidget(
-                        title: controller
-                                .reportList[index].workOrderModel?.dueDate ??
-                            ''): 2,
-                    ItemBodyWidget(
-                        title: controller
-                                .reportList[index].workOrderModel?.quantity
-                                .toString() ??
-                            ''): 2,
-                    ItemBodyWidget(
-                        title: controller
-                                .reportList[index].oqcResultModel?.totalQuantity
-                                .toString() ??
+                        title: item.oqcResultModel?.totalQuantity.toString() ??
                             ''): 2,
                     ItemBodyWidget(title: (okQuantity).toString()): 2,
                     ItemBodyWidget(
-                        title: controller
-                                .reportList[index].oqcResultModel?.nGQuantity
-                                .toString() ??
+                        title: item.oqcResultModel?.nGQuantity.toString() ??
                             ''): 2,
                     ItemBodyWidget(
-                        title: (controller.reportList[index].oqcResultModel
-                                    ?.nGQuantity ??
-                                0 / okQuantity)
+                        title: ((item.oqcResultModel?.nGQuantity ?? 0) /
+                                okQuantity)
                             .toString()): 2,
                     ItemBodyWidget(
-                        title: (controller
-                                .reportList[index].oqcResultModel?.isActive)
-                            .toString()): 2,
+                        title: (item.oqcResultModel?.isActive).toString()): 2,
                   },
                 );
               },
             ),
           ),
+          const SizedBox(height: 10),
+          BuildPaginationControls<ReportNgOkModel>(
+            paginatedController: controller.paginatedController,
+          ),
+          const SizedBox(height: 10),
         ]),
       );
     });

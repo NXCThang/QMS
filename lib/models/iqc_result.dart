@@ -1,15 +1,15 @@
 class IQCResultModel {
-  String? id;
+  int? id;
   String? criteriaName;
-  String? max;
-  String? min;
+  int? max;
+  int? min;
   String? unit;
   String? note;
   String? otherRequirement;
-  String? quantity;
+  int? quantity;
   String? testResult;
-  String? conclusion;
-  String? iqcReportId;
+  int? conclusion;
+  int? iqcReportId;
 
   IQCResultModel(
       {this.id,

@@ -4,30 +4,26 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:qms_app/common/color.dart';
 import 'package:qms_app/common/components/build_pagination_controls.dart';
-import 'package:qms_app/common/extensions/date_time_format.dart';
 import 'package:qms_app/common/icon_path.dart';
-import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
 import 'package:qms_app/models/work_order.dart';
-import 'package:qms_app/presentation/pqc/controllers/work_order_c.dart';
+import 'package:qms_app/presentation/controllers/material_c.dart';
 import 'package:qms_app/presentation/widgets/add_error.dart';
 import 'package:qms_app/presentation/widgets/table_custom.dart';
 
-class ListProductOrder extends StatelessWidget {
-  const ListProductOrder({super.key});
-
+class ListMaterial extends StatelessWidget {
+  const ListMaterial({super.key, required this.workOrderModel});
+  final WorkOrderModel workOrderModel;
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
-    final controller = Get.find<WorkOrderController>();
-    final sidebarController = Get.find<SideBarController>();
 
     return Obx(() {
-      if (controller.isLoading.value) {
-        return const Center(
-            child: CircularProgressIndicator(
-          color: QMSColor.mainorange,
-        ));
-      }
+      // if (controller.isLoading.value) {
+      //   return const Center(
+      //       child: CircularProgressIndicator(
+      //     color: QMSColor.mainorange,
+      //   ));
+      // }
       return Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -113,37 +109,41 @@ class ListProductOrder extends StatelessWidget {
               ItemTitleWidget(title: 'Thao tác'): 2,
             },
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: controller.paginatedController.paginatedItems.length,
-              itemBuilder: (BuildContext context, int index) {
-                final item =
-                    controller.paginatedController.paginatedItems[index];
-                return TableCustom(
-                  color: Colors.white,
-                  title: {
-                    ItemBodyWidget(title: item.workOrderCode.toString()): 2,
-                    ItemBodyWidget(title: item.productId.toString()): 2,
-                    ItemBodyWidget(title: item.productName ?? ''): 4,
-                    ItemBodyWidget(title: item.quantity.toString()): 2,
-                    ItemBodyWidget(title: item.createdAt!.formatDateTime()): 2,
-                    ItemBodyWidget(title: item.isActive.toString()): 2,
-                    IconButton(
-                      icon: Icon(Icons.info),
-                      onPressed: () {
-                        sidebarController.changePage('Thông tin lệnh sản xuất');
-                      },
-                    ): 2,
-                  },
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 10),
-          BuildPaginationControls<WorkOrderModel>(
-            paginatedController: controller.paginatedController,
-          ),
-          const SizedBox(height: 10),
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: controller.paginatedController.paginatedItems.length,
+          //     itemBuilder: (BuildContext context, int index) {
+          //       final item =
+          //           controller.paginatedController.paginatedItems[index];
+          //       return TableCustom(
+          //         color: Colors.white,
+          //         title: {
+          //           ItemBodyWidget(title: item.workOrderCode.toString()): 2,
+          //           ItemBodyWidget(title: item.productId.toString()): 2,
+          //           ItemBodyWidget(title: item.productName ?? ''): 4,
+          //           ItemBodyWidget(title: item.quantity.toString()): 2,
+          //           ItemBodyWidget(title: item.createdAt!.formatDateTime()): 2,
+          //           ItemBodyWidget(title: item.isActive.toString()): 2,
+          //           IconButton(
+          //             icon: Icon(Icons.info),
+          //             onPressed: () {
+          //               showDialog(
+          //                   context: context,
+          //                   builder: (_) => const AddError(
+          //                         error: 'Sửa',
+          //                       ));
+          //             },
+          //           ): 2,
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ),
+          // const SizedBox(height: 10),
+          // BuildPaginationControls<WorkOrderModel>(
+          //   paginatedController: controller.paginatedController,
+          // ),
+          // const SizedBox(height: 10),
         ]),
       );
     });

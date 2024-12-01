@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qms_app/common/color.dart';
 
 class CustomButtonRow extends StatelessWidget {
   final VoidCallback onEdit;
@@ -13,34 +14,33 @@ class CustomButtonRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton(
-            onPressed: onEdit,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6),
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.blue, borderRadius: BorderRadius.circular(6)),
+            padding: EdgeInsets.all(6),
+            child: InkWell(
+              onTap: onEdit,
+              child: Icon(
+                Icons.edit,
+                color: Colors.white,
+                size: 16,
               ),
-            ),
-            child: Icon(
-              Icons.edit,
-              color: Colors.white,
-              size: 20,
             ),
           ),
-          ElevatedButton(
-            onPressed: onDelete,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6),
+          SizedBox(
+            width: 3,
+          ),
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.red, borderRadius: BorderRadius.circular(6)),
+            padding: EdgeInsets.all(6),
+            child: InkWell(
+              onTap: onDelete,
+              child: Icon(
+                Icons.delete,
+                color: Colors.white,
+                size: 16,
               ),
-            ),
-            child: Icon(
-              Icons.delete,
-              color: Colors.white,
-              size: 20,
             ),
           ),
         ],

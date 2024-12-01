@@ -1,10 +1,11 @@
 import 'package:get/get.dart';
 import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
 import 'package:qms_app/presentation/category_manage/controllers/aql_c.dart';
-import 'package:qms_app/presentation/controllers/iqc_report_c.dart';
-import 'package:qms_app/presentation/controllers/iqc_request_c.dart';
-import 'package:qms_app/presentation/controllers/iqc_result_c.dart';
-import 'package:qms_app/presentation/controllers/iqc_result_ng_c.dart';
+import 'package:qms_app/presentation/iqc/controllers/approve_inspection_c.dart';
+import 'package:qms_app/presentation/iqc/controllers/iqc_report_c.dart';
+import 'package:qms_app/presentation/iqc/controllers/iqc_request_c.dart';
+import 'package:qms_app/presentation/category_manage/controllers/iqc_result_c.dart';
+import 'package:qms_app/presentation/iqc/controllers/iqc_result_ng_c.dart';
 import 'package:qms_app/presentation/controllers/material_c.dart';
 import 'package:qms_app/presentation/controllers/oqc_info_c.dart';
 import 'package:qms_app/presentation/controllers/oqc_result_c.dart';
@@ -41,5 +42,6 @@ class Binding extends Bindings {
     Get.lazyPut(() => WareHouseController());
     Get.lazyPut(() => WorkOrderController());
     Get.lazyPut(() => ReportNgOkController());
+    Get.lazyPut(() => ApproveInspectionController());
   }
 }

@@ -47,26 +47,7 @@ class MaterialList extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                TextFieldCustom(
-                  label: appLocalizations?.testLevel ?? '',
-                  width: 300,
-                  hintText: appLocalizations?.testLevel ?? '',
-                ),
-                TextFieldCustom(
-                  label: appLocalizations?.acceptanceLevel ?? '',
-                  width: 300,
-                  hintText: appLocalizations?.acceptanceLevel ?? '',
-                ),
-                TextFieldCustom(
-                  label: appLocalizations?.allowableDefects ?? '',
-                  width: 300,
-                  hintText: appLocalizations?.allowableDefects ?? '',
-                ),
-              ],
-            ),
+
             const SizedBox(
               height: 10,
             ),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:qms_app/models/iqc_report.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class FirebaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -26,6 +27,7 @@ class FirebaseService {
 
   Future<void> addItem({
     required String table,
+    required String documentId,
     required Map<String, dynamic> data,
   }) async {
     try {
@@ -33,45 +35,96 @@ class FirebaseService {
           .collection('qms')
           .doc(table)
           .collection('items')
-          .add(data);
-      print("Item added successfully.");
+          .doc(documentId) // Sử dụng documentId để chỉ định ID tài liệu
+          .set(data); // Sử dụng set() để thêm dữ liệu
+      Get.back();
+      Future.microtask(() {
+        Get.snackbar('Thông báo', 'Thêm thành công',
+            backgroundColor: Colors.green);
+      });
+      print("Item added successfully with ID: $documentId");
     } catch (e) {
+      Get.back();
+      Future.microtask(() {
+        Get.snackbar('Thông báo', 'Thêm thất bại', backgroundColor: Colors.red);
+      });
       print("Error adding item: $e");
     }
   }
 
   Future<void> deleteItem({
     required String table,
+    required String field,
     required String documentId,
   }) async {
     try {
-      await _firestore
+      final querySnapshot = await _firestore
           .collection('qms')
           .doc(table)
           .collection('items')
-          .doc(documentId)
-          .delete();
-      print("Item deleted successfully.");
+          .get();
+      for (var doc in querySnapshot.docs) {
+        if (doc.data()[field].toString() == documentId) {
+          await _firestore
+              .collection('qms')
+              .doc(table)
+              .collection('items')
+              .doc(doc.id)
+              .delete();
+          Get.back();
+          Future.microtask(() {
+            Get.snackbar('Thông báo', 'Xóa thành công',
+                backgroundColor: Colors.green);
+          });
+        }
+      }
+      print("Item(s) deleted successfully.");
     } catch (e) {
-      print("Error deleting item: $e");
+      print("Error deleting item(s): $e");
+      Get.back();
+      Future.microtask(() {
+        Get.snackbar('Thông báo', 'Xóa thất bại', backgroundColor: Colors.red);
+      });
     }
   }
 
   Future<void> updateItem({
     required String table,
-    required String documentId,
-    required Map<String, dynamic> data,
+    required String field, // Trường cần so sánh
+    required String documentId, // Giá trị để so sánh
+    required Map<String, dynamic> data, // Dữ liệu để cập nhật
   }) async {
     try {
-      await _firestore
+      final querySnapshot = await _firestore
           .collection('qms')
           .doc(table)
           .collection('items')
-          .doc(documentId)
-          .update(data);
-      print("Item updated successfully.");
+          .get();
+
+      for (var doc in querySnapshot.docs) {
+        if (doc.id == documentId) {
+          await _firestore
+              .collection('qms')
+              .doc(table)
+              .collection('items')
+              .doc(documentId)
+              .update(data);
+          Get.back();
+          Future.microtask(() {
+            Get.snackbar('Thông báo', 'Cập nhật thành công',
+                backgroundColor: Colors.green);
+          });
+        }
+      }
+
+      print("Item(s) updated successfully.");
     } catch (e) {
-      print("Error updating item: $e");
+      Get.back();
+      Future.microtask(() {
+        Get.snackbar('Thông báo', 'Cập nhật thất bại',
+            backgroundColor: Colors.red);
+      });
+      print("Error updating item(s): $e");
     }
   }
 

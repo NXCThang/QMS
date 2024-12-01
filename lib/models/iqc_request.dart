@@ -1,3 +1,5 @@
+import 'package:qms_app/models/iqc_report.dart';
+
 class IqcRequestModel {
   int? id;
   String? iqcRequestCode;
@@ -6,6 +8,8 @@ class IqcRequestModel {
   String? warehouseType;
   String? dueDate;
   String? createdAt;
+  List<IQCReportModel>? reports;
+  bool? isStatus;
 
   IqcRequestModel(
       {this.id,
@@ -14,7 +18,9 @@ class IqcRequestModel {
       this.warehouseName,
       this.warehouseType,
       this.dueDate,
-      this.createdAt});
+      this.createdAt,
+      this.reports,
+      this.isStatus});
 
   IqcRequestModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

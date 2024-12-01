@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:qms_app/common/color.dart';
+import 'package:qms_app/common/components/build_pagination_controls.dart';
 import 'package:qms_app/common/icon_path.dart';
-import 'package:qms_app/common/sidebar/widgets/side_bar.dart';
 import 'package:qms_app/common/components/two_button.dart';
+import 'package:qms_app/models/aql.dart';
 import 'package:qms_app/presentation/category_manage/controllers/aql_c.dart';
-import 'package:qms_app/presentation/widgets/add_error.dart';
+import 'package:qms_app/presentation/category_manage/widgets/add_aql.dart';
+import 'package:qms_app/presentation/category_manage/widgets/confirm_delete_aql.dart';
 import 'package:qms_app/presentation/widgets/table_custom.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qms_app/presentation/category_manage/widgets/iqc_result_list.dart';
 
 class ExpensePage extends StatelessWidget {
   ExpensePage({super.key});
@@ -52,21 +55,21 @@ class ExpensePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                TextFieldCustom(
-                  label: appLocalizations?.testLevel ?? '',
-                  width: 300,
-                  hintText: appLocalizations?.testLevel ?? '',
-                ),
-                TextFieldCustom(
-                  label: appLocalizations?.acceptanceLevel ?? '',
-                  width: 300,
-                  hintText: appLocalizations?.acceptanceLevel ?? '',
-                ),
-                TextFieldCustom(
-                  label: appLocalizations?.allowableDefects ?? '',
-                  width: 300,
-                  hintText: appLocalizations?.allowableDefects ?? '',
-                ),
+                // TextFieldCustom(
+                //   label: appLocalizations?.testLevel ?? '',
+                //   width: 300,
+                //   hintText: appLocalizations?.testLevel ?? '',
+                // ),
+                // TextFieldCustom(
+                //   label: appLocalizations?.acceptanceLevel ?? '',
+                //   width: 300,
+                //   hintText: appLocalizations?.acceptanceLevel ?? '',
+                // ),
+                // TextFieldCustom(
+                //   label: appLocalizations?.allowableDefects ?? '',
+                //   width: 300,
+                //   hintText: appLocalizations?.allowableDefects ?? '',
+                // ),
               ],
             ),
             const SizedBox(
@@ -75,8 +78,8 @@ class ExpensePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Danh sách yêu cầu IQC(10)',
+                Text(
+                  'Danh sách thông tin chi tiêu (${controller.aqlList.length})',
                   style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
                 ),
                 const Spacer(),
@@ -89,8 +92,8 @@ class ExpensePage extends StatelessWidget {
                       onTap: () {
                         showDialog(
                             context: context,
-                            builder: (_) => const AddError(
-                                  error: 'Thêm mới',
+                            builder: (_) => AddAql(
+                                  create: true,
                                 ));
                       },
                       child: Row(
@@ -134,77 +137,50 @@ class ExpensePage extends StatelessWidget {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: controller.aqlList.length,
+                itemCount: controller.paginatedController.paginatedItems.length,
                 itemBuilder: (BuildContext context, int index) {
+                  final item =
+                      controller.paginatedController.paginatedItems[index];
+                  final stt = index +
+                      1 +
+                      controller.paginatedController.currentPage.value *
+                          controller.paginatedController.itemsPerPage;
                   return TableCustom(
                     color: Colors.white,
                     title: {
-                      ItemBodyWidget(title: '$index'): 1,
-                      ItemBodyWidget(
-                          title: controller.aqlList[index].id.toString()): 3,
-                      ItemBodyWidget(
-                          title: controller.aqlList[index].acceptanceLimit
-                              .toString()): 3,
-                      ItemBodyWidget(
-                          title:
-                              controller.aqlList[index].ngLimit.toString()): 3,
-                      ItemBodyWidget(
-                          title: controller.aqlList[index].note.toString()): 3,
-                      CustomButtonRow(onEdit: () {}, onDelete: () {}): 2,
+                      ItemBodyWidget(title: '$stt'): 1,
+                      ItemBodyWidget(title: item.id.toString()): 3,
+                      ItemBodyWidget(title: item.acceptanceLimit.toString()): 3,
+                      ItemBodyWidget(title: item.ngLimit.toString()): 3,
+                      ItemBodyWidget(title: item.note.toString()): 3,
+                      CustomButtonRow(onEdit: () {
+                        showDialog(
+                            context: context,
+                            builder: (_) => AddAql(
+                                  create: false,
+                                  aql: item,
+                                ));
+                      }, onDelete: () {
+                        showDialog(
+                            context: context,
+                            builder: (_) => ConfirmDeleteAqlPopup(
+                                  aql: item,
+                                ));
+                      }): 2,
                     },
                   );
                 },
               ),
             ),
             const SizedBox(height: 10),
-            // Pagination controls
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     IconButton(
-            //       icon: Icon(Icons.arrow_left),
-            //       onPressed: controller.currentPage > 1
-            //           ? () => controller.previousPage()
-            //           : null,
-            //     ),
-            //     Text(
-            //       '${controller.currentPage}',
-            //       style: const TextStyle(
-            //         fontSize: 18,
-            //         fontWeight: FontWeight.w500,
-            //         color: Colors.blue,
-            //       ),
-            //     ),
-            //     IconButton(
-            //       icon: Icon(Icons.arrow_right),
-            //       onPressed: controller.hasMorePages()
-            //           ? () => controller.nextPage()
-            //           : null,
-            //     ),
-            //     const SizedBox(width: 20),
-            //     DropdownButton<int>(
-            //       value: controller.itemsPerPage.value,
-            //       items: [10, 20, 30, 50]
-            //           .map(
-            //             (e) => DropdownMenuItem<int>(
-            //               value: e,
-            //               child: Text('$e / page'),
-            //             ),
-            //           )
-            //           .toList(),
-            //       onChanged: (value) {
-            //         if (value != null) {
-            //           controller.updateItemsPerPage(value);
-            //         }
-            //       },
-            //     ),
-            //   ],
-            // ),
-
+            BuildPaginationControls<AQLModel>(
+              paginatedController: controller.paginatedController,
+            ),
             const SizedBox(height: 10),
           ]),
         );
       }
     });
+  
   }
 }

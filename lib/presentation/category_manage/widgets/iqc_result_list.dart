@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:qms_app/common/color.dart';
+import 'package:qms_app/common/components/build_pagination_controls.dart';
+import 'package:qms_app/common/components/paginated_c.dart';
+import 'package:qms_app/common/components/two_button.dart';
 import 'package:qms_app/common/icon_path.dart';
-import 'package:qms_app/presentation/controllers/iqc_result_c.dart';
+import 'package:qms_app/models/iqc_result.dart';
+import 'package:qms_app/presentation/category_manage/widgets/add_criteria.dart';
+import 'package:qms_app/presentation/category_manage/controllers/iqc_result_c.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:qms_app/presentation/widgets/add_error.dart';
+import 'package:qms_app/presentation/category_manage/widgets/confirm_delete_iqc.dart';
 import 'package:qms_app/presentation/widgets/table_custom.dart';
 
 class IqcResultList extends StatelessWidget {
@@ -44,37 +49,11 @@ class IqcResultList extends StatelessWidget {
                 )
               ],
             ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                TextFieldCustom(
-                  label: appLocalizations?.testLevel ?? '',
-                  width: 300,
-                  hintText: appLocalizations?.testLevel ?? '',
-                ),
-                TextFieldCustom(
-                  label: appLocalizations?.acceptanceLevel ?? '',
-                  width: 300,
-                  hintText: appLocalizations?.acceptanceLevel ?? '',
-                ),
-                TextFieldCustom(
-                  label: appLocalizations?.allowableDefects ?? '',
-                  width: 300,
-                  hintText: appLocalizations?.allowableDefects ?? '',
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Danh sách yêu cầu IQC(10)',
+                Text(
+                  'Thông tin tiêu chí (${controller.iqcResultList.length})',
                   style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
                 ),
                 const Spacer(),
@@ -87,8 +66,8 @@ class IqcResultList extends StatelessWidget {
                       onTap: () {
                         showDialog(
                             context: context,
-                            builder: (_) => const AddError(
-                                  error: 'Thêm mới',
+                            builder: (_) => AddCriteria(
+                                  create: true,
                                 ));
                       },
                       child: Row(
@@ -122,41 +101,70 @@ class IqcResultList extends StatelessWidget {
               title: {
                 ItemTitleWidget(title: '#'): 1,
                 ItemTitleWidget(title: 'Tiêu chí'): 3,
-                ItemTitleWidget(title: 'Min'): 3,
-                ItemTitleWidget(title: 'Max'): 3,
-                ItemTitleWidget(title: 'Đơn vị'): 3,
-                ItemTitleWidget(title: 'Nội dung lưu ý'): 3,
+                ItemTitleWidget(title: 'Min'): 2,
+                ItemTitleWidget(title: 'Max'): 2,
+                ItemTitleWidget(title: 'Đơn vị'): 2,
+                ItemTitleWidget(title: 'Nội dung lưu ý'): 6,
                 ItemTitleWidget(title: 'Tùy chọn'): 2
               },
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: controller.iqcResultList.length,
+                itemCount: controller.paginatedController.paginatedItems.length,
                 itemBuilder: (BuildContext context, int index) {
+                  final item =
+                      controller.paginatedController.paginatedItems[index];
+                  final stt = index +
+                      1 +
+                      controller.paginatedController.currentPage.value *
+                          controller.paginatedController.itemsPerPage;
                   return TableCustom(
                     color: Colors.white,
                     title: {
-                      ItemTitleWidget(
-                        title: '$index',
+                      ItemBodyWidget(
+                        title: '$stt',
                       ): 1,
-                      ItemTitleWidget(
-                        title: controller.iqcResultList[index].criteriaName
-                            .toString(),
+                      ItemBodyWidget(
+                        title: item.criteriaName.toString(),
                       ): 3,
-                      ItemTitleWidget(
-                        title: controller.iqcResultList[index].min.toString(),
-                      ): 3,
-                      ItemTitleWidget(
-                        title: controller.iqcResultList[index].max.toString(),
-                      ): 3,
-                      ItemTitleWidget(
-                        title: controller.iqcResultList[index].unit.toString(),
-                      ): 3,
-                      ItemTitleWidget(
-                        title: controller.iqcResultList[index].note.toString(),
-                      ): 3,
-                      ItemTitleWidget(
-                        title: 'tùy chọn',
+                      ItemBodyWidget(
+                        title: item.min.toString(),
+                      ): 2,
+                      ItemBodyWidget(
+                        title: item.max.toString(),
+                      ): 2,
+                      ItemBodyWidget(
+                        title: item.unit.toString(),
+                      ): 2,
+                      ItemBodyWidget(
+                        title: item.note.toString(),
+                      ): 6,
+                      CustomButtonRow(
+                        onDelete: () {
+                          showDialog(
+                              context: context,
+                              builder: (_) => DeleteIQCPopup(
+                                    iqcResult: item,
+                                  ));
+                        },
+                        onEdit: () {
+                          showDialog(
+                              context: context,
+                              builder: (_) => AddCriteria(
+                                    create: false,
+                                    id: item.id,
+                                    criteriaName: controller
+                                        .iqcResultList[index].criteriaName,
+                                    minValue: controller
+                                        .iqcResultList[index].min
+                                        .toString(),
+                                    maxValue: controller
+                                        .iqcResultList[index].max
+                                        .toString(),
+                                    unit: item.unit,
+                                    note: item.note,
+                                  ));
+                        },
                       ): 2
                     },
                   );
@@ -164,6 +172,9 @@ class IqcResultList extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
+            BuildPaginationControls<IQCResultModel>(
+              paginatedController: controller.paginatedController,
+            ),
             const SizedBox(height: 10),
           ]),
         );

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:qms_app/common/color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qms_app/presentation/category_manage/widgets/textfield_custom.dart';
 
 class AddError extends StatelessWidget {
   final String error;
@@ -64,20 +66,20 @@ class AddError extends StatelessWidget {
                   // First row: Mã lỗi, Tên lỗi
                   Row(
                     children: [
-                      TextFieldCustom(
-                        label: appLocalizations?.errorCode ?? '',
-                      ),
-                      const SizedBox(width: 100),
-                      TextFieldCustom(
-                        label: appLocalizations?.errorName ?? '',
-                      ),
+                      // TextFieldCustom(
+                      //   label: appLocalizations?.errorCode ?? '',
+                      // ),
+                      // const SizedBox(width: 100),
+                      // TextFieldCustom(
+                      //   label: appLocalizations?.errorName ?? '',
+                      // ),
                     ],
                   ),
                   const SizedBox(height: 10),
                   // Second row: Mã job, Tên job
                   Row(
                     children: [
-                      TextFieldCustom(label: appLocalizations?.jobCode ?? ''),
+                      // TextFieldCustom(label: appLocalizations?.jobCode ?? ''),
                       // Expanded(
                       //   child: DropdownButtonFormField<String>(
                       //     decoration: InputDecoration(
@@ -94,7 +96,7 @@ class AddError extends StatelessWidget {
                       // ),
 
                       const SizedBox(width: 100),
-                      TextFieldCustom(label: appLocalizations?.jobName ?? ''),
+                      // TextFieldCustom(label: appLocalizations?.jobName ?? ''),
 
                       // Expanded(
                       //   child: DropdownButtonFormField<String>(
@@ -117,8 +119,8 @@ class AddError extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      TextFieldCustom(
-                          label: appLocalizations?.allowedStandard ?? ''),
+                      // TextFieldCustom(
+                      //     label: appLocalizations?.allowedStandard ?? ''),
                     ],
                   ),
                 ],
@@ -233,52 +235,5 @@ class AddError extends StatelessWidget {
     //     ),
     //   ),
     // );
-  }
-}
-
-class TextFieldCustom extends StatelessWidget {
-  const TextFieldCustom({
-    super.key,
-    required this.label,
-    this.width = 560,
-    this.hintText = '',
-  });
-  final String label;
-  final double width;
-  final String hintText;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
-            color: Colors.black.withOpacity(0.7),
-          ),
-        ),
-        SizedBox(
-          width: width,
-          child: TextField(
-            decoration: InputDecoration(
-              isDense: true,
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-              hintText: hintText,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4.0),
-                borderSide: BorderSide(
-                  color: Colors.black.withOpacity(0.2),
-                  width: 1.0,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    ).paddingOnly(right: 20);
   }
 }

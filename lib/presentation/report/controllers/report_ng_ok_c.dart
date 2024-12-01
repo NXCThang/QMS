@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:qms_app/common/components/paginated_c.dart';
 import 'package:qms_app/models/oqc_info.dart';
 import 'package:qms_app/models/oqc_result.dart';
 import 'package:qms_app/presentation/controllers/oqc_info_c.dart';
@@ -10,7 +11,9 @@ class ReportNgOkController extends GetxController {
   final workOrderController = Get.find<WorkOrderController>();
   final oqcInfoController = Get.find<OqcInfoController>();
   final oqcResultController = Get.find<OqcResultController>();
-  final isLoading = false.obs;
+  final isLoading = true.obs;
+  final PaginatedController<ReportNgOkModel> paginatedController =
+      PaginatedController<ReportNgOkModel>();
 
   RxList<ReportNgOkModel> reportList = <ReportNgOkModel>[].obs;
 
@@ -31,7 +34,6 @@ class ReportNgOkController extends GetxController {
   }
 
   Future<void> initReportNGOKList() async {
-    // isLoading.value = true;
     List<ReportNgOkModel> tempList = [];
     try {
       isLoading.value = true;
@@ -47,6 +49,7 @@ class ReportNgOkController extends GetxController {
             oqcResultModel: result));
       }
       reportList.value = tempList;
+      paginatedController.setList(reportList);
       print(reportList.length);
     } finally {
       isLoading.value = false;

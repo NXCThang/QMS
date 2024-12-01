@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qms_app/models/iqc_report.dart';
 
 enum SideBarOption {
   none('none'),
@@ -25,21 +26,69 @@ enum SideBarOption {
       'Báo cáo tỷ lệ hoàn thành theo lệnh sản xuất'),
   product('Sản phẩm'),
   material('Danh sách NVL, LKDT'),
-  iqcResult('Chỉnh sửa thông tin mẫu biên bản');
+  iqcResult('Chỉnh sửa thông tin mẫu biên bản'),
+  detailProductionOrder('Thông tin lệnh sản xuất'),
+  materialReport('Danh sách biên bản NVL');
 
   final String value;
 
   const SideBarOption(this.value);
 }
 
+// class SideBarController extends GetxController {
+//   var currentPage = SideBarOption.none.obs;
+//   Map<String, dynamic>? arguments;
+
+//   void changePage(String title) {
+//     SideBarOption option = SideBarOption.values.firstWhere(
+//         (element) => element.value == title,
+//         orElse: () => SideBarOption.none);
+//     currentPage.value = option;
+//     arguments = null;
+//     print(currentPage.value.value);
+//   }
+
+//   void changePageWithArguments(String title, IQCReportModel args) {
+//     SideBarOption option = SideBarOption.values.firstWhere(
+//       (element) => element.value == title,
+//       orElse: () => SideBarOption.none,
+//     );
+//     currentPage.value = option;
+//     Get.toNamed(Get.currentRoute, arguments: args); // Truyền tham số
+//   }
+// }
+
 class SideBarController extends GetxController {
   var currentPage = SideBarOption.none.obs;
 
+  Map<String, dynamic>? arguments;
+
   void changePage(String title) {
-    SideBarOption option = SideBarOption.values.firstWhere(
-        (element) => element.value == title,
-        orElse: () => SideBarOption.none);
+    final option = SideBarOption.values.firstWhere(
+      (element) => element.value == title,
+      orElse: () => SideBarOption.none,
+    );
+
     currentPage.value = option;
-    print(currentPage.value.value);
+    arguments = null;
+
+    print('Changed to page: ${currentPage.value.value}');
+  }
+
+  void changePageWithArguments(String title, IQCReportModel args) {
+    final option = SideBarOption.values.firstWhere(
+      (element) => element.value == title,
+      orElse: () => SideBarOption.none,
+    );
+
+    currentPage.value = option;
+    arguments = {'iqcReportModel': args};
+
+    Get.toNamed(Get.currentRoute, arguments: arguments);
+    print('Changed to page: ${currentPage.value.value} with arguments');
+  }
+
+  T? getArgument<T>(String key) {
+    return arguments?[key] as T?;
   }
 }
