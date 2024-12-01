@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:qms_app/common/color.dart';
 import 'package:qms_app/common/helper/binding.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qms_app/firebase_options.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Inter',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: QMSColor.mainorange),
         useMaterial3: true,
       ),
       initialBinding: Binding(),

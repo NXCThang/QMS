@@ -10,19 +10,19 @@ class TextFieldCustom extends StatelessWidget {
     this.hintText = '',
     required this.textcontroller,
     this.isNumber = false,
-    this.onChanged,
+    this.enabled = true,
   });
   final String label;
   final double width;
   final String hintText;
   final TextEditingController textcontroller;
   bool? isNumber;
-  final ValueChanged<String>? onChanged;
+  bool? enabled;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           label,
@@ -40,9 +40,9 @@ class TextFieldCustom extends StatelessWidget {
             inputFormatters: [
               if (isNumber == true) FilteringTextInputFormatter.digitsOnly,
             ],
-            onChanged: onChanged,
             controller: textcontroller,
             decoration: InputDecoration(
+              enabled: enabled ?? true,
               isDense: true,
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),

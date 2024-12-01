@@ -7,10 +7,11 @@ import 'package:qms_app/presentation/category_manage/widgets/textfield_custom.da
 import 'package:qms_app/presentation/widgets/table_custom.dart';
 
 class IqcResultListTemporary extends StatefulWidget {
-  const IqcResultListTemporary({Key? key, required this.list})
+  IqcResultListTemporary({Key? key, required this.list, this.enable = true})
       : super(key: key);
 
   final List<IQCResultModel> list;
+  bool? enable;
 
   @override
   State<IqcResultListTemporary> createState() => _IqcResultListTemporaryState();
@@ -18,65 +19,47 @@ class IqcResultListTemporary extends StatefulWidget {
 
 class _IqcResultListTemporaryState extends State<IqcResultListTemporary> {
   late List<IQCResultModel> _items;
-
-  // Các controller cho TextField
-  late TextEditingController criteriaNameController;
-  late TextEditingController minController;
-  late TextEditingController maxController;
-  late TextEditingController unitController;
-  late TextEditingController otherRequirementController;
-  late TextEditingController quantityController;
-  late TextEditingController testResultController;
-  late TextEditingController conclusionController;
-  late TextEditingController noteController;
+  late List<List<TextEditingController>> _controllers;
 
   @override
   void initState() {
     super.initState();
     _items = List.from(widget.list);
 
-    // Khởi tạo các TextEditingController
-    criteriaNameController = TextEditingController();
-    minController = TextEditingController();
-    maxController = TextEditingController();
-    unitController = TextEditingController();
-    otherRequirementController = TextEditingController();
-    quantityController = TextEditingController();
-    testResultController = TextEditingController();
-    conclusionController = TextEditingController();
-    noteController = TextEditingController();
+    // Initialize a list of controllers for each row
+    _controllers = List.generate(
+      _items.length,
+      (index) => [
+        TextEditingController(text: _items[index].criteriaName ?? ''),
+        TextEditingController(
+            text: _items[index].min == 0 ? '' : _items[index].min.toString()),
+        TextEditingController(
+            text: _items[index].max == 0 ? '' : _items[index].max.toString()),
+        TextEditingController(text: _items[index].unit ?? ''),
+        TextEditingController(text: _items[index].otherRequirement ?? ''),
+        TextEditingController(
+            text: _items[index].quantity == 0
+                ? ''
+                : _items[index].quantity.toString()),
+        TextEditingController(text: _items[index].testResult ?? ''),
+        TextEditingController(
+            text: _items[index].conclusion == 0
+                ? ''
+                : _items[index].conclusion.toString()),
+        TextEditingController(text: _items[index].note ?? ''),
+      ],
+    );
   }
 
   @override
   void dispose() {
-    criteriaNameController.dispose();
-    minController.dispose();
-    maxController.dispose();
-    unitController.dispose();
-    otherRequirementController.dispose();
-    quantityController.dispose();
-    testResultController.dispose();
-    conclusionController.dispose();
-    noteController.dispose();
+    // Dispose controllers for each row when the widget is disposed
+    for (var controllersList in _controllers) {
+      for (var controller in controllersList) {
+        controller.dispose();
+      }
+    }
     super.dispose();
-  }
-
-  void _addNewRow() {
-    setState(() {
-      _items.add(
-        IQCResultModel(
-          criteriaName: '',
-          min: 0,
-          max: 0,
-          unit: '',
-          otherRequirement: '',
-          quantity: 0,
-          testResult: '',
-          conclusion: 0,
-          note: '',
-        ),
-      );
-    });
   }
 
   @override
@@ -92,31 +75,32 @@ class _IqcResultListTemporaryState extends State<IqcResultListTemporary> {
               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
             ),
             const Spacer(),
-            Align(
-              alignment: Alignment.centerRight,
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: _addNewRow,
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      IconPath.addNew,
-                      width: 18,
-                      height: 18,
-                    ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      'Thêm hàng khai báo',
-                      style: TextStyle(
-                        color: QMSColor.mainorange,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
+            if (widget.enable == true)
+              Align(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: _addNewRow,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        IconPath.addNew,
+                        width: 18,
+                        height: 18,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 8),
+                      const Text(
+                        'Thêm hàng khai báo',
+                        style: TextStyle(
+                          color: QMSColor.mainorange,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
           ],
         ),
         const SizedBox(height: 10),
@@ -143,17 +127,7 @@ class _IqcResultListTemporaryState extends State<IqcResultListTemporary> {
             itemBuilder: (BuildContext context, int index) {
               final item = _items[index];
               final stt = index + 1;
-              criteriaNameController.text = item.criteriaName ?? '';
-              minController.text = item.min == 0 ? '' : item.min.toString();
-              maxController.text = item.max == 0 ? '' : item.max.toString();
-              unitController.text = item.unit ?? '';
-              otherRequirementController.text = item.otherRequirement ?? '';
-              quantityController.text =
-                  item.quantity == 0 ? '' : item.quantity.toString();
-              testResultController.text = item.testResult ?? '';
-              conclusionController.text =
-                  item.conclusion == 0 ? '' : item.conclusion.toString();
-              noteController.text = item.note ?? '';
+
               return TableCustom(
                 color: Colors.white,
                 title: {
@@ -161,100 +135,67 @@ class _IqcResultListTemporaryState extends State<IqcResultListTemporary> {
                   TextFieldCustom(
                     width: 120,
                     label: '',
-                    textcontroller: criteriaNameController,
+                    textcontroller: _controllers[index][0], // Criteria Name
                   ): 3,
                   TextFieldCustom(
                     width: 100,
                     label: '',
-                    textcontroller: minController,
-                    onChanged: (value) {
-                      setState(() {
-                        item.criteriaName = value;
-                      });
-                    },
+                    textcontroller: _controllers[index][1], // Min
+                    isNumber: true,
                   ): 2,
                   TextFieldCustom(
                     width: 100,
                     label: '',
-                    textcontroller: maxController,
-                    onChanged: (value) {
-                      setState(() {
-                        item.criteriaName = value;
-                      });
-                    },
+                    textcontroller: _controllers[index][2], // Max
+                    isNumber: true,
                   ): 2,
                   TextFieldCustom(
                     width: 100,
                     label: '',
-                    textcontroller: unitController,
-                    onChanged: (value) {
-                      setState(() {
-                        item.criteriaName = value;
-                      });
-                    },
+                    textcontroller: _controllers[index][3], // Unit
                   ): 2,
                   TextFieldCustom(
                     width: 100,
                     label: '',
-                    textcontroller: otherRequirementController,
-                    onChanged: (value) {
-                      setState(() {
-                        item.criteriaName = value;
-                      });
-                    },
+                    textcontroller: _controllers[index][4], // Other Requirement
                   ): 2,
                   TextFieldCustom(
                     width: 100,
                     label: '',
-                    textcontroller: quantityController,
-                    onChanged: (value) {
-                      setState(() {
-                        item.criteriaName = value;
-                      });
-                    },
+                    textcontroller: _controllers[index][5], // Quantity
+                    isNumber: true,
                   ): 2,
                   TextFieldCustom(
                     width: 100,
                     label: '',
-                    textcontroller: testResultController,
-                    onChanged: (value) {
-                      setState(() {
-                        item.criteriaName = value;
-                      });
-                    },
+                    textcontroller: _controllers[index][6], // Test Result
                   ): 2,
                   TextFieldCustom(
                     width: 100,
                     label: '',
-                    textcontroller: conclusionController,
-                    onChanged: (value) {
-                      setState(() {
-                        item.criteriaName = value;
-                      });
-                    },
+                    textcontroller: _controllers[index][7], // Conclusion
+                    isNumber: true,
                   ): 2,
                   TextFieldCustom(
                     width: 100,
                     label: '',
-                    textcontroller: noteController,
-                    onChanged: (value) {
-                      setState(() {
-                        item.criteriaName = value;
-                      });
-                    },
+                    textcontroller: _controllers[index][8], // Note
                   ): 2,
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        _items.removeAt(index);
-                      });
-                    },
-                    child: Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                      size: 24,
-                    ),
-                  ): 2,
+                  (widget.enable == true)
+                      ? InkWell(
+                          onTap: () {
+                            setState(() {
+                              _items.removeAt(index);
+                              _controllers.removeAt(index);
+                            });
+                          },
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                            size: 24,
+                          ),
+                        )
+                      : SizedBox.shrink(): 2,
                 },
               );
             },
@@ -262,5 +203,35 @@ class _IqcResultListTemporaryState extends State<IqcResultListTemporary> {
         ),
       ],
     );
+  }
+
+  void _addNewRow() {
+    setState(() {
+      _items.add(
+        IQCResultModel(
+          criteriaName: '',
+          min: 0,
+          max: 0,
+          unit: '',
+          otherRequirement: '',
+          quantity: 0,
+          testResult: '',
+          conclusion: 0,
+          note: '',
+        ),
+      );
+      // Add new controllers for the new row
+      _controllers.add([
+        TextEditingController(),
+        TextEditingController(),
+        TextEditingController(),
+        TextEditingController(),
+        TextEditingController(),
+        TextEditingController(),
+        TextEditingController(),
+        TextEditingController(),
+        TextEditingController(),
+      ]);
+    });
   }
 }
