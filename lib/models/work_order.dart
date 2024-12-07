@@ -46,6 +46,12 @@ class WorkOrderModel {
     isActive = json['is_active'];
     updatedAt = json['updated_at'];
     updatedBy = json['updated_by'];
+    if (json['materials'] != null) {
+      materials = <MaterialModel>[];
+      json['materials'].forEach((v) {
+        materials!.add(MaterialModel.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -63,6 +69,8 @@ class WorkOrderModel {
     data['is_active'] = isActive;
     data['updated_at'] = updatedAt;
     data['updated_by'] = updatedBy;
+    data['materials'] =
+        materials?.map((material) => material.toJson()).toList();
     return data;
   }
 }

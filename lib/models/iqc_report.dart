@@ -49,19 +49,19 @@ class IQCReportModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['iqc_report_code'] = iqcReportCode;
-    data['material_code'] = materialCode;
-    data['material_name'] = materialName;
-    data['check_date'] = checkDate;
-    data['conclusion'] = conclusion;
-    data['po_code'] = poCode;
-    data['iqc_request_id'] = iqcRequestId;
-    data['warehouse_id'] = warehouseId;
-    data['bill_number'] = billNumber;
-    data['is_active'] = isActive;
-    data['quantity'] = quantity;
+    final Map<String, dynamic> data = {};
+    if (id != null) data['id'] = id;
+    if (iqcReportCode != null) data['iqc_report_code'] = iqcReportCode;
+    if (materialCode != null) data['material_code'] = materialCode;
+    if (materialName != null) data['material_name'] = materialName;
+    if (checkDate != null) data['check_date'] = checkDate;
+    if (conclusion != null) data['conclusion'] = conclusion;
+    if (poCode != null) data['po_code'] = poCode;
+    if (iqcRequestId != null) data['iqc_request_id'] = iqcRequestId;
+    if (warehouseId != null) data['warehouse_id'] = warehouseId;
+    if (billNumber != null) data['bill_number'] = billNumber;
+    if (isActive != null) data['is_active'] = isActive;
+    if (quantity != null) data['quantity'] = quantity;
     return data;
   }
 }

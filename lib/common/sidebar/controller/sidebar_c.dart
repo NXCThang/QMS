@@ -75,20 +75,16 @@ class SideBarController extends GetxController {
     print('Changed to page: ${currentPage.value.value}');
   }
 
-  void changePageWithArguments(String title, IQCReportModel args) {
+  void changePageWithArguments(String title, Map<String, dynamic> args) {
     final option = SideBarOption.values.firstWhere(
       (element) => element.value == title,
       orElse: () => SideBarOption.none,
     );
 
     currentPage.value = option;
-    arguments = {'iqcReportModel': args};
+    arguments = args; // Truyền tất cả dữ liệu vào arguments
 
     Get.toNamed(Get.currentRoute, arguments: arguments);
     print('Changed to page: ${currentPage.value.value} with arguments');
-  }
-
-  T? getArgument<T>(String key) {
-    return arguments?[key] as T?;
   }
 }

@@ -1,12 +1,12 @@
 class MaterialModel {
-  String? id;
+  int? id;
   String? materialName;
   String? materialCode;
   String? partNumber;
-  String? quantity;
+  int? quantity;
   String? provider;
-  String? productId;
-  String? warehouseId;
+  int? productId;
+  int? warehouseId;
 
   MaterialModel(
       {this.id,

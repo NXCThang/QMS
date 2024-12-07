@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
+import 'package:qms_app/presentation/auth/controller/authentication_c.dart';
 import 'package:qms_app/presentation/category_manage/controllers/aql_c.dart';
 import 'package:qms_app/presentation/iqc/controllers/approve_inspection_c.dart';
 import 'package:qms_app/presentation/iqc/controllers/iqc_report_c.dart';
@@ -23,25 +24,26 @@ import 'package:qms_app/presentation/report/controllers/report_ng_ok_c.dart';
 class Binding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => SideBarController());
-    Get.lazyPut(() => AQLController());
-    Get.lazyPut(() => IqcReportController());
-    Get.lazyPut(() => IqcRequestController());
-    Get.lazyPut(() => IqcResultController());
-    Get.lazyPut(() => IqcResultNgController());
-    Get.lazyPut(() => MaterialController());
-    Get.lazyPut(() => OqcInfoController());
-    Get.lazyPut(() => OqcResultController());
-    Get.lazyPut(() => PqcFinalResultController());
-    Get.lazyPut(() => PqcFirstInfoController());
-    Get.lazyPut(() => PqcFirstProblemController());
-    Get.lazyPut(() => PqcFirstResultController());
-    Get.lazyPut(() => ProductController());
-    Get.lazyPut(() => SellOrderController());
-    Get.lazyPut(() => TemplateController());
-    Get.lazyPut(() => WareHouseController());
-    Get.lazyPut(() => WorkOrderController());
-    Get.lazyPut(() => ReportNgOkController());
-    Get.lazyPut(() => ApproveInspectionController());
+    Get.put(SideBarController(), permanent: true);
+    Get.put(AQLController(), permanent: true);
+    Get.put(IqcReportController(), permanent: true);
+    Get.put(IqcRequestController(), permanent: true);
+    Get.put(IqcResultNgController(), permanent: true);
+    Get.put(MaterialController(), permanent: true);
+    Get.put(IqcResultController(), permanent: true);
+    Get.put(OqcInfoController(), permanent: true);
+    Get.put(OqcResultController(), permanent: true);
+    Get.put(PqcFinalResultController(), permanent: true);
+    Get.put(PqcFirstInfoController(), permanent: true);
+    Get.put(PqcFirstProblemController(), permanent: true);
+    Get.put(PqcFirstResultController(), permanent: true);
+    Get.put(ProductController(), permanent: true);
+    Get.put(SellOrderController(), permanent: true);
+    Get.put(TemplateController(), permanent: true);
+    Get.put(WareHouseController(), permanent: true);
+    Get.put(WorkOrderController(), permanent: true);
+    Get.put(ReportNgOkController(), permanent: true);
+    Get.put(ApproveInspectionController(), permanent: true);
+    Get.put(AuthenticationController(), permanent: true);
   }
 }

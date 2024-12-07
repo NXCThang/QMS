@@ -87,7 +87,7 @@ class AddCriteria extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextFieldCustom(

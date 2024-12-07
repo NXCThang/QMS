@@ -9,9 +9,12 @@ import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
 import 'package:qms_app/common/sidebar/widgets/side_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qms_app/common/components/two_button.dart';
+import 'package:qms_app/data/local/login_session.dart';
+import 'package:qms_app/presentation/auth/pages/authentication.dart';
 import 'package:qms_app/presentation/category_manage/controllers/template_c.dart';
 import 'package:qms_app/presentation/widgets/add_error.dart';
 import 'package:qms_app/presentation/widgets/table_custom.dart';
+import 'package:qms_app/data/local/login_session.dart';
 
 class MinutesPage extends StatefulWidget {
   const MinutesPage({super.key});
@@ -212,7 +215,7 @@ PreferredSizeWidget _appbar(BuildContext context) {
       const SizedBox(
         width: 7,
       ),
-      const Column(
+      Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -224,7 +227,7 @@ PreferredSizeWidget _appbar(BuildContext context) {
                   fontWeight: FontWeight.w400),
             ),
             Text(
-              'Lô Quỳnh Như',
+              LoginSession().getUser()?.name ?? '',
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
@@ -253,7 +256,14 @@ PreferredSizeWidget _appbar(BuildContext context) {
         width: 24,
       ),
       GestureDetector(
-          onTap: () {},
+          onTap: () {
+            LoginSession().deleteUser();
+            Get.snackbar('Thông báo', 'Đã đăng xuất',
+                backgroundColor: Colors.green, maxWidth: 300);
+            Future.delayed(const Duration(milliseconds: 200), () {
+              Get.offAll(() => AuthenticationPage());
+            });
+          },
           child: SvgPicture.asset(
             IconPath.logout,
             width: 24,

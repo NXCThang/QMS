@@ -44,6 +44,8 @@ dependencies:
   percent_indicator: ^4.2.3
   firebase_core: ^3.6.0
   cloud_firestore: ^5.4.4
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
   # google_fonts: ^6.2.1
 
 dev_dependencies:
@@ -77,6 +79,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/fonts/
+    - assets/images/
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

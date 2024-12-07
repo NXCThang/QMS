@@ -1,8 +1,8 @@
 class ProductModel {
-  String? id;
+  int? id;
   String? productName;
-  String? soId;
-  String? isActive;
+  int? soId;
+  int? isActive;
 
   ProductModel({this.id, this.productName, this.soId, this.isActive});
 

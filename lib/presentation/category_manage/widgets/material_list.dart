@@ -135,6 +135,7 @@ class MaterialList extends StatelessWidget {
                 },
               ),
             ),
+            
             const SizedBox(height: 10),
             // Pagination controls
             // Row(

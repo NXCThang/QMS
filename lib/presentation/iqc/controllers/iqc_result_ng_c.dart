@@ -17,7 +17,7 @@ class IqcResultNgController extends GetxController {
     isLoading.value = true;
     try {
       iqcResultNgList.value = await FirebaseService().getList(
-        table: 'iqc_report',
+        table: 'iqc_result_ng',
         fromJson: (data) => IQCResultNgModel.fromJson(data),
       );
       iqcResultNgList.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));

@@ -69,13 +69,19 @@ class IqcReportList extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              if (item.isActive == 'Nháp')
+                              if (item.isActive?.toLowerCase() ==
+                                  'Nháp'.toLowerCase())
                                 IconButton(
                                     onPressed: () {}, icon: Icon(Icons.edit)),
                               IconButton(
                                   onPressed: () {
+                                    print(item.toJson());
                                     sidebarController.changePageWithArguments(
-                                        'Danh sách biên bản NVL', item);
+                                      'Danh sách biên bản NVL',
+                                      {
+                                        'IqcReportModel': item.toJson()
+                                      }, // Make sure the key matches the one in the destination screen
+                                    );
                                   },
                                   icon: Icon(Icons.info)),
                             ],

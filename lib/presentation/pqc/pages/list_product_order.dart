@@ -131,7 +131,15 @@ class ListProductOrder extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.info),
                       onPressed: () {
-                        sidebarController.changePage('Thông tin lệnh sản xuất');
+                        print(item.toJson()); // Prints the Map<String, dynamic>
+
+                        sidebarController.changePageWithArguments(
+                          'Thông tin lệnh sản xuất',
+                          {
+                            'WorkOrderModel': item
+                                .toJson(), // Convert the WorkOrderModel to a Map
+                          },
+                        );
                       },
                     ): 2,
                   },

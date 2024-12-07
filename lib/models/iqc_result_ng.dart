@@ -1,6 +1,6 @@
 class IQCResultNgModel {
   int? id;
-  String? iqcReportId;
+  int? iqcReportId;
   String? iqcErrGroup;
   String? iqcErrName;
   int? quantity;

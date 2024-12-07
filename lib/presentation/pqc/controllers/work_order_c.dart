@@ -34,11 +34,13 @@ class WorkOrderController extends GetxController {
   }
 
   Future<void> searchMaterial() async {
+    await materialController.getMaterialList();
     for (var workOrder in workorderList) {
       workOrder.materials = materialController.materialList
-          .where(
-              (element) => element.productId == workOrder.productId.toString())
+          .where((element) =>
+              element.productId.toString() == workOrder.productId.toString())
           .toList();
+      print('workorder ${workOrder.id} has ${workOrder.materials?.length}');
     }
   }
 }

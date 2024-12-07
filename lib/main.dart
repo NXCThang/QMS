@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:qms_app/common/color.dart';
 import 'package:qms_app/common/helper/binding.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qms_app/firebase_options.dart';
+import 'package:qms_app/presentation/auth/pages/authentication.dart';
 import 'package:qms_app/presentation/category_manage/pages/template.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -13,6 +15,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await Hive.initFlutter();
+  await Hive.openBox('userBox');
   runApp(const MyApp());
 }
 
@@ -39,7 +43,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: const [
         Locale('vi', ''),
       ],
-      home: const MinutesPage(),
+      home: AuthenticationPage(),
     );
   }
 }

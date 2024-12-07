@@ -10,6 +10,8 @@ import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
 import 'package:qms_app/models/iqc_report.dart';
 import 'package:qms_app/models/iqc_request.dart';
 import 'package:qms_app/models/iqc_result.dart';
+import 'package:qms_app/models/material.dart';
+import 'package:qms_app/models/work_order.dart';
 import 'package:qms_app/presentation/category_manage/controllers/iqc_result_c.dart';
 import 'package:qms_app/presentation/category_manage/widgets/iqc_result_list.dart';
 import 'package:qms_app/presentation/category_manage/widgets/textfield_custom.dart';
@@ -20,18 +22,18 @@ import 'package:qms_app/presentation/iqc/widgets/conclusion.dart';
 import 'package:qms_app/presentation/iqc/widgets/iqc_result_list.dart';
 import 'package:qms_app/presentation/widgets/table_custom.dart';
 
-class MaterialReportList extends StatefulWidget {
-  MaterialReportList({
+class ProductOrderDetail extends StatefulWidget {
+  ProductOrderDetail({
     super.key,
-    required this.iqcReportModel,
+    required this.workOrderModel,
   });
 
-  final IQCReportModel iqcReportModel;
+  final WorkOrderModel workOrderModel;
   @override
-  State<MaterialReportList> createState() => _MaterialReportListState();
+  State<ProductOrderDetail> createState() => _ProductOrderDetailState();
 }
 
-class _MaterialReportListState extends State<MaterialReportList> {
+class _ProductOrderDetailState extends State<ProductOrderDetail> {
   late TextEditingController materialCodeController = TextEditingController();
   late TextEditingController materialNameController = TextEditingController();
   late TextEditingController checkDateController = TextEditingController();
@@ -41,20 +43,21 @@ class _MaterialReportListState extends State<MaterialReportList> {
 
   @override
   void initState() {
-    print(widget.iqcReportModel);
-    materialCodeController.text = widget.iqcReportModel?.materialCode ?? '';
-    materialNameController.text = widget.iqcReportModel?.materialName ?? '';
-    checkDateController.text = widget.iqcReportModel?.checkDate ?? '';
-    billNumberController.text =
-        widget.iqcReportModel?.billNumber.toString() ?? '';
-    quantityController.text = widget.iqcReportModel?.quantity.toString() ?? '';
+    print(widget.workOrderModel);
+    materialCodeController.text = widget.workOrderModel.id.toString();
+    materialNameController.text =
+        widget.workOrderModel.materials?.length.toString() ?? '';
+    // checkDateController.text = widget.iqcReportModel?.checkDate ?? '';
+    // billNumberController.text =
+    //     widget.iqcReportModel?.billNumber.toString() ?? '';
+    // quantityController.text = widget.iqcReportModel?.quantity.toString() ?? '';
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    bool isEditable =
-        widget.iqcReportModel.isActive?.toLowerCase() == 'Nháp'.toLowerCase();
+    bool isEditable = true;
+    // widget.workOrderModel.isActive?.toLowerCase() == 'Nháp'.toLowerCase();
     final appLocalizations = AppLocalizations.of(context);
     final controller = Get.find<MaterialController>();
     final iqcResultController = Get.find<IqcResultController>();
@@ -178,12 +181,12 @@ class _MaterialReportListState extends State<MaterialReportList> {
               if (isEditable)
                 InkWell(
                   onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (_) => AddErrorInfo(
-                              iqcReportId: widget.iqcReportModel?.id ?? 0,
-                              list: widget.iqcReportModel?.iqcResultNgList,
-                            ));
+                    // showDialog(
+                    //     context: context,
+                    //     builder: (_) => AddErrorInfo(
+                    //           iqcReportId: widget.workOrderModel.id ?? 0,
+                    //           list: widget.workOrderModel?.iqcResultNgList,
+                    //         ));
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -202,16 +205,43 @@ class _MaterialReportListState extends State<MaterialReportList> {
                     ),
                   ),
                 ),
-              IqcResultListTemporary(
-                enable: isEditable,
-                list: widget.iqcReportModel?.iqcResultList ?? [],
+              TableCustom(
+                title: {
+                  ItemTitleWidget(title: 'STT'): 1,
+                  ItemTitleWidget(title: 'Mã vật từ'): 3,
+                  ItemTitleWidget(title: 'Tên vật tư'): 3,
+                  ItemTitleWidget(title: 'Partnumber'): 3,
+                  ItemTitleWidget(title: 'Version'): 3,
+                  ItemTitleWidget(title: 'Định mức'): 2,
+                  ItemTitleWidget(title: 'Số lượng yêu cầu'): 2,
+                  ItemTitleWidget(title: 'Nhà cung cấp'): 2,
+                },
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: widget.workOrderModel.materials?.length ?? 0,
+                  itemBuilder: (BuildContext context, int index) {
+                    var item = widget.workOrderModel.materials?[index] ??
+                        MaterialModel();
+                    return TableCustom(
+                      color: Colors.white,
+                      title: {
+                        ItemTitleWidget(title: item.id.toString()): 1,
+                        ItemTitleWidget(title: item.materialCode.toString()): 3,
+                        ItemTitleWidget(title: item.materialName.toString()): 3,
+                        ItemTitleWidget(title: item.partNumber.toString()): 3,
+                        ItemTitleWidget(title: 'tùy chọn'): 2
+                      },
+                    );
+                  },
+                ),
               ),
               const SizedBox(
                 height: 10,
               ),
               ConclusionWidget(
                 enable: isEditable,
-                value: widget.iqcReportModel?.conclusion ?? 1,
+                value: 1,
               ),
               const SizedBox(
                 height: 10,
@@ -241,13 +271,7 @@ class _MaterialReportListState extends State<MaterialReportList> {
                   ),
                   if (isEditable)
                     InkWell(
-                      onTap: () async {
-                        await iqcReportController.updateIqcReport(
-                            IQCReportModel(
-                                id: widget.iqcReportModel.id,
-                                isActive: 'Chờ phê duyệt'));
-                        sidebarController.changePage('Danh sách yêu cầu IQC');
-                      },
+                      onTap: () async {},
                       child: Container(
                         decoration: BoxDecoration(
                             color: QMSColor.mainorange,

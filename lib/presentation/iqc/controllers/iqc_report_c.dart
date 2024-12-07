@@ -1,10 +1,12 @@
 import 'package:get/get.dart';
 import 'package:qms_app/models/iqc_report.dart';
+import 'package:qms_app/presentation/iqc/controllers/iqc_request_c.dart';
 import 'package:qms_app/services/firebase_service.dart';
 
 class IqcReportController extends GetxController {
   final RxList<IQCReportModel> iqcReportList = <IQCReportModel>[].obs;
   final RxBool isLoading = false.obs;
+  // final iqcRequestController = Get.find<IqcRequestController>();
 
   @override
   void onInit() {
@@ -20,6 +22,7 @@ class IqcReportController extends GetxController {
         fromJson: (data) => IQCReportModel.fromJson(data),
       );
       iqcReportList.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));
+      // iqcRequestController.getIQCRequestList();
     } finally {
       isLoading.value = false;
     }

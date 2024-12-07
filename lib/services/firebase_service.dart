@@ -95,6 +95,7 @@ class FirebaseService {
     required Map<String, dynamic> data, // Dữ liệu để cập nhật
   }) async {
     try {
+      print(data);
       final querySnapshot = await _firestore
           .collection('qms')
           .doc(table)

@@ -201,6 +201,7 @@ class _IqcResultListTemporaryState extends State<IqcResultListTemporary> {
             },
           ),
         ),
+      
       ],
     );
   }
@@ -234,4 +235,5 @@ class _IqcResultListTemporaryState extends State<IqcResultListTemporary> {
       ]);
     });
   }
+
 }

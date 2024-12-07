@@ -111,15 +111,6 @@ class IcSfpReports extends StatelessWidget {
                   TableCustom(
                     color: Colors.white,
                     title: {
-                      // Obx(() => CustomButton(
-                      //       text: (!controller.isShow[index]) ? '+' : '-',
-                      //       textColor: Colors.black,
-                      //       borderColor: Colors.white,
-                      //       onPressed: () {
-                      //         controller.showListProduct(index);
-                      //       },
-                      //       backgroundColor: Colors.white,
-                      //     )): 1,
                       ItemBodyWidget(title: item.criteriaName.toString()): 4,
                       ItemBodyWidget(title: item.min.toString()): 2,
                       ItemBodyWidget(
@@ -139,19 +130,12 @@ class IcSfpReports extends StatelessWidget {
                       ): 2,
                     },
                   ),
-                  // Obx(() => Visibility(
-                  //     visible: controller.isShow[index],
-                  //     child: IqcReportList(iqcReportList: item.reports!))),
                 ],
               );
             },
           ),
         ),
-        // const SizedBox(height: 10),
-        // BuildPaginationControls<IqcRequestModel>(
-        //   paginatedController: controller.paginatedController,
-        // ),
-        // const SizedBox(height: 10),
+      
       ]),
     );
   }

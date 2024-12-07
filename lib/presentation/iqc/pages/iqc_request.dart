@@ -20,6 +20,7 @@ class ListIQC extends StatelessWidget {
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
     final controller = Get.find<IqcRequestController>();
+    controller.initData();
     return Obx(() => Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -145,10 +146,10 @@ class ListIQC extends StatelessWidget {
                       ),
                       Obx(() => Visibility(
                           visible: controller.isShow[index],
-                          child: IqcReportList(iqcReportList: item.reports!))),
+                          child: IqcReportList(
+                              iqcReportList: item.reports ?? []))),
                     ],
                   );
-               
                 },
               ),
             ),
