@@ -14,4 +14,5 @@ class IconPath {
   static const String addData = 'assets/icons/add_data.svg';
   static const String arrowDown = 'assets/icons/arrow_down.svg';
   static const String addNew = 'assets/icons/add_new.svg';
+  static const String logoQMS = 'assets/images/logo_qms.png';
 }

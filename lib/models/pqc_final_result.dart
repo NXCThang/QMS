@@ -1,22 +1,23 @@
 class PQCFinalResultModel {
-  String? pqcFinalInfo;
-  String? workOrderId;
+  int? id;
+  int? workOrderId;
   String? customerName;
-  String? totalQuantity;
+  int? totalQuantity;
   String? note;
   String? requestStage;
-  String? finalResult;
+  int? finalResult;
   String? approvalPerson;
-  String? featureResult;
-  String? externalResult;
-  String? isActive;
+  int? featureResult;
+  int? externalResult;
+  int? isActive;
   String? createdAt;
   String? createdBy;
   String? updatedAt;
   String? updatedBy;
+  int? testQuantity;
 
   PQCFinalResultModel(
-      {this.pqcFinalInfo,
+      {this.id,
       this.workOrderId,
       this.customerName,
       this.totalQuantity,
@@ -30,10 +31,11 @@ class PQCFinalResultModel {
       this.createdAt,
       this.createdBy,
       this.updatedAt,
-      this.updatedBy});
+      this.updatedBy,
+      this.testQuantity});
 
   PQCFinalResultModel.fromJson(Map<String, dynamic> json) {
-    pqcFinalInfo = json['pqc_final_info'];
+    id = json['id'];
     workOrderId = json['work_order_id'];
     customerName = json['customer_name'];
     totalQuantity = json['total_quantity'];
@@ -48,25 +50,27 @@ class PQCFinalResultModel {
     createdBy = json['created_by'];
     updatedAt = json['updated_at'];
     updatedBy = json['updated_by'];
+    testQuantity = json['test_quantity'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['pqc_final_info'] = pqcFinalInfo;
-    data['work_order_id'] = workOrderId;
-    data['customer_name'] = customerName;
-    data['total_quantity'] = totalQuantity;
-    data['note'] = note;
-    data['request_stage'] = requestStage;
-    data['final_result'] = finalResult;
-    data['approval_person'] = approvalPerson;
-    data['feature_result'] = featureResult;
-    data['external_result'] = externalResult;
-    data['is_active'] = isActive;
-    data['created_at'] = createdAt;
-    data['created_by'] = createdBy;
-    data['updated_at'] = updatedAt;
-    data['updated_by'] = updatedBy;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['work_order_id'] = this.workOrderId;
+    data['customer_name'] = this.customerName;
+    data['total_quantity'] = this.totalQuantity;
+    data['note'] = this.note;
+    data['request_stage'] = this.requestStage;
+    data['final_result'] = this.finalResult;
+    data['approval_person'] = this.approvalPerson;
+    data['feature_result'] = this.featureResult;
+    data['external_result'] = this.externalResult;
+    data['is_active'] = this.isActive;
+    data['created_at'] = this.createdAt;
+    data['created_by'] = this.createdBy;
+    data['updated_at'] = this.updatedAt;
+    data['updated_by'] = this.updatedBy;
+    data['test_quantity'] = this.testQuantity;
     return data;
   }
 }

@@ -110,7 +110,8 @@ class ItemBodyWidget extends StatelessWidget {
                   fontSize: 16,
                 ),
                 textAlign: TextAlign.center,
-                overflow: TextOverflow.visible,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               ),
             ),
             if (asset != null)

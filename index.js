@@ -82,5 +82,5 @@ async function importFilesFromFolder(folderPath) {
 }
 
 // Gọi hàm importFilesFromFolder với đường dẫn đến folder chứa các file JSON
-const folderPath = 'C:/Users/Victory/Downloads/json'; // Đường dẫn đến folder chứa các file JSON
+const folderPath = 'C:/Users/Victory/Downloads/json/pqc'; // Đường dẫn đến folder chứa các file JSON
 importFilesFromFolder(folderPath).catch(console.error);

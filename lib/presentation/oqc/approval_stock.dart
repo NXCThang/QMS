@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:qms_app/common/color.dart';
+import 'package:qms_app/common/extensions/date_time_format.dart';
 import 'package:qms_app/common/icon_path.dart';
 import 'package:qms_app/presentation/pqc/controllers/work_order_c.dart';
 import 'package:qms_app/presentation/widgets/add_error.dart';
@@ -148,7 +149,8 @@ class ApprovalStock extends StatelessWidget {
                             .toString()): 2,
                     ItemBodyWidget(
                         title: controller.workorderList[index].createdAt
-                            .toString()): 2,
+                                ?.formatDateTime() ??
+                            ''): 2,
                     ItemBodyWidget(
                         title: controller.workorderList[index].isActive
                             .toString()): 2,

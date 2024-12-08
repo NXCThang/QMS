@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:qms_app/common/color.dart';
 import 'package:qms_app/common/components/build_pagination_controls.dart';
 import 'package:qms_app/common/extensions/date_time_format.dart';
+import 'package:qms_app/common/extensions/number_format.dart';
 import 'package:qms_app/common/icon_path.dart';
 import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
 import 'package:qms_app/models/work_order.dart';
@@ -127,19 +128,20 @@ class ListProductOrder extends StatelessWidget {
                     ItemBodyWidget(title: item.productName ?? ''): 4,
                     ItemBodyWidget(title: item.quantity.toString()): 2,
                     ItemBodyWidget(title: item.createdAt!.formatDateTime()): 2,
-                    ItemBodyWidget(title: item.isActive.toString()): 2,
+                    ItemBodyWidget(
+                        title: item.isActive?.formatIsActive() ?? ''): 2,
                     IconButton(
                       icon: Icon(Icons.info),
                       onPressed: () {
                         print(item.toJson()); // Prints the Map<String, dynamic>
 
                         sidebarController.changePageWithArguments(
-                          'Thông tin lệnh sản xuất',
-                          {
-                            'WorkOrderModel': item
-                                .toJson(), // Convert the WorkOrderModel to a Map
-                          },
-                        );
+                            'Thông tin lệnh sản xuất',
+                            {
+                              'WorkOrderModel': item
+                                  .toJson(), // Convert the WorkOrderModel to a Map
+                            },
+                            PQCType.productOrder);
                       },
                     ): 2,
                   },

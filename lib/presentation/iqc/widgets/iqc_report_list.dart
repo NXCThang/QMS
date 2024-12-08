@@ -5,6 +5,7 @@ import 'package:qms_app/common/color.dart';
 import 'package:qms_app/common/components/custom_button.dart';
 import 'package:qms_app/common/components/main_page.dart';
 import 'package:qms_app/common/extensions/date_time_format.dart';
+import 'package:qms_app/common/extensions/number_format.dart';
 import 'package:qms_app/common/icon_path.dart';
 import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
 import 'package:qms_app/models/iqc_report.dart';
@@ -62,7 +63,8 @@ class IqcReportList extends StatelessWidget {
                       ItemBodyWidget(title: item.quantity.toString()): 3,
                       ItemBodyWidget(
                           title: item.checkDate?.formatDateTime() ?? ''): 2,
-                      ItemBodyWidget(title: item.conclusion.toString()): 2,
+                      ItemBodyWidget(
+                          title: item.conclusion?.formatConclusion() ?? ''): 2,
                       ItemBodyWidget(title: item.isActive.toString()): 2,
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),

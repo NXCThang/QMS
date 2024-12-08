@@ -26,7 +26,6 @@ class _IqcResultListTemporaryState extends State<IqcResultListTemporary> {
     super.initState();
     _items = List.from(widget.list);
 
-    // Initialize a list of controllers for each row
     _controllers = List.generate(
       _items.length,
       (index) => [
@@ -201,7 +200,6 @@ class _IqcResultListTemporaryState extends State<IqcResultListTemporary> {
             },
           ),
         ),
-      
       ],
     );
   }
@@ -235,5 +233,4 @@ class _IqcResultListTemporaryState extends State<IqcResultListTemporary> {
       ]);
     });
   }
-
 }

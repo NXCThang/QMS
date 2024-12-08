@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
 import 'package:qms_app/models/iqc_report.dart';
+import 'package:qms_app/models/pqc_first_info.dart';
 import 'package:qms_app/models/work_order.dart';
 import 'package:qms_app/presentation/category_manage/pages/aql.dart';
 import 'package:qms_app/presentation/category_manage/pages/template.dart';
@@ -13,9 +14,11 @@ import 'package:qms_app/presentation/iqc/pages/iqc_request.dart';
 import 'package:qms_app/presentation/iqc/widgets/material_report_list.dart';
 import 'package:qms_app/presentation/oqc/approval_stock.dart';
 import 'package:qms_app/presentation/oqc/check_oqc.dart';
+import 'package:qms_app/presentation/pqc/controllers/work_order_c.dart';
 import 'package:qms_app/presentation/pqc/pages/check_quality.dart';
 import 'package:qms_app/presentation/pqc/pages/check_quality_first.dart';
 import 'package:qms_app/presentation/pqc/pages/list_product_order.dart';
+import 'package:qms_app/presentation/pqc/widgets/create_check_quality_first.dart';
 import 'package:qms_app/presentation/pqc/widgets/product_order_detail.dart';
 import 'package:qms_app/presentation/report/pages/order_completion_rate_report.dart';
 import 'package:qms_app/presentation/report/pages/production_complete_rate_report.dart';
@@ -58,17 +61,18 @@ class MainPage extends StatelessWidget {
         case SideBarOption.detailProductionOrder:
           final arguments = sidebarController.arguments ?? {};
 
-          // Get the WorkOrderModel Map from arguments
           final workOrderModelJson = arguments['WorkOrderModel'];
-
-          // Convert Map<String, dynamic> to WorkOrderModel
           final workOrderModel = workOrderModelJson != null
               ? WorkOrderModel.fromJson(
-                  Map<String, dynamic>.from(workOrderModelJson)) // Deserialize
-              : WorkOrderModel(); // Fallback to a default WorkOrderModel if null
+                  Map<String, dynamic>.from(workOrderModelJson))
+              : WorkOrderModel();
 
-          // Return the ProductOrderDetail widget with the deserialized model
-          return ProductOrderDetail(workOrderModel: workOrderModel);
+          final typeString = arguments['type'] as String?;
+          final type = typeString != null
+              ? PQCType.values.byName(typeString)
+              : PQCType.productOrder;
+
+          return ProductOrderDetail(workOrderModel: workOrderModel, type: type);
 
         case SideBarOption.materialReport:
           final arguments = sidebarController.arguments ?? {};
@@ -82,6 +86,17 @@ class MainPage extends StatelessWidget {
 
           return MaterialReportList(
             iqcReportModel: iqcReportModel,
+          );
+        case SideBarOption.createCheckQualityFirst:
+          final arguments = sidebarController.arguments ?? {};
+
+          final workOrderModelJson = arguments['WorkOrderModel'];
+          final workOrderModel = workOrderModelJson != null
+              ? WorkOrderModel.fromJson(
+                  Map<String, dynamic>.from(workOrderModelJson))
+              : WorkOrderModel();
+          return CreateCheckQualityFirst(
+            workOrderModel: workOrderModel,
           );
         default:
           return DashboardPages();

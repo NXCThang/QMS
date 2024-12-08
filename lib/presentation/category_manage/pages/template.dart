@@ -189,7 +189,17 @@ PreferredSizeWidget _appbar(BuildContext context) {
       children: [
         SizedBox(
           width: 330,
-          child: GestureDetector(onTap: () {}, child: const Text('Facenet')),
+          child: GestureDetector(
+              onTap: () {},
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    IconPath.logoQMS,
+                    height: 150,
+                  ),
+                ],
+              )),
         ),
         SvgPicture.asset(
           IconPath.menu,

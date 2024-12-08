@@ -33,7 +33,7 @@ class AuthenticationController extends GetxController {
                 backgroundColor: Colors.green,
               );
               Future.delayed(const Duration(milliseconds: 300), () {
-                Get.to(MinutesPage());
+                Get.off(MinutesPage());
               });
               return true;
             } else {
