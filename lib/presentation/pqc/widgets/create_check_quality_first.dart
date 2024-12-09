@@ -23,6 +23,8 @@ import 'package:qms_app/presentation/iqc/controllers/iqc_report_c.dart';
 import 'package:qms_app/presentation/iqc/widgets/add_error_info.dart';
 import 'package:qms_app/presentation/iqc/widgets/conclusion.dart';
 import 'package:qms_app/presentation/iqc/widgets/iqc_result_list.dart';
+import 'package:qms_app/presentation/pqc/controllers/pqc_first_info_c.dart';
+import 'package:qms_app/presentation/pqc/controllers/pqc_first_result_c.dart';
 import 'package:qms_app/presentation/pqc/controllers/work_order_c.dart';
 import 'package:qms_app/presentation/widgets/table_custom.dart';
 
@@ -44,6 +46,7 @@ class _CreateCheckQualityFirstState extends State<CreateCheckQualityFirst> {
   late TextEditingController dueDateController = TextEditingController();
   late TextEditingController quantityController = TextEditingController();
   late TextEditingController modelController = TextEditingController();
+  late TextEditingController typeController = TextEditingController();
 
   @override
   void initState() {
@@ -67,198 +70,247 @@ class _CreateCheckQualityFirstState extends State<CreateCheckQualityFirst> {
   @override
   Widget build(BuildContext context) {
     bool isEditable = true;
-
-    // widget.workOrderModel.isActive?.toLowerCase() == 'Nháp'.toLowerCase();
     final appLocalizations = AppLocalizations.of(context);
     final controller = Get.find<MaterialController>();
-    final iqcResultController = Get.find<IqcResultController>();
     final sidebarController = Get.find<SideBarController>();
     var iqcReportController = Get.find<IqcReportController>();
+    final pqcFirstInfoController = Get.find<PqcFirstInfoController>();
+    final pqcFirstResultController = Get.find<PqcFirstResultController>();
+    String? selectedType;
 
-    return Obx(() {
-      if (iqcReportController.isLoading.value) {
-        return CircularProgressIndicator(
-          color: QMSColor.mainorange,
-        );
-      } else {
-        return Scaffold(
-          body: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border:
-                  Border.all(color: Colors.black.withOpacity(0.1), width: 1),
-            ),
-            margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SingleChildScrollView(
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.black.withOpacity(0.1), width: 1),
+        ),
+        margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: SingleChildScrollView(
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 10,
+                    Text(
+                      'Khai báo thông tin kiểm tra chất lượng sản phẩm đầu',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    TextFieldCustom(
+                      width: 320,
+                      label: 'Ngày thực hiện',
+                      textcontroller: createdAtController,
+                      enabled: false,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    TextFieldCustom(
+                        width: 320,
+                        label: 'Lệnh sản xuất',
+                        textcontroller: workOrderCodeController,
+                        enabled: false),
+                    TextFieldCustom(
+                        width: 320,
+                        label: 'Model',
+                        textcontroller: modelController,
+                        enabled: isEditable),
+                    TextFieldCustom(
+                        width: 320,
+                        label: 'Số lượng kiểm tra',
+                        textcontroller: quantityController,
+                        enabled: isEditable),
+                  ],
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Khai báo thông tin kiểm tra chất lượng sản phẩm đầu',
+                          'Loại kiểm tra',
                           style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 24),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        TextFieldCustom(
-                          width: 320,
-                          label: 'Ngày thực hiện',
-                          textcontroller: createdAtController,
-                          enabled: false,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black.withOpacity(0.7),
+                          ),
                         ),
-                        TextFieldCustom(
-                            width: 320,
-                            label: 'Lệnh sản xuất',
-                            textcontroller: workOrderCodeController,
-                            enabled: false),
-                        TextFieldCustom(
-                            width: 320,
-                            label: 'Model',
-                            textcontroller: modelController,
-                            enabled: isEditable),
-                        TextFieldCustom(
-                            width: 320,
-                            label: 'Số lượng kiểm tra',
-                            textcontroller: quantityController,
-                            enabled: isEditable),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        TextFieldCustom(
-                            width: 320,
-                            label: 'Loại kiểm tra',
-                            textcontroller: quantityController,
-                            enabled: isEditable),
-                        TextFieldCustom(
-                            width: 320,
-                            label: 'Thời gian kiểm tra',
-                            textcontroller: TextEditingController(),
-                            enabled: isEditable),
-                        TextFieldCustom(
-                            width: 320,
-                            label: 'Ghi chú',
-                            textcontroller: TextEditingController(),
-                            enabled: isEditable),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Thông tin kiểm tra kết quả đo lường',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 24),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TableCustom(
-                      title: {
-                        ItemTitleWidget(title: 'STT'): 1,
-                        ItemTitleWidget(title: 'Công đoạn'): 3,
-                        ItemTitleWidget(title: 'Hạng mục kiểm tra'): 3,
-                        ItemTitleWidget(title: 'Nội dung'): 3,
-                        ItemTitleWidget(title: 'Tiêu chuẩn'): 2,
-                        ItemTitleWidget(title: 'Phương pháp'): 2,
-                        ItemTitleWidget(title: 'Đánh giá'): 2,
-                        ItemTitleWidget(title: 'Ghi chú'): 2,
-                        ItemTitleWidget(title: 'Thao tác'): 2,
-                      },
-                    ),
-                    // SizedBox(
-                    //   height: 100 + items.length * 50.0,
-                    //   child: ListView.builder(
-                    //     itemCount: items.length,
-                    //     itemBuilder: (BuildContext context, int index) {
-                    //       var item = items[index];
-                    //       return TableCustom(
-                    //         color: Colors.white,
-                    //         title: {
-                    //           ItemBodyWidget(title: item.id.toString()): 1,
-                    //           ItemBodyWidget(
-                    //               title: item.materialCode.toString()): 3,
-                    //           ItemBodyWidget(
-                    //               title: item.materialName.toString()): 3,
-                    //           ItemBodyWidget(title: item.partNumber.toString()):
-                    //               3,
-                    //           ItemBodyWidget(title: item.quantity.toString()):
-                    //               2,
-                    //           ItemBodyWidget(title: item.provider.toString()):
-                    //               2,
-                    //         },
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Thông tin kiểm tra kết quả đo lường',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 24),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            sidebarController
-                                .changePage('Danh sách lệnh sản xuất');
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: QMSColor.mainorange,
-                                border: Border.all(
-                                    color: Colors.black.withOpacity(0.1),
-                                    width: 1),
-                                borderRadius: BorderRadius.circular(2)),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            child: const Text(
-                              'Trở lại',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 18,
-                              ),
-                            ),
+                        Container(
+                          width: 320,
+                          height: 32,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.black.withOpacity(0.5), width: 1),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          // margin: const EdgeInsets.symmetric(
+                          //     horizontal: 50, vertical: 4),
+                          // padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            underline: SizedBox.shrink(),
+                            value: pqcFirstInfoController.pqcFirstInfoList
+                                    .map((e) => e.type)
+                                    .contains(typeController.text)
+                                ? typeController.text
+                                : null, // Use the actual value or null
+                            hint: const Text('Chọn Nhóm Lỗi'),
+                            items: pqcFirstInfoController.pqcFirstInfoList
+                                .map((e) => e.type)
+                                .where((type) =>
+                                    type != null) // Filter out null values
+                                .toSet()
+                                .map((type) => DropdownMenuItem<String>(
+                                      value: type,
+                                      child: Text(type ?? ''),
+                                    ))
+                                .toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                typeController.text = value ?? '';
+                              });
+                            },
                           ),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: 10,
+                      width: 20,
                     ),
-                  ]),
-            ),
-          ),
-        );
-      }
-    });
+                    TextFieldCustom(
+                        width: 320,
+                        label: 'Thời gian kiểm tra',
+                        textcontroller: TextEditingController(),
+                        enabled: isEditable),
+                    TextFieldCustom(
+                        width: 320,
+                        label: 'Ghi chú',
+                        textcontroller: TextEditingController(),
+                        enabled: isEditable),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Thông tin kiểm tra kết quả đo lường',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TableCustom(
+                  title: {
+                    ItemTitleWidget(title: 'STT'): 1,
+                    ItemTitleWidget(title: 'Công đoạn'): 3,
+                    ItemTitleWidget(title: 'Nội dung'): 3,
+                    ItemTitleWidget(title: 'Tiêu chuẩn'): 2,
+                    ItemTitleWidget(title: 'Phương pháp'): 2,
+                    ItemTitleWidget(title: 'Đánh giá'): 2,
+                    ItemTitleWidget(title: 'Thao tác'): 2,
+                  },
+                ),
+                SizedBox(
+                  height: 100 +
+                      pqcFirstResultController.pqcFirstResultList.length * 50.0,
+                  child: ListView.builder(
+                    itemCount:
+                        pqcFirstResultController.pqcFirstResultList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var item =
+                          pqcFirstResultController.pqcFirstResultList[index];
+                      var stt = index + 1;
+                      return TableCustom(
+                        color: Colors.white,
+                        title: {
+                          ItemBodyWidget(title: stt.toString()): 1,
+                          ItemBodyWidget(title: item.stageName.toString()): 3,
+                          ItemBodyWidget(title: item.content.toString()): 3,
+                          ItemBodyWidget(title: item.standard.toString()): 2,
+                          ItemBodyWidget(title: item.method.toString()): 2,
+                          ItemBodyWidget(
+                              title:
+                                  item.conclusion?.formatConclusion() ?? ''): 2,
+                          InkWell(
+                            onTap: () {},
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                              size: 24,
+                            ),
+                          ): 2
+                        },
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Thông tin kiểm tra kết quả đo lường',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        sidebarController.changePage('Danh sách lệnh sản xuất');
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: QMSColor.mainorange,
+                            border: Border.all(
+                                color: Colors.black.withOpacity(0.1), width: 1),
+                            borderRadius: BorderRadius.circular(2)),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        child: const Text(
+                          'Trở lại',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+              ]),
+        ),
+      ),
+    );
   }
 }
 

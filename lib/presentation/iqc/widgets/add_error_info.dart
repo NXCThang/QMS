@@ -190,6 +190,7 @@ class _AddErrorInfoState extends State<AddErrorInfo> {
                                 });
                               },
                             )): 3,
+                        
                         Container(
                             height: 36,
                             decoration: BoxDecoration(

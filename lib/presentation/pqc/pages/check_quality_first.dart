@@ -130,17 +130,35 @@ class CheckQualityFirst extends StatelessWidget {
                         title: item.createdAt?.formatDateTime() ?? ''): 2,
                     ItemBodyWidget(
                         title: item.isActive?.formatIsActive() ?? ''): 2,
-                    IconButton(
-                      icon: Icon(Icons.info),
-                      onPressed: () {
-                        print(item.toJson()); // Prints the Map<String, dynamic>
-                        sidebarController.changePageWithArguments(
-                            'Thông tin lệnh sản xuất',
-                            {
-                              'WorkOrderModel': item.toJson(),
-                            },
-                            PQCType.checkQuanlityFirst);
-                      },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.info),
+                          onPressed: () {
+                            print(item
+                                .toJson()); // Prints the Map<String, dynamic>
+                            sidebarController.changePageWithArguments(
+                                'Thông tin lệnh sản xuất',
+                                {
+                                  'WorkOrderModel': item.toJson(),
+                                },
+                                PQCType.productOrder);
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.folder_open),
+                          onPressed: () {
+                            print(item.toJson());
+                            sidebarController.changePageWithArguments(
+                                'Thông tin lệnh sản xuất',
+                                {
+                                  'WorkOrderModel': item.toJson(),
+                                },
+                                PQCType.checkQuanlityFirst);
+                          },
+                        )
+                      ],
                     ): 2,
                   },
                 );

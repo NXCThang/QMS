@@ -1,14 +1,14 @@
-class PQCFirstResult {
-  String? id;
-  String? pqcFirstInfoId;
+class PQCFirstResultModel {
+  int? id;
+  int? pqcFirstInfoId;
   String? stageName;
   String? content;
   String? standard;
   String? method;
-  String? conclusion;
-  String? isActive;
+  num? conclusion;
+  num? isActive;
 
-  PQCFirstResult(
+  PQCFirstResultModel(
       {this.id,
       this.pqcFirstInfoId,
       this.stageName,
@@ -18,7 +18,7 @@ class PQCFirstResult {
       this.conclusion,
       this.isActive});
 
-  PQCFirstResult.fromJson(Map<String, dynamic> json) {
+  PQCFirstResultModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     pqcFirstInfoId = json['pqc_first_info_id'];
     stageName = json['stage_name'];
