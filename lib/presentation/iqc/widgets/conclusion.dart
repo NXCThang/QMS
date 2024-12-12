@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:qms_app/common/color.dart';
 
 class ConclusionWidget extends StatefulWidget {
-  ConclusionWidget({super.key, required this.value, this.enable = true});
-  final int value;
+  ConclusionWidget({super.key, this.value, this.enable = true, this.onChanged});
+  int? value;
   bool? enable;
+  final Function(int?)? onChanged;
+
   @override
   _ConclusionWidgetState createState() => _ConclusionWidgetState();
 }
@@ -15,7 +17,11 @@ class _ConclusionWidgetState extends State<ConclusionWidget> {
   @override
   void initState() {
     super.initState();
-    _selectedValue = (widget.value == 1) ? 'Đạt' : 'Không đạt';
+    _selectedValue = widget.value == 1
+        ? 'Đạt'
+        : widget.value == 0
+            ? 'Không đạt'
+            : null;
   }
 
   @override
@@ -51,6 +57,7 @@ class _ConclusionWidgetState extends State<ConclusionWidget> {
                         ? (value) {
                             setState(() {
                               _selectedValue = value;
+                              widget.onChanged?.call(value == 'Đạt' ? 1 : 0);
                             });
                           }
                         : null,
@@ -69,6 +76,8 @@ class _ConclusionWidgetState extends State<ConclusionWidget> {
                         ? (value) {
                             setState(() {
                               _selectedValue = value;
+                              widget.onChanged
+                                  ?.call(value == 'Không đạt' ? 0 : 1);
                             });
                           }
                         : null,

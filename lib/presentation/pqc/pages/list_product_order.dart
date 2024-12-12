@@ -55,54 +55,6 @@ class ListProductOrder extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Danh sách yêu cầu IQC(10)',
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
-              ),
-              const Spacer(),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) => const AddError(
-                                error: 'Thêm mới',
-                              ));
-                    },
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          IconPath.addNew,
-                          width: 18,
-                          height: 18,
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        const Text(
-                          'Thêm mới',
-                          style: TextStyle(
-                              color: QMSColor.mainorange,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 0,
-          ),
           TableCustom(
             title: {
               ItemTitleWidget(title: 'Mã lệnh sản xuất'): 2,

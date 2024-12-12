@@ -11,7 +11,7 @@ import 'package:qms_app/presentation/controllers/material_c.dart';
 import 'package:qms_app/presentation/controllers/oqc_info_c.dart';
 import 'package:qms_app/presentation/controllers/oqc_result_c.dart';
 import 'package:qms_app/presentation/pqc/controllers/pqc_final_result_c.dart';
-import 'package:qms_app/presentation/controllers/pqc_first_problem_c.dart';
+import 'package:qms_app/presentation/pqc/controllers/pqc_first_problem_c.dart';
 import 'package:qms_app/presentation/pqc/controllers/pqc_first_result_c.dart';
 import 'package:qms_app/presentation/controllers/product_c.dart';
 import 'package:qms_app/presentation/controllers/sell_order_c.dart';

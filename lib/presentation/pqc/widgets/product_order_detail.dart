@@ -119,18 +119,18 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                           width: 320,
                           label: 'Mã sản phẩm',
                           textcontroller: productCodeController,
-                          enabled: isEditable,
+                          enabled: false,
                         ),
                         TextFieldCustom(
                             width: 320,
                             label: 'Tên sản phẩm',
                             textcontroller: productNameController,
-                            enabled: isEditable),
+                            enabled: false),
                         TextFieldCustom(
                             width: 320,
                             label: 'Version',
                             textcontroller: TextEditingController(),
-                            enabled: isEditable),
+                            enabled: false),
                       ],
                     ),
                     Row(
@@ -139,17 +139,17 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                             width: 320,
                             label: 'Mã lệnh sản xuất',
                             textcontroller: workOrderCodeController,
-                            enabled: isEditable),
+                            enabled: false),
                         TextFieldCustom(
                             width: 320,
                             label: 'Số lượng sản xuất',
                             textcontroller: quantityController,
-                            enabled: isEditable),
+                            enabled: false),
                         TextFieldCustom(
                             width: 320,
                             label: 'Mã đơn hàng',
                             textcontroller: TextEditingController(),
-                            enabled: isEditable),
+                            enabled: false),
                       ],
                     ),
                     const SizedBox(
@@ -157,65 +157,13 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                     ),
                     if (widget.type == PQCType.productOrder)
                       _material(items: widget.workOrderModel.materials ?? []),
-                    // Container(
-                    //   child: Column(
-                    //     children: [
-                    //       Row(
-                    //         mainAxisAlignment: MainAxisAlignment.start,
-                    //         children: [
-                    //           Text(
-                    //             'Thông tin lệnh sản xuất',
-                    //             style: TextStyle(
-                    //                 fontWeight: FontWeight.w600, fontSize: 24),
-                    //           )
-                    //         ],
-                    //       ),
-                    //       const SizedBox(
-                    //         height: 10,
-                    //       ),
-                    //       TableCustom(
-                    //         title: {
-                    //           ItemTitleWidget(title: 'STT'): 1,
-                    //           ItemTitleWidget(title: 'Mã vật từ'): 3,
-                    //           ItemTitleWidget(title: 'Tên vật tư'): 3,
-                    //           ItemTitleWidget(title: 'Partnumber'): 3,
-                    //           ItemTitleWidget(title: 'Version'): 3,
-                    //           ItemTitleWidget(title: 'Định mức'): 2,
-                    //           ItemTitleWidget(title: 'Số lượng yêu cầu'): 2,
-                    //           ItemTitleWidget(title: 'Nhà cung cấp'): 2,
-                    //         },
-                    //       ),
-                    //       // Expanded(
-                    //       //   child: ListView.builder(
-                    //       //     itemCount: widget.workOrderModel.materials?.length ?? 0,
-                    //       //     itemBuilder: (BuildContext context, int index) {
-                    //       //       var item = widget.workOrderModel.materials?[index] ??
-                    //       //           MaterialModel();
-                    //       //       return TableCustom(
-                    //       //         color: Colors.white,
-                    //       //         title: {
-                    //       //           ItemTitleWidget(title: item.id.toString()): 1,
-                    //       //           ItemTitleWidget(
-                    //       //               title: item.materialCode.toString()): 3,
-                    //       //           ItemTitleWidget(
-                    //       //               title: item.materialName.toString()): 3,
-                    //       //           ItemTitleWidget(
-                    //       //               title: item.partNumber.toString()): 3,
-                    //       //           ItemTitleWidget(title: ''): 3,
-                    //       //         },
-                    //       //       );
-                    //       //     },
-                    //       //   ),
-                    //       // ),
-                    //     ],
-                    //   ),
-                    // ),
                     if (widget.type == PQCType.checkQuanlityFirst)
                       _checkQualityFirst(
                           items: widget.workOrderModel.pqcFirstInfos ?? []),
                     if (widget.type == PQCType.checkQuality)
                       _checkQuality(
-                          items: widget.workOrderModel.pqcFinalResults ?? []),
+                          items: widget.workOrderModel.pqcFinalResults ?? [],
+                          workOrderModel: widget.workOrderModel),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -343,7 +291,31 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                   ItemBodyWidget(
                       title: item.conclusion?.formatConclusion() ?? ''): 2,
                   ItemBodyWidget(title: item.note.toString()): 2,
-                  ItemBodyWidget(title: ''): 2,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            sidebarController.changePageWithArguments(
+                              'Khai báo thông tin kiểm tra chất lượng sản phẩm đầu',
+                              {
+                                'WorkOrderModel':
+                                    widget.workOrderModel.toJson(),
+                              },
+                            );
+                          },
+                          icon: Icon(
+                            Icons.info,
+                            color: QMSColor.mainorange,
+                          )),
+                      IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.delete_outline,
+                            color: Colors.red,
+                          )),
+                    ],
+                  ): 2,
                 },
               );
             },
@@ -409,7 +381,10 @@ Widget _material({required List<MaterialModel> items}) {
   );
 }
 
-Widget _checkQuality({required List<PQCFinalResultModel> items}) {
+Widget _checkQuality(
+    {required List<PQCFinalResultModel> items,
+    required WorkOrderModel workOrderModel}) {
+  var sidebarController = Get.find<SideBarController>();
   return Column(
     children: [
       Row(
@@ -427,11 +402,12 @@ Widget _checkQuality({required List<PQCFinalResultModel> items}) {
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  // showDialog(
-                  //     context: context,
-                  //     builder: (_) => AddAql(
-                  //           create: true,
-                  //         ));
+                  sidebarController.changePageWithArguments(
+                    'Thêm mới thông tin yêu cầu (Thông tin sản xuất)',
+                    {
+                      'WorkOrderModel': workOrderModel.toJson(),
+                    },
+                  );
                 },
                 child: Row(
                   children: [
@@ -444,7 +420,7 @@ Widget _checkQuality({required List<PQCFinalResultModel> items}) {
                       width: 8,
                     ),
                     const Text(
-                      'Khai báo thông tin kiểm tra',
+                      'Thêm mới yêu cầu kiểm tra',
                       style: TextStyle(
                           color: QMSColor.mainorange,
                           fontSize: 18,
@@ -488,7 +464,23 @@ Widget _checkQuality({required List<PQCFinalResultModel> items}) {
                 ItemBodyWidget(title: item.totalQuantity.toString()): 2,
                 ItemBodyWidget(title: item.requestStage.toString()): 2,
                 ItemBodyWidget(title: item.note.toString()): 2,
-                ItemBodyWidget(title: ''): 2,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.info,
+                          color: QMSColor.mainorange,
+                        )),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.delete_outline,
+                          color: Colors.red,
+                        )),
+                  ],
+                ): 2,
               },
             );
           },

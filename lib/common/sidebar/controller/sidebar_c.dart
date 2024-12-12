@@ -32,7 +32,8 @@ enum SideBarOption {
   detailProductionOrder('Thông tin lệnh sản xuất'),
   materialReport('Danh sách biên bản NVL'),
   createCheckQualityFirst(
-      'Khai báo thông tin kiểm tra chất lượng sản phẩm đầu');
+      'Khai báo thông tin kiểm tra chất lượng sản phẩm đầu'),
+  createNewEntry('Thêm mới thông tin yêu cầu (Thông tin sản xuất)');
 
   final String value;
 

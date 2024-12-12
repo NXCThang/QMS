@@ -19,6 +19,7 @@ import 'package:qms_app/presentation/pqc/pages/check_quality.dart';
 import 'package:qms_app/presentation/pqc/pages/check_quality_first.dart';
 import 'package:qms_app/presentation/pqc/pages/list_product_order.dart';
 import 'package:qms_app/presentation/pqc/widgets/create_check_quality_first.dart';
+import 'package:qms_app/presentation/pqc/widgets/create_new_entry.dart';
 import 'package:qms_app/presentation/pqc/widgets/product_order_detail.dart';
 import 'package:qms_app/presentation/report/pages/order_completion_rate_report.dart';
 import 'package:qms_app/presentation/report/pages/production_complete_rate_report.dart';
@@ -96,6 +97,17 @@ class MainPage extends StatelessWidget {
                   Map<String, dynamic>.from(workOrderModelJson))
               : WorkOrderModel();
           return CreateCheckQualityFirst(
+            workOrderModel: workOrderModel,
+          );
+        case SideBarOption.createNewEntry:
+          final arguments = sidebarController.arguments ?? {};
+
+          final workOrderModelJson = arguments['WorkOrderModel'];
+          final workOrderModel = workOrderModelJson != null
+              ? WorkOrderModel.fromJson(
+                  Map<String, dynamic>.from(workOrderModelJson))
+              : WorkOrderModel();
+          return CreateNewEntry(
             workOrderModel: workOrderModel,
           );
         default:

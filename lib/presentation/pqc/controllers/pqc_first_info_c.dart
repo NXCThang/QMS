@@ -25,6 +25,14 @@ class PqcFirstInfoController extends GetxController {
     }
   }
 
+  Future<void> addPQCFirstInfo(PQCFirstInfoModel info) async {
+    await FirebaseService().addItem(
+        table: 'pqc_first_info',
+        documentId: (pqcFirstInfoList.length + 1).toString(),
+        data: info.toJson());
+    getPQCFirstInfoList();
+  }
+
   Future<void> updatePQCFirstInfo(PQCFirstInfoModel pqcFirstInfo) async {
     try {
       isLoading.value = true;

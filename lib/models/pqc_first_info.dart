@@ -48,21 +48,21 @@ class PQCFirstInfoModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['work_order_id'] = this.workOrderId;
-    data['model'] = this.model;
-    data['note'] = this.note;
-    data['conclusion'] = this.conclusion;
-    data['created_at'] = this.createdAt;
-    data['created_by'] = this.createdBy;
-    data['updated_at'] = this.updatedAt;
-    data['updated_by'] = this.updatedBy;
-    data['is_active'] = this.isActive;
-    data['qc_leader_name'] = this.qcLeaderName;
-    data['pqc_name'] = this.pqcName;
-    data['quantity'] = this.quantity;
-    data['type'] = this.type;
+    final Map<String, dynamic> data = {};
+    if (id != null) data['id'] = id;
+    if (workOrderId != null) data['work_order_id'] = workOrderId;
+    if (model != null) data['model'] = model;
+    if (note != null) data['note'] = note;
+    if (conclusion != null) data['conclusion'] = conclusion;
+    if (createdAt != null) data['created_at'] = createdAt;
+    if (createdBy != null) data['created_by'] = createdBy;
+    if (updatedAt != null) data['updated_at'] = updatedAt;
+    if (updatedBy != null) data['updated_by'] = updatedBy;
+    if (isActive != null) data['is_active'] = isActive;
+    if (qcLeaderName != null) data['qc_leader_name'] = qcLeaderName;
+    if (pqcName != null) data['pqc_name'] = pqcName;
+    if (quantity != null) data['quantity'] = quantity;
+    if (type != null) data['type'] = type;
     return data;
   }
 }

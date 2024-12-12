@@ -40,6 +40,19 @@ class PqcFinalResultController extends GetxController {
     }
   }
 
+  Future<void> addPQCFinalResult(PQCFinalResultModel result) async {
+    try {
+      isLoading.value = true;
+      await FirebaseService().addItem(
+          table: 'pqc_final_result',
+          documentId: (pqcFinalResultList.length + 1).toString(),
+          data: result.toJson());
+      await getpqcFinalResultList();
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> deletePQCFirstInfo(int id) async {
     try {
       isLoading.value = true;

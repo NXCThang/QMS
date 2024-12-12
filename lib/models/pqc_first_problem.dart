@@ -1,9 +1,9 @@
 class PQCFirstProblemModel {
-  String? id;
+  int? id;
   String? checkDate;
   String? problem;
   String? solution;
-  String? pqcFirstInfoId;
+  int? pqcFirstInfoId;
 
   PQCFirstProblemModel(
       {this.id,
