@@ -1,4 +1,5 @@
 import 'package:qms_app/models/material.dart';
+import 'package:qms_app/models/oqc_info.dart';
 import 'package:qms_app/models/pqc_final_result.dart';
 import 'package:qms_app/models/pqc_first_info.dart';
 
@@ -13,12 +14,13 @@ class WorkOrderModel {
   String? startDate;
   String? dueDate;
   String? note;
-  int? isActive;
+  num? isActive;
   int? updatedAt;
   int? updatedBy;
   List<MaterialModel>? materials;
   List<PQCFirstInfoModel>? pqcFirstInfos;
   List<PQCFinalResultModel>? pqcFinalResults;
+  List<OQCInfoModel>? oqcInfos;
 
   WorkOrderModel(
       {this.id,
@@ -36,7 +38,8 @@ class WorkOrderModel {
       this.updatedBy,
       this.materials,
       this.pqcFirstInfos,
-      this.pqcFinalResults});
+      this.pqcFinalResults,
+      this.oqcInfos});
 
   WorkOrderModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -70,6 +73,12 @@ class WorkOrderModel {
         pqcFinalResults!.add(PQCFinalResultModel.fromJson(v));
       });
     }
+    if (json['oqcInfos'] != null) {
+      oqcInfos = <OQCInfoModel>[];
+      json['oqcInfos'].forEach((v) {
+        oqcInfos!.add(OQCInfoModel.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -94,6 +103,7 @@ class WorkOrderModel {
     data['pqcFinalResults'] = pqcFinalResults
         ?.map((pqcFinalResult) => pqcFinalResult.toJson())
         .toList();
+    data['oqcInfos'] = oqcInfos?.map((oqcInfo) => oqcInfo.toJson()).toList();
     return data;
   }
 }

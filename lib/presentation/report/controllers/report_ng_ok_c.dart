@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 import 'package:qms_app/common/components/paginated_c.dart';
 import 'package:qms_app/models/oqc_info.dart';
 import 'package:qms_app/models/oqc_result.dart';
-import 'package:qms_app/presentation/controllers/oqc_info_c.dart';
-import 'package:qms_app/presentation/controllers/oqc_result_c.dart';
+import 'package:qms_app/presentation/oqc/controllers/oqc_info_c.dart';
+import 'package:qms_app/presentation/oqc/controllers/oqc_result_c.dart';
 import 'package:qms_app/presentation/pqc/controllers/work_order_c.dart';
 import 'package:qms_app/presentation/report/model/report_ng_ok.dart';
 

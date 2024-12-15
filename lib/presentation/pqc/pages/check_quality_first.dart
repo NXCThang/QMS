@@ -95,7 +95,7 @@ class CheckQualityFirst extends StatelessWidget {
                                 {
                                   'WorkOrderModel': item.toJson(),
                                 },
-                                PQCType.productOrder);
+                                WorkOrderType.productOrder);
                           },
                         ),
                         IconButton(
@@ -107,7 +107,7 @@ class CheckQualityFirst extends StatelessWidget {
                                 {
                                   'WorkOrderModel': item.toJson(),
                                 },
-                                PQCType.checkQuanlityFirst);
+                                WorkOrderType.checkQuanlityFirst);
                           },
                         )
                       ],

@@ -12,8 +12,9 @@ import 'package:qms_app/presentation/databoard/pages/dashboard_page.dart';
 import 'package:qms_app/presentation/iqc/pages/approve_inspection_records.dart';
 import 'package:qms_app/presentation/iqc/pages/iqc_request.dart';
 import 'package:qms_app/presentation/iqc/widgets/material_report_list.dart';
-import 'package:qms_app/presentation/oqc/approval_stock.dart';
-import 'package:qms_app/presentation/oqc/check_oqc.dart';
+import 'package:qms_app/presentation/oqc/pages/approval_stock.dart';
+import 'package:qms_app/presentation/oqc/pages/check_oqc.dart';
+import 'package:qms_app/presentation/oqc/widgets/create_check_oqc.dart';
 import 'package:qms_app/presentation/pqc/controllers/work_order_c.dart';
 import 'package:qms_app/presentation/pqc/pages/check_quality.dart';
 import 'package:qms_app/presentation/pqc/pages/check_quality_first.dart';
@@ -70,8 +71,8 @@ class MainPage extends StatelessWidget {
 
           final typeString = arguments['type'] as String?;
           final type = typeString != null
-              ? PQCType.values.byName(typeString)
-              : PQCType.productOrder;
+              ? WorkOrderType.values.byName(typeString)
+              : WorkOrderType.productOrder;
 
           return ProductOrderDetail(workOrderModel: workOrderModel, type: type);
 
@@ -108,6 +109,17 @@ class MainPage extends StatelessWidget {
                   Map<String, dynamic>.from(workOrderModelJson))
               : WorkOrderModel();
           return CreateNewEntry(
+            workOrderModel: workOrderModel,
+          );
+        case SideBarOption.createCheckOQC:
+          final arguments = sidebarController.arguments ?? {};
+
+          final workOrderModelJson = arguments['WorkOrderModel'];
+          final workOrderModel = workOrderModelJson != null
+              ? WorkOrderModel.fromJson(
+                  Map<String, dynamic>.from(workOrderModelJson))
+              : WorkOrderModel();
+          return CreateCheckOqc(
             workOrderModel: workOrderModel,
           );
         default:

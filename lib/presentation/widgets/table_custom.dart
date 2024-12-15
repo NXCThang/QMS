@@ -65,6 +65,7 @@ class ItemTitleWidget extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
+              maxLines: 2,
             ),
           ),
           if (asset != null)

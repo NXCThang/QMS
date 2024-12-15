@@ -3,11 +3,12 @@ import 'package:qms_app/common/components/paginated_c.dart';
 import 'package:qms_app/models/pqc_first_info.dart';
 import 'package:qms_app/models/work_order.dart';
 import 'package:qms_app/presentation/controllers/material_c.dart';
+import 'package:qms_app/presentation/oqc/controllers/oqc_info_c.dart';
 import 'package:qms_app/presentation/pqc/controllers/pqc_final_result_c.dart';
 import 'package:qms_app/presentation/pqc/controllers/pqc_first_info_c.dart';
 import 'package:qms_app/services/firebase_service.dart';
 
-enum PQCType { productOrder, checkQuanlityFirst, checkQuality }
+enum WorkOrderType { productOrder, checkQuanlityFirst, checkQuality, checkOQC }
 
 class WorkOrderController extends GetxController {
   final RxList<WorkOrderModel> workorderList = <WorkOrderModel>[].obs;
@@ -18,6 +19,7 @@ class WorkOrderController extends GetxController {
   final materialController = Get.find<MaterialController>();
   final pqcFirstInfoController = Get.find<PqcFirstInfoController>();
   final pqcFinalResultController = Get.find<PqcFinalResultController>();
+  final oqcInfoController = Get.find<OqcInfoController>();
 
   @override
   void onInit() {
@@ -36,6 +38,7 @@ class WorkOrderController extends GetxController {
       await searchMaterial();
       await searchPQCFirstInfo();
       await searchPQCFinalResult();
+      await searchOQCInfo();
       paginatedController.setList(workorderList);
     } finally {
       isLoading.value = false;
@@ -72,6 +75,17 @@ class WorkOrderController extends GetxController {
           .toList();
       print(
           'workorder ${workOrder.id} has pqcFinalResult ${workOrder.pqcFinalResults?.length}');
+    }
+  }
+
+  Future<void> searchOQCInfo() async {
+    await oqcInfoController.getOqcInfoList();
+    for (var workOrder in workorderList) {
+      workOrder.oqcInfos = oqcInfoController.oqcInfoList
+          .where((element) => element.workOrderId == workOrder.id)
+          .toList();
+      print(
+          'workorder ${workOrder.id} has oqcInfo ${workOrder.pqcFinalResults?.length}');
     }
   }
 }

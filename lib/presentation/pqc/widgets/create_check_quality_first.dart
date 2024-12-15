@@ -284,7 +284,7 @@ class _CreateCheckQualityFirstState extends State<CreateCheckQualityFirst> {
                             {
                               'WorkOrderModel': widget.workOrderModel.toJson(),
                             },
-                            PQCType.checkQuanlityFirst);
+                            WorkOrderType.checkQuanlityFirst);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -362,7 +362,7 @@ class _CreateCheckQualityFirstState extends State<CreateCheckQualityFirst> {
                             {
                               'WorkOrderModel': widget.workOrderModel.toJson(),
                             },
-                            PQCType.checkQuanlityFirst);
+                            WorkOrderType.checkQuanlityFirst);
                       },
                       child: Container(
                         decoration: BoxDecoration(

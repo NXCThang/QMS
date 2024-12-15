@@ -12,6 +12,7 @@ import 'package:qms_app/models/iqc_report.dart';
 import 'package:qms_app/models/iqc_request.dart';
 import 'package:qms_app/models/iqc_result.dart';
 import 'package:qms_app/models/material.dart';
+import 'package:qms_app/models/oqc_info.dart';
 import 'package:qms_app/models/pqc_final_result.dart';
 import 'package:qms_app/models/pqc_first_info.dart';
 import 'package:qms_app/models/work_order.dart';
@@ -30,7 +31,7 @@ class ProductOrderDetail extends StatefulWidget {
   ProductOrderDetail(
       {super.key, required this.workOrderModel, required this.type});
 
-  final PQCType type;
+  final WorkOrderType type;
   final WorkOrderModel workOrderModel;
   @override
   State<ProductOrderDetail> createState() => _ProductOrderDetailState();
@@ -155,14 +156,18 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                     const SizedBox(
                       height: 10,
                     ),
-                    if (widget.type == PQCType.productOrder)
+                    if (widget.type == WorkOrderType.productOrder)
                       _material(items: widget.workOrderModel.materials ?? []),
-                    if (widget.type == PQCType.checkQuanlityFirst)
+                    if (widget.type == WorkOrderType.checkQuanlityFirst)
                       _checkQualityFirst(
                           items: widget.workOrderModel.pqcFirstInfos ?? []),
-                    if (widget.type == PQCType.checkQuality)
+                    if (widget.type == WorkOrderType.checkQuality)
                       _checkQuality(
                           items: widget.workOrderModel.pqcFinalResults ?? [],
+                          workOrderModel: widget.workOrderModel),
+                    if (widget.type == WorkOrderType.checkOQC)
+                      _checkQualityOQC(
+                          items: widget.workOrderModel.oqcInfos ?? [],
                           workOrderModel: widget.workOrderModel),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -464,6 +469,122 @@ Widget _checkQuality(
                 ItemBodyWidget(title: item.totalQuantity.toString()): 2,
                 ItemBodyWidget(title: item.requestStage.toString()): 2,
                 ItemBodyWidget(title: item.note.toString()): 2,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.info,
+                          color: QMSColor.mainorange,
+                        )),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.delete_outline,
+                          color: Colors.red,
+                        )),
+                  ],
+                ): 2,
+              },
+            );
+          },
+        ),
+      ),
+      const SizedBox(
+        height: 10,
+      ),
+    ],
+  );
+}
+
+Widget _checkQualityOQC(
+    {required List<OQCInfoModel> items,
+    required WorkOrderModel workOrderModel}) {
+  var sidebarController = Get.find<SideBarController>();
+  return Column(
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            'Thông tin kiểm tra chất lượng sản phẩm OQC',
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+          ),
+          const Spacer(),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.all(0),
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  sidebarController.changePageWithArguments(
+                    'Khai báo thông tin kiểm tra chất lượng công đoạn OQC',
+                    {
+                      'WorkOrderModel': workOrderModel.toJson(),
+                    },
+                  );
+                },
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      IconPath.addNew,
+                      width: 18,
+                      height: 18,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    const Text(
+                      'Khai báo kết quả kiểm tra',
+                      style: TextStyle(
+                          color: QMSColor.mainorange,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(
+        height: 10,
+      ),
+      TableCustom(
+        title: {
+          ItemTitleWidget(title: 'STT'): 1,
+          ItemTitleWidget(title: 'Ngày thực hiện'): 3,
+          ItemTitleWidget(title: 'Model'): 2,
+          ItemTitleWidget(title: 'Kế hoạch'): 2,
+          ItemTitleWidget(title: 'PO số lượng'): 2,
+          ItemTitleWidget(title: 'Ghi chú'): 2,
+          ItemTitleWidget(title: 'Lí do từ chối'): 2,
+          ItemTitleWidget(title: 'Trạng thái'): 2,
+          ItemTitleWidget(title: 'Thao tác'): 2,
+        },
+      ),
+      SizedBox(
+        height: 100 + items.length * 50.0,
+        child: ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (BuildContext context, int index) {
+            var item = items[index];
+            var stt = index + 1;
+            return TableCustom(
+              color: Colors.white,
+              title: {
+                ItemBodyWidget(title: stt.toString()): 1,
+                ItemBodyWidget(title: item.createdAt?.formatDateTime() ?? ''):
+                    3,
+                ItemBodyWidget(title: item.model.toString()): 2,
+                ItemBodyWidget(title: 'Kh'): 2,
+                ItemBodyWidget(title: item.quantity.toString()): 2,
+                ItemBodyWidget(title: item.note.toString()): 2,
+                ItemBodyWidget(title: 'Lí do'): 2,
+                ItemBodyWidget(title: item.status.toString()): 2,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

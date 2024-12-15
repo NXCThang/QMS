@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:qms_app/common/color.dart';
-import 'package:qms_app/presentation/controllers/oqc_result_c.dart';
+import 'package:qms_app/presentation/oqc/controllers/oqc_result_c.dart';
 
 class DashboardPages extends StatelessWidget {
   DashboardPages({super.key});

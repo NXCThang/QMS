@@ -118,7 +118,7 @@ class CheckQuality extends StatelessWidget {
                                 {
                                   'WorkOrderModel': item.toJson(),
                                 },
-                                PQCType.checkQuality);
+                                WorkOrderType.checkQuality);
                           },
                         )
                       ],

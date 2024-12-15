@@ -33,7 +33,9 @@ enum SideBarOption {
   materialReport('Danh sách biên bản NVL'),
   createCheckQualityFirst(
       'Khai báo thông tin kiểm tra chất lượng sản phẩm đầu'),
-  createNewEntry('Thêm mới thông tin yêu cầu (Thông tin sản xuất)');
+  createNewEntry('Thêm mới thông tin yêu cầu (Thông tin sản xuất)'),
+  createCheckOQC('Khai báo thông tin kiểm tra chất lượng công đoạn OQC'),
+  ;
 
   final String value;
 
@@ -81,7 +83,7 @@ class SideBarController extends GetxController {
   }
 
   void changePageWithArguments(String title, Map<String, dynamic> args,
-      [PQCType? type]) {
+      [WorkOrderType? type]) {
     final option = SideBarOption.values.firstWhere(
       (element) => element.value == title,
       orElse: () => SideBarOption.none,

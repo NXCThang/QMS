@@ -13,15 +13,14 @@ import 'package:qms_app/presentation/pqc/controllers/work_order_c.dart';
 import 'package:qms_app/presentation/widgets/add_error.dart';
 import 'package:qms_app/presentation/widgets/table_custom.dart';
 
-class ListProductOrder extends StatelessWidget {
-  const ListProductOrder({super.key});
+class CheckOQC extends StatelessWidget {
+  const CheckOQC({super.key});
 
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
     final controller = Get.find<WorkOrderController>();
     final sidebarController = Get.find<SideBarController>();
-
     return Obx(() {
       if (controller.isLoading.value) {
         return const Center(
@@ -79,22 +78,30 @@ class ListProductOrder extends StatelessWidget {
                     ItemBodyWidget(title: item.productId.toString()): 2,
                     ItemBodyWidget(title: item.productName ?? ''): 4,
                     ItemBodyWidget(title: item.quantity.toString()): 2,
-                    ItemBodyWidget(title: item.createdAt!.formatDateTime()): 2,
+                    ItemBodyWidget(
+                        title: item.createdAt?.formatDateTime() ?? ''): 2,
                     ItemBodyWidget(
                         title: item.isActive?.formatIsActive() ?? ''): 2,
-                    IconButton(
-                      icon: Icon(Icons.info),
-                      onPressed: () {
-                        print(item.toJson()); // Prints the Map<String, dynamic>
-
-                        sidebarController.changePageWithArguments(
-                            'Thông tin lệnh sản xuất',
-                            {
-                              'WorkOrderModel': item
-                                  .toJson(), // Convert the WorkOrderModel to a Map
-                            },
-                            WorkOrderType.productOrder);
-                      },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.info),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.folder_open),
+                          onPressed: () {
+                            print(item.toJson());
+                            sidebarController.changePageWithArguments(
+                                'Thông tin lệnh sản xuất',
+                                {
+                                  'WorkOrderModel': item.toJson(),
+                                },
+                                WorkOrderType.checkOQC);
+                          },
+                        )
+                      ],
                     ): 2,
                   },
                 );

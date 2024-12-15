@@ -2,13 +2,14 @@ class OQCInfoModel {
   int? id;
   int? workOrderId;
   String? model;
-  String? quantity;
+  int? quantity;
   String? note;
   String? createdAt;
   String? createdBy;
   String? updatedAt;
   String? updatedBy;
   int? isActive;
+  String? status;
 
   OQCInfoModel(
       {this.id,
@@ -20,7 +21,8 @@ class OQCInfoModel {
       this.createdBy,
       this.updatedAt,
       this.updatedBy,
-      this.isActive});
+      this.isActive,
+      this.status});
 
   OQCInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -33,20 +35,22 @@ class OQCInfoModel {
     updatedAt = json['updated_at'];
     updatedBy = json['updated_by'];
     isActive = json['is_active'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['work_order_id'] = workOrderId;
-    data['model'] = model;
-    data['quantity'] = quantity;
-    data['note'] = note;
-    data['created_at'] = createdAt;
-    data['created_by'] = createdBy;
-    data['updated_at'] = updatedAt;
-    data['updated_by'] = updatedBy;
-    data['is_active'] = isActive;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['work_order_id'] = this.workOrderId;
+    data['model'] = this.model;
+    data['quantity'] = this.quantity;
+    data['note'] = this.note;
+    data['created_at'] = this.createdAt;
+    data['created_by'] = this.createdBy;
+    data['updated_at'] = this.updatedAt;
+    data['updated_by'] = this.updatedBy;
+    data['is_active'] = this.isActive;
+    data['status'] = this.status;
     return data;
   }
 }

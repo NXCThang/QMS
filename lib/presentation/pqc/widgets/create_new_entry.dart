@@ -290,7 +290,7 @@ class _CreateNewEntryState extends State<CreateNewEntry> {
                           {
                             'WorkOrderModel': widget.workOrderModel.toJson(),
                           },
-                          PQCType.checkQuality);
+                          WorkOrderType.checkQuality);
                     },
                     child: Container(
                       decoration: BoxDecoration(
