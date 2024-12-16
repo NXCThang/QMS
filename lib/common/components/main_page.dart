@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
 import 'package:qms_app/models/iqc_report.dart';
+import 'package:qms_app/models/oqc_info.dart';
 import 'package:qms_app/models/pqc_first_info.dart';
 import 'package:qms_app/models/work_order.dart';
 import 'package:qms_app/presentation/category_manage/pages/aql.dart';
@@ -22,8 +23,8 @@ import 'package:qms_app/presentation/pqc/pages/list_product_order.dart';
 import 'package:qms_app/presentation/pqc/widgets/create_check_quality_first.dart';
 import 'package:qms_app/presentation/pqc/widgets/create_new_entry.dart';
 import 'package:qms_app/presentation/pqc/widgets/product_order_detail.dart';
-import 'package:qms_app/presentation/report/pages/order_completion_rate_report.dart';
-import 'package:qms_app/presentation/report/pages/production_complete_rate_report.dart';
+import 'package:qms_app/presentation/report/pages/wo_report.dart';
+import 'package:qms_app/presentation/report/pages/so_report.dart';
 import 'package:qms_app/presentation/report/pages/rate_product_quantity.dart';
 
 class MainPage extends StatelessWidget {
@@ -54,10 +55,10 @@ class MainPage extends StatelessWidget {
           return ListProductOrder();
         case SideBarOption.reportNGOKRatio:
           return const RateProductQuantity();
-        case SideBarOption.orderCompletionRateReport:
-          return const OrderCompletionRateReport();
-        case SideBarOption.productionOrderCompletionRateReport:
-          return const ProductionCompleteRateReport();
+        case SideBarOption.workOrderReport:
+          return const WoReport();
+        case SideBarOption.sellOrderReport:
+          return SoReport();
         case SideBarOption.iqcResult:
           return IqcResultList();
         case SideBarOption.detailProductionOrder:
@@ -114,13 +115,16 @@ class MainPage extends StatelessWidget {
         case SideBarOption.createCheckOQC:
           final arguments = sidebarController.arguments ?? {};
 
-          final workOrderModelJson = arguments['WorkOrderModel'];
-          final workOrderModel = workOrderModelJson != null
-              ? WorkOrderModel.fromJson(
-                  Map<String, dynamic>.from(workOrderModelJson))
-              : WorkOrderModel();
+          final oqcInfoModelJson = arguments['OQCInfoModel'];
+          final oqcInfoModel = oqcInfoModelJson != null
+              ? OQCInfoModel.fromJson(
+                  Map<String, dynamic>.from(oqcInfoModelJson))
+              : OQCInfoModel();
+          final enable = arguments['enable'] ?? true;
+
           return CreateCheckOqc(
-            workOrderModel: workOrderModel,
+            info: oqcInfoModel,
+            enable: enable,
           );
         default:
           return DashboardPages();

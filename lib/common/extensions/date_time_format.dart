@@ -9,4 +9,13 @@ extension DateTimeFormat on String {
       return '';
     }
   }
+
+  String displayTime() {
+    try {
+      DateTime parsedDate = DateTime.parse(this);
+      return DateFormat("'Ngày' dd 'tháng' MM 'năm' yyyy").format(parsedDate);
+    } catch (e) {
+      return '';
+    }
+  }
 }

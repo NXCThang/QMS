@@ -108,7 +108,7 @@ class ItemBodyWidget extends StatelessWidget {
               child: Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
                 ),
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,

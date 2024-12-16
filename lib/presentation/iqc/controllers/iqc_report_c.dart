@@ -1,11 +1,14 @@
 import 'package:get/get.dart';
 import 'package:qms_app/models/iqc_report.dart';
+import 'package:qms_app/models/iqc_result.dart';
+import 'package:qms_app/presentation/category_manage/controllers/iqc_result_c.dart';
 import 'package:qms_app/presentation/iqc/controllers/iqc_request_c.dart';
 import 'package:qms_app/services/firebase_service.dart';
 
 class IqcReportController extends GetxController {
   final RxList<IQCReportModel> iqcReportList = <IQCReportModel>[].obs;
   final RxBool isLoading = false.obs;
+  var iqcResultController = Get.find<IqcResultController>();
   // final iqcRequestController = Get.find<IqcRequestController>();
 
   @override
@@ -22,6 +25,7 @@ class IqcReportController extends GetxController {
         fromJson: (data) => IQCReportModel.fromJson(data),
       );
       iqcReportList.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));
+      searchIQCResult();
       // iqcRequestController.getIQCRequestList();
     } finally {
       isLoading.value = false;
@@ -49,5 +53,15 @@ class IqcReportController extends GetxController {
         documentId: report.id.toString(),
         data: report.toJson());
     getIqcReportList();
+  }
+
+  Future<void> searchIQCResult() async {
+    await iqcResultController.getIqcResultList();
+    for (var report in iqcReportList) {
+      report.iqcResultList = iqcResultController.iqcResultList
+          .where((element) => element.iqcReportId == report.id)
+          .toList();
+      print('report ${report.id} has ${report.iqcResultList?.length}');
+    }
   }
 }

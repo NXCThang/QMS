@@ -29,6 +29,14 @@ class _TitleWidgetState extends State<TitleWidget> {
   var controller = Get.find<SideBarController>();
 
   @override
+  void didUpdateWidget(covariant TitleWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!oldWidget.isSelected && widget.isSelected) {
+      setState(() {});
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 24, top: 14, bottom: 14, right: 12),
@@ -40,6 +48,9 @@ class _TitleWidgetState extends State<TitleWidget> {
               (widget.items.isNotEmpty)
                   ? controller.changePage(widget.items[0])
                   : controller.changePage(widget.title);
+              setState(() {
+                selectedIndex = 0;
+              });
               widget.onTap();
             },
             child: Row(
@@ -106,7 +117,7 @@ class _TitleWidgetState extends State<TitleWidget> {
                           color: selectedIndex == index
                               ? Colors.white
                               : Colors.black,
-                          fontSize: 16,
+                          fontSize: 14,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

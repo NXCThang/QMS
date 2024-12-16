@@ -18,4 +18,20 @@ extension NumberExtensions on num {
       return 'NO';
     }
   }
+
+  String displayIsActive() {
+    if (this == 1) {
+      return 'Đang sản xuất';
+    } else {
+      return 'Ngưng sản xuất';
+    }
+  }
+
+  String displayWOReport() {
+    if (this == 1) {
+      return 'Mới tạo';
+    } else {
+      return 'Đã gửi QMS';
+    }
+  }
 }

@@ -1,3 +1,5 @@
+import 'package:qms_app/models/oqc_result.dart';
+
 class OQCInfoModel {
   int? id;
   int? workOrderId;
@@ -10,6 +12,7 @@ class OQCInfoModel {
   String? updatedBy;
   int? isActive;
   String? status;
+  List<OQCResultModel>? oqcResults;
 
   OQCInfoModel(
       {this.id,
@@ -22,7 +25,8 @@ class OQCInfoModel {
       this.updatedAt,
       this.updatedBy,
       this.isActive,
-      this.status});
+      this.status,
+      this.oqcResults});
 
   OQCInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -36,6 +40,12 @@ class OQCInfoModel {
     updatedBy = json['updated_by'];
     isActive = json['is_active'];
     status = json['status'];
+    if (json['oqcResults'] != null) {
+      oqcResults = <OQCResultModel>[];
+      json['oqcResults'].forEach((v) {
+        oqcResults!.add(OQCResultModel.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +61,8 @@ class OQCInfoModel {
     data['updated_by'] = this.updatedBy;
     data['is_active'] = this.isActive;
     data['status'] = this.status;
+    data['oqcResults'] =
+        oqcResults?.map((oqcResult) => oqcResult.toJson()).toList();
     return data;
   }
 }

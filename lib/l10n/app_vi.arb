@@ -15,7 +15,7 @@
   "checkProductQuality": "Kiểm tra chất lượng sản phẩm",
   "checkOQC": "Kiểm tra OQC",
   "approvalForWarehouseEntry": "Phê duyệt nhập kho",
-  "report_NG_OK_ratio": "Báo cáo tỉ lệ NG/OK",
+  "report_NG_OK_ratio": "Báo cáo tỷ lệ NG/OK",
   "order_completion_rate_report": "Báo cáo tỷ lệ hoàn thành theo đơn đặt hàng",
   "production_order_completion_rate_report": "Báo cáo tỷ lệ hoàn thành theo lệnh sản xuất",
   "generalSearch": "Tìm kiếm chung",

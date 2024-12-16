@@ -69,12 +69,8 @@ class IqcReportList extends StatelessWidget {
                       Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              if (item.isActive?.toLowerCase() ==
-                                  'Nháp'.toLowerCase())
-                                IconButton(
-                                    onPressed: () {}, icon: Icon(Icons.edit)),
                               IconButton(
                                   onPressed: () {
                                     print(item.toJson());
@@ -85,7 +81,10 @@ class IqcReportList extends StatelessWidget {
                                       }, // Make sure the key matches the one in the destination screen
                                     );
                                   },
-                                  icon: Icon(Icons.info)),
+                                  icon: Icon(
+                                    Icons.info,
+                                    color: QMSColor.mainorange,
+                                  )),
                             ],
                           )): 2,
                     }),

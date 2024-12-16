@@ -22,10 +22,9 @@ enum SideBarOption {
   checkOQC('Kiểm tra OQC'),
   approvalForWarehouseEntry('Phê duyệt nhập kho'),
 
-  reportNGOKRatio('Báo cáo tỉ lệ NG/OK'),
-  orderCompletionRateReport('Báo cáo tỷ lệ hoàn thành theo đơn đặt hàng'),
-  productionOrderCompletionRateReport(
-      'Báo cáo tỷ lệ hoàn thành theo lệnh sản xuất'),
+  reportNGOKRatio('Báo cáo tỷ lệ NG/OK'),
+  workOrderReport('Báo cáo tỷ lệ hoàn thành theo WO'),
+  sellOrderReport('Báo cáo tỷ lệ hoàn thành theo SO'),
   product('Sản phẩm'),
   material('Danh sách NVL, LKDT'),
   iqcResult('Chỉnh sửa thông tin mẫu biên bản'),
@@ -83,7 +82,7 @@ class SideBarController extends GetxController {
   }
 
   void changePageWithArguments(String title, Map<String, dynamic> args,
-      [WorkOrderType? type]) {
+      [WorkOrderType? type, bool enable = true]) {
     final option = SideBarOption.values.firstWhere(
       (element) => element.value == title,
       orElse: () => SideBarOption.none,
@@ -95,6 +94,7 @@ class SideBarController extends GetxController {
     arguments = {
       ...args, // Giữ nguyên các dữ liệu cũ
       'type': type?.name ?? '0', // Truyền `type` nếu có, nếu không thì là '0'
+      'enable': enable, // Truyền thêm enable vào arguments
     };
 
     Get.toNamed(Get.currentRoute, arguments: arguments);

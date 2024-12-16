@@ -19,6 +19,7 @@ class OqcResultController extends GetxController {
         table: 'oqc_result',
         fromJson: (data) => OQCResultModel.fromJson(data),
       );
+      oqcResultList.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));
     } finally {
       isLoading.value = false;
     }

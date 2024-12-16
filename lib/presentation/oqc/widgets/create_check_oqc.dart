@@ -2,44 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:qms_app/models/oqc_info.dart';
 import 'package:qms_app/models/oqc_result.dart';
 import 'package:qms_app/models/work_order.dart';
-import 'package:qms_app/common/extensions/number_format.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:qms_app/common/color.dart';
-import 'package:qms_app/common/components/build_pagination_controls.dart';
 import 'package:qms_app/common/extensions/date_time_format.dart';
-import 'package:qms_app/common/extensions/number_format.dart';
 import 'package:qms_app/common/icon_path.dart';
 import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
 import 'package:qms_app/data/local/login_session.dart';
-import 'package:qms_app/models/material.dart';
-import 'package:qms_app/models/pqc_final_result.dart';
-import 'package:qms_app/models/pqc_first_info.dart';
-import 'package:qms_app/models/pqc_first_problem.dart';
-import 'package:qms_app/models/pqc_first_result.dart';
-import 'package:qms_app/models/work_order.dart';
 import 'package:qms_app/presentation/category_manage/widgets/textfield_custom.dart';
-import 'package:qms_app/presentation/controllers/material_c.dart';
 import 'package:qms_app/presentation/oqc/controllers/oqc_info_c.dart';
 import 'package:qms_app/presentation/oqc/controllers/oqc_result_c.dart';
-import 'package:qms_app/presentation/pqc/controllers/pqc_first_info_c.dart';
-import 'package:qms_app/presentation/pqc/controllers/pqc_first_problem_c.dart';
-import 'package:qms_app/presentation/pqc/controllers/pqc_first_result_c.dart';
 import 'package:qms_app/presentation/pqc/controllers/work_order_c.dart';
-import 'package:qms_app/presentation/pqc/widgets/list_pqc_first_problem.dart';
-import 'package:qms_app/presentation/pqc/widgets/list_pqc_first_result.dart';
 import 'package:qms_app/presentation/widgets/table_custom.dart';
 
 class CreateCheckOqc extends StatefulWidget {
-  CreateCheckOqc(
-      {super.key,
-      required this.workOrderModel,
-      this.list = const [],
-      this.enable = true});
-  final WorkOrderModel workOrderModel;
-  List<OQCResultModel>? list;
+  CreateCheckOqc({super.key, required this.info, this.enable = true});
+  final OQCInfoModel info;
   bool? enable;
 
   @override
@@ -57,14 +36,21 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
   var sidebarController = Get.find<SideBarController>();
   var oqcInfoController = Get.find<OqcInfoController>();
   var oqcResultController = Get.find<OqcResultController>();
-
+  var workOrderController = Get.find<WorkOrderController>();
+  late int workOrderId;
   @override
   void initState() {
     super.initState();
-    _items = List.from(widget.list ?? []);
-    createDateController.text =
+    workOrderId = widget.info.workOrderId ?? 0;
+    _items = List.from(widget.info.oqcResults ?? []);
+    print('items: $_items');
+    createDateController.text = widget.info.createdAt?.formatDateTime() ??
         DateTime.now().toIso8601String().formatDateTime();
-    workOrderCodeController.text = widget.workOrderModel.workOrderCode ?? '';
+    workOrderCodeController.text =
+        workOrderController.workorderList[workOrderId].workOrderCode ?? '';
+    modelController.text = widget.info.model ?? '';
+    planQuantityController.text = widget.info.quantity?.toString() ?? '';
+    noteController.text = widget.info.note ?? '';
     _controllers = List.generate(
       _items.length,
       (index) => [
@@ -152,7 +138,7 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                   ],
                 ),
                 SizedBox(
-                  width: 20,
+                  height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,6 +153,9 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                         label: 'Ghi chú',
                         textcontroller: noteController,
                         enabled: false),
+                    SizedBox(
+                      width: 340,
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -181,7 +170,7 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                     Text(
                       'Khai báo thông tin kiểm hàng',
                       style:
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                     const Spacer(),
                     if (widget.enable == true)
@@ -231,7 +220,6 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                     itemBuilder: (BuildContext context, int index) {
                       final item = _items[index];
                       final stt = index + 1;
-
                       return TableCustom(
                         color: Colors.white,
                         title: {
@@ -259,59 +247,60 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                             textcontroller: _controllers[index][3], // Unit
                           ): 2,
                           Container(
-                              height: 36,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.black.withOpacity(0.5),
-                                    width: 1),
+                            height: 36,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black.withOpacity(0.5),
+                                width: 1,
                               ),
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 4),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: DropdownButton<String>(
-                                isExpanded: true,
-                                underline: SizedBox.shrink(),
-                                value: _controllers[index][4].text.isEmpty
-                                    ? null
-                                    : _controllers[index][4].text,
-                                items: ['OK', 'NG']
-                                    .map((value) => DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        ))
-                                    .toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _controllers[index][4].text = value ?? '';
-                                    item.result = (value == 'OK') ? 1 : 0;
-                                    // if (item.result != null &&
-                                    //     !pqcFirstResultController.evaluateItems
-                                    //         .contains(item)) {
-                                    //   pqcFirstResultController.evaluateItems
-                                    //       .add(item);
-                                    // } else {
-                                    //   pqcFirstResultController.evaluateItems
-                                    //       .remove(item);
-                                    // }
-                                  });
-                                },
-                              )): 2,
-                          (widget.enable == true)
-                              ? InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      _items.removeAt(index);
-                                      _controllers.removeAt(index);
-                                    });
-                                  },
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    size: 24,
-                                  ),
-                                )
-                              : SizedBox.shrink(): 1,
+                            ),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              underline: SizedBox.shrink(),
+                              value: widget.enable == false
+                                  ? (['OK', 'NG']
+                                          .contains(_controllers[index][4].text)
+                                      ? _controllers[index][4].text
+                                      : null)
+                                  : (item.result == 1 ? 'OK' : 'NG'),
+                              items: ['OK', 'NG']
+                                  .map((value) => DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      ))
+                                  .toList(),
+                              onChanged: widget.enable == true
+                                  ? (value) {
+                                      setState(() {
+                                        _controllers[index][4].text =
+                                            value ?? '';
+                                        item.result = (value == 'OK') ? 1 : 0;
+                                      });
+                                    }
+                                  : null, // Không cho phép thay đổi nếu enable = false
+                              disabledHint: widget.enable == false
+                                  ? Text(item.result == 1 ? 'OK' : 'NG')
+                                  : null, // Gợi ý khi bị vô hiệu hóa
+                            ),
+                          ): 2,
+                          InkWell(
+                            onTap: () {
+                              if (widget.enable == true) {
+                                setState(() {
+                                  _items.removeAt(index);
+                                  _controllers.removeAt(index);
+                                });
+                              }
+                            },
+                            child: Icon(
+                              Icons.delete_outline,
+                              color: Colors.red,
+                              size: 24,
+                            ),
+                          ): 1,
                         },
                       );
                     },
@@ -323,34 +312,55 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      'Phê duyệt',
-                      style: TextStyle(fontSize: 17),
+                    Column(
+                      children: [
+                        Text(
+                          'Phê duyệt',
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        (widget.enable == false)
+                            ? Image.asset('assets/images/nhu_sign.jpg',
+                                width: 100, height: 100)
+                            : SizedBox(
+                                height: 50,
+                              ),
+                      ],
                     ),
                     SizedBox(
                       width: 50,
                     ),
-                    Text(
-                      'Người kiểm tra',
-                      style: TextStyle(fontSize: 17),
+                    Column(
+                      children: [
+                        Text(
+                          'Người kiểm tra',
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        (widget.enable == false)
+                            ? Image.asset('assets/images/nhu_sign.jpg',
+                                width: 100, height: 100)
+                            : SizedBox(
+                                height: 50,
+                              ),
+                      ],
                     )
                   ],
-                ),
-                SizedBox(
-                  height: 100,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      'Ngày tháng năm',
+                      (widget.enable == true)
+                          ? 'Ngày tháng năm'
+                          : widget.info.createdAt?.displayTime() ?? '',
                       style: TextStyle(fontSize: 17),
                     ),
                     SizedBox(
                       width: 50,
                     ),
                     Text(
-                      'Ngày tháng năm',
+                      (widget.enable == true)
+                          ? 'Ngày tháng năm'
+                          : widget.info.updatedAt?.displayTime() ?? '',
                       style: TextStyle(fontSize: 17),
                     )
                   ],
@@ -361,144 +371,179 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              contentPadding: const EdgeInsets.all(20),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(
-                                    Icons.warning_amber_rounded,
-                                    color: QMSColor.mainorange,
-                                    size: 48,
-                                  ),
-                                  const SizedBox(height: 16),
-                                  const Text(
-                                    "Xác nhận",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                    if (widget.enable == true)
+                      InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                contentPadding: const EdgeInsets.all(20),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(
+                                      Icons.warning_amber_rounded,
+                                      color: QMSColor.mainorange,
+                                      size: 48,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    const Text(
+                                      "Xác nhận",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    const Text(
+                                      "Những thay đổi chưa được lưu, bạn có muốn thoát?",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.deepPurple,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      sidebarController.changePageWithArguments(
+                                          'Thông tin lệnh sản xuất',
+                                          {
+                                            'WorkOrderModel':
+                                                workOrderController
+                                                    .workorderList[workOrderId]
+                                                    .toJson(),
+                                          },
+                                          WorkOrderType.checkOQC);
+                                    },
+                                    child: const Text(
+                                      "Đồng ý",
+                                      style: TextStyle(color: Colors.white),
                                     ),
                                   ),
-                                  const SizedBox(height: 16),
-                                  const Text(
-                                    "Những thay đổi chưa được lưu, bạn có muốn thoát?",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 16),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.blueGrey,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text(
+                                      "Hủy",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                 ],
-                              ),
-                              actions: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.deepPurple,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    sidebarController.changePageWithArguments(
-                                        'Thông tin lệnh sản xuất',
-                                        {
-                                          'WorkOrderModel':
-                                              widget.workOrderModel.toJson(),
-                                        },
-                                        WorkOrderType.checkOQC);
-                                  },
-                                  child: const Text(
-                                    "Đồng ý",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.blueGrey,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text(
-                                    "Hủy",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.black.withOpacity(0.1), width: 1),
-                            borderRadius: BorderRadius.circular(2)),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        child: const Text(
-                          'Hủy bỏ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 18,
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.black.withOpacity(0.1),
+                                  width: 1),
+                              borderRadius: BorderRadius.circular(2)),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          child: const Text(
+                            'Hủy bỏ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
-                    ),
                     SizedBox(
                       width: 20,
                     ),
-                    InkWell(
-                      onTap: () async {
-                        // await oqcInfoController.addOqcInfo(OQCInfoModel(
-                        //     createdAt: DateTime.now().toIso8601String(),
-                        //     createdBy: LoginSession().getUser()?.name ?? '',
-                        //     id: oqcInfoController.oqcInfoList.length + 1,
-                        //     isActive: 1,
-                        //     model: modelController.text,
-                        //     note: noteController.text,
-                        //     quantity: int.parse(planQuantityController.text),
-                        //     status: 'Chờ phê duyệt',
-                        //     updatedAt: DateTime.now().toIso8601String(),
-                        //     updatedBy: LoginSession().getUser()?.name ?? '',
-                        //     workOrderId: widget.workOrderModel.id));
-                        for (int index = 0; index < _items.length; index++) {
-                          OQCResultModel result = OQCResultModel(
-                            id: oqcResultController.oqcResultList.length + 1,
-                            oqcInfoId: oqcInfoController.oqcInfoList.length + 1,
-                            createdAt: DateTime.now().toIso8601String(),
-                            updatedBy: LoginSession().getUser()?.name ?? '',
-                            createdBy: LoginSession().getUser()?.name ?? '',
-                            inputDate: _controllers[index][0].text,
-                            totalQuantity:
-                                int.parse(_controllers[index][1].text),
-                            updatedAt: _controllers[index][2].text,
-                            nGQuantity: int.parse(_controllers[index][3].text),
-                            result: _items[index].result,
-                          );
-                          print(result.toJson());
-                        }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: QMSColor.mainorange,
-                            border: Border.all(
-                                color: Colors.black.withOpacity(0.1), width: 1),
-                            borderRadius: BorderRadius.circular(2)),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        child: const Text(
-                          'Gửi duyệt',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 18,
+                    (widget.enable == true)
+                        ? InkWell(
+                            onTap: () async {
+                              // await oqcInfoController.addOqcInfo(OQCInfoModel(
+                              //     createdAt: DateTime.now().toIso8601String(),
+                              //     createdBy: LoginSession().getUser()?.name ?? '',
+                              //     id: oqcInfoController.oqcInfoList.length + 1,
+                              //     isActive: 1,
+                              //     model: modelController.text,
+                              //     note: noteController.text,
+                              //     quantity: int.parse(planQuantityController.text),
+                              //     status: 'Chờ phê duyệt',
+                              //     updatedAt: DateTime.now().toIso8601String(),
+                              //     updatedBy: LoginSession().getUser()?.name ?? '',
+                              //     workOrderId: widget.workOrderModel.id));
+                              for (int index = 0;
+                                  index < _items.length;
+                                  index++) {
+                                OQCResultModel result = OQCResultModel(
+                                  id: oqcResultController.oqcResultList.length +
+                                      1,
+                                  oqcInfoId:
+                                      oqcInfoController.oqcInfoList.length + 1,
+                                  createdAt: DateTime.now().toIso8601String(),
+                                  updatedBy:
+                                      LoginSession().getUser()?.name ?? '',
+                                  createdBy:
+                                      LoginSession().getUser()?.name ?? '',
+                                  inputDate: _controllers[index][0].text,
+                                  totalQuantity:
+                                      int.parse(_controllers[index][1].text),
+                                  updatedAt: _controllers[index][2].text,
+                                  nGQuantity:
+                                      int.parse(_controllers[index][3].text),
+                                  result: _items[index].result,
+                                );
+                                print(result.toJson());
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: QMSColor.mainorange,
+                                  border: Border.all(
+                                      color: Colors.black.withOpacity(0.1),
+                                      width: 1),
+                                  borderRadius: BorderRadius.circular(2)),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              child: const Text(
+                                'Gửi duyệt',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          )
+                        : InkWell(
+                            onTap: () {
+                              sidebarController
+                                  .changePage('Phê duyệt nhập kho');
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.black.withOpacity(0.1),
+                                      width: 1),
+                                  borderRadius: BorderRadius.circular(2)),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              child: const Text(
+                                'Trở lại',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                     SizedBox(
                       width: 20,
                     ),

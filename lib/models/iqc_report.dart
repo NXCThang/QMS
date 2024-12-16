@@ -46,6 +46,18 @@ class IQCReportModel {
     billNumber = json['bill_number'];
     isActive = json['is_active'];
     quantity = json['quantity'];
+    if (json['iqcResultList'] != null) {
+      iqcResultList = <IQCResultModel>[];
+      json['iqcResultList'].forEach((v) {
+        iqcResultList!.add(IQCResultModel.fromJson(v));
+      });
+    }
+    if (json['iqcResultNgList'] != null) {
+      iqcResultNgList = <IQCResultNgModel>[];
+      json['iqcResultNgList'].forEach((v) {
+        iqcResultNgList!.add(IQCResultNgModel.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -62,6 +74,10 @@ class IQCReportModel {
     if (billNumber != null) data['bill_number'] = billNumber;
     if (isActive != null) data['is_active'] = isActive;
     if (quantity != null) data['quantity'] = quantity;
+    data['iqcResultList'] =
+        iqcResultList?.map((result) => result.toJson()).toList();
+    data['iqcResultNgList'] =
+        iqcResultNgList?.map((resultNG) => resultNG.toJson()).toList();
     return data;
   }
 }

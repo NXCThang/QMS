@@ -21,6 +21,7 @@ class CheckQualityFirst extends StatelessWidget {
     final appLocalizations = AppLocalizations.of(context);
     final controller = Get.find<WorkOrderController>();
     final sidebarController = Get.find<SideBarController>();
+    controller.onInit();
     return Obx(() {
       if (controller.isLoading.value) {
         return const Center(
@@ -86,7 +87,10 @@ class CheckQualityFirst extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.info),
+                          icon: Icon(
+                            Icons.info,
+                            color: QMSColor.mainorange,
+                          ),
                           onPressed: () {
                             print(item
                                 .toJson()); // Prints the Map<String, dynamic>
@@ -99,7 +103,10 @@ class CheckQualityFirst extends StatelessWidget {
                           },
                         ),
                         IconButton(
-                          icon: Icon(Icons.folder_open),
+                          icon: Icon(
+                            Icons.folder_open,
+                            color: QMSColor.mainorange,
+                          ),
                           onPressed: () {
                             print(item.toJson());
                             sidebarController.changePageWithArguments(

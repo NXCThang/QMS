@@ -51,51 +51,6 @@ class RateProductQuantity extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Danh sách yêu cầu IQC(10)',
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
-              ),
-              const Spacer(),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) => const AddError(
-                                error: 'Thêm mới',
-                              ));
-                    },
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          IconPath.addNew,
-                          width: 18,
-                          height: 18,
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        const Text(
-                          'Thêm mới',
-                          style: TextStyle(
-                              color: QMSColor.mainorange,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
           const SizedBox(
             height: 0,
           ),
@@ -107,12 +62,10 @@ class RateProductQuantity extends StatelessWidget {
               ItemTitleWidget(title: 'Mã WO'): 2,
               ItemTitleWidget(title: 'Thời gian bắt đầu'): 2,
               ItemTitleWidget(title: 'Thời gian kết thúc'): 2,
-              ItemTitleWidget(title: 'Sản lượng kế hoạch'): 2,
-              ItemTitleWidget(title: 'Tổng số lượng nhập kho'): 2,
+              ItemTitleWidget(title: 'Tổng thực tế'): 2,
               ItemTitleWidget(title: 'Số lượng OK'): 2,
               ItemTitleWidget(title: 'Số lượng NG'): 2,
               ItemTitleWidget(title: 'Tỉ lệ NG/OK'): 2,
-              ItemTitleWidget(title: 'Trạng thái'): 2,
             },
           ),
           Expanded(
@@ -121,8 +74,6 @@ class RateProductQuantity extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 final item =
                     controller.paginatedController.paginatedItems[index];
-                var okQuantity = item.oqcResultModel?.testQuantity ??
-                    0 - (item.oqcResultModel?.nGQuantity ?? 0);
                 final stt = index +
                     1 +
                     controller.paginatedController.currentPage.value *
@@ -148,20 +99,13 @@ class RateProductQuantity extends StatelessWidget {
                             ''): 2,
                     ItemBodyWidget(
                         title:
-                            item.workOrderModel?.quantity.toString() ?? ''): 2,
+                            ((item.ngQuantity ?? 0) + (item.totalQuantity ?? 0))
+                                .toString()): 2,
+                    ItemBodyWidget(title: item.totalQuantity.toString()): 2,
+                    ItemBodyWidget(title: item.ngQuantity.toString() ?? ''): 2,
                     ItemBodyWidget(
-                        title: item.oqcResultModel?.totalQuantity.toString() ??
-                            ''): 2,
-                    ItemBodyWidget(title: (okQuantity).toString()): 2,
-                    ItemBodyWidget(
-                        title: item.oqcResultModel?.nGQuantity.toString() ??
-                            ''): 2,
-                    ItemBodyWidget(
-                        title: ((item.oqcResultModel?.nGQuantity ?? 0) /
-                                okQuantity)
-                            .toString()): 2,
-                    ItemBodyWidget(
-                        title: (item.oqcResultModel?.isActive).toString()): 2,
+                        title:
+                            '${item.ngQuantity == 0 ? '0.00' : (((item.ngQuantity ?? 0) / (item.totalQuantity ?? 1)) * 100).toStringAsFixed(2)}%'): 2,
                   },
                 );
               },

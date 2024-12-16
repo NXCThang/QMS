@@ -86,11 +86,17 @@ class CheckOQC extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.info),
+                          icon: Icon(
+                            Icons.info,
+                            color: QMSColor.mainorange,
+                          ),
                           onPressed: () {},
                         ),
                         IconButton(
-                          icon: Icon(Icons.folder_open),
+                          icon: Icon(
+                            Icons.folder_open,
+                            color: QMSColor.mainorange,
+                          ),
                           onPressed: () {
                             print(item.toJson());
                             sidebarController.changePageWithArguments(

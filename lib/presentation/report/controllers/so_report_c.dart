@@ -5,17 +5,17 @@ import 'package:qms_app/models/oqc_result.dart';
 import 'package:qms_app/presentation/oqc/controllers/oqc_info_c.dart';
 import 'package:qms_app/presentation/oqc/controllers/oqc_result_c.dart';
 import 'package:qms_app/presentation/pqc/controllers/work_order_c.dart';
-import 'package:qms_app/presentation/report/model/report_ng_ok.dart';
+import 'package:qms_app/presentation/report/model/so_report.dart';
 
-class ReportNgOkController extends GetxController {
+class SOReportController extends GetxController {
   final isLoading = true.obs;
   final workOrderController = Get.find<WorkOrderController>();
   final oqcInfoController = Get.find<OqcInfoController>();
   final oqcResultController = Get.find<OqcResultController>();
-  final PaginatedController<ReportNgOkModel> paginatedController =
-      PaginatedController<ReportNgOkModel>();
+  final PaginatedController<SoReportModel> paginatedController =
+      PaginatedController<SoReportModel>();
 
-  RxList<ReportNgOkModel> reportList = <ReportNgOkModel>[].obs;
+  RxList<SoReportModel> reportList = <SoReportModel>[].obs;
 
   @override
   void onInit() {
@@ -34,21 +34,21 @@ class ReportNgOkController extends GetxController {
   }
 
   Future<void> initSOReportList() async {
-    List<ReportNgOkModel> tempList = [];
+    List<SoReportModel> tempList = [];
     try {
       isLoading.value = true;
       for (var workOrder in workOrderController.workorderList) {
-        int ngQuantity = 0;
+        int planQuantity = 0;
         int totalQuantity = 0;
         for (OQCInfoModel info in workOrder.oqcInfos ?? []) {
+          planQuantity += info.quantity ?? 0;
           for (OQCResultModel result in info.oqcResults ?? []) {
             totalQuantity += result.totalQuantity ?? 0;
-            ngQuantity += (result.nGQuantity ?? 0).toInt();
           }
         }
-        tempList.add(ReportNgOkModel(
+        tempList.add(SoReportModel(
             workOrderModel: workOrder,
-            ngQuantity: ngQuantity,
+            planQquantity: planQuantity,
             totalQuantity: totalQuantity));
       }
       reportList.value = tempList;
@@ -57,13 +57,5 @@ class ReportNgOkController extends GetxController {
     } finally {
       isLoading.value = false;
     }
-  }
-
-  num getTotalNGQuantity() {
-    return reportList.fold(0, (sum, item) => sum + (item.ngQuantity ?? 0));
-  }
-
-  num getTotalQuantity() {
-    return reportList.fold(0, (sum, item) => sum + (item.totalQuantity ?? 0));
   }
 }

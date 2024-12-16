@@ -522,7 +522,9 @@ Widget _checkQualityOQC(
                   sidebarController.changePageWithArguments(
                     'Khai báo thông tin kiểm tra chất lượng công đoạn OQC',
                     {
-                      'WorkOrderModel': workOrderModel.toJson(),
+                      'OQCInfoModel': OQCInfoModel(
+                        workOrderId: workOrderModel.id,
+                      ).toJson(),
                     },
                   );
                 },

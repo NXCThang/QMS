@@ -88,4 +88,11 @@ class WorkOrderController extends GetxController {
           'workorder ${workOrder.id} has oqcInfo ${workOrder.pqcFinalResults?.length}');
     }
   }
+
+  Future<String> getWorkOrderCode(int id) async {
+    for (var workOrder in workorderList) {
+      if (workOrder.id == id) return workOrder.workOrderCode.toString();
+    }
+    return ''; // or throw an exception if appropriate
+  }
 }

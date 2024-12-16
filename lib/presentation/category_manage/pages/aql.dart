@@ -19,6 +19,7 @@ class ExpensePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.onInit();
     final appLocalizations = AppLocalizations.of(context);
     return Obx(() {
       if (controller.isLoading.value) {
@@ -181,6 +182,5 @@ class ExpensePage extends StatelessWidget {
         );
       }
     });
-  
   }
 }

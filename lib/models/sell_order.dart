@@ -1,12 +1,12 @@
-class SellOrder {
-  String? id;
+class SellOrderModel {
+  int? id;
   String? soCode;
   String? soName;
   String? customerName;
-  String? isActive;
-  String? quantity;
+  int? isActive;
+  int? quantity;
 
-  SellOrder(
+  SellOrderModel(
       {this.id,
       this.soCode,
       this.soName,
@@ -14,7 +14,7 @@ class SellOrder {
       this.isActive,
       this.quantity});
 
-  SellOrder.fromJson(Map<String, dynamic> json) {
+  SellOrderModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     soCode = json['so_code'];
     soName = json['so_name'];

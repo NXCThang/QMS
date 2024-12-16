@@ -61,8 +61,10 @@ class AddCriteria extends StatelessWidget {
               child: Row(
                 children: [
                   const SizedBox(width: 40),
-                  const Text(
-                    'Thông tin mẫu kiểm tra NVL/BTP/TP',
+                  Text(
+                    (create)
+                        ? 'Thêm mới tiêu chí kiểm tra'
+                        : 'Thông tin mẫu kiểm tra NVL/BTP/TP',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,

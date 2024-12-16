@@ -101,8 +101,8 @@ class _SideBarWidgetState extends State<SideBarWidget> {
             },
             items: [
               appLocalizations?.report_NG_OK_ratio ?? '',
-              appLocalizations?.order_completion_rate_report ?? '',
-              appLocalizations?.production_order_completion_rate_report ?? '',
+              'Báo cáo tỷ lệ hoàn thành theo SO',
+              'Báo cáo tỷ lệ hoàn thành theo WO'
             ],
           ),
         ],

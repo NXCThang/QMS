@@ -2,10 +2,10 @@ import 'package:qms_app/models/oqc_info.dart';
 import 'package:qms_app/models/oqc_result.dart';
 import 'package:qms_app/models/work_order.dart';
 
-class ReportNgOkModel {
+class WoReportModel {
   WorkOrderModel? workOrderModel;
-  int? ngQuantity;
+  int? woquantity;
   int? totalQuantity;
 
-  ReportNgOkModel({this.workOrderModel, this.ngQuantity, this.totalQuantity});
+  WoReportModel({this.workOrderModel, this.woquantity, this.totalQuantity});
 }
