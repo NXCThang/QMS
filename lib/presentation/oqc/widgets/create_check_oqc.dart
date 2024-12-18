@@ -525,10 +525,10 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                                       int.parse(_controllers[index][3].text),
                                   result: _items[index].result,
                                 );
-                                sidebarController
-                                    .changePage('Phê duyệt nhập kho');
-                                print(result.toJson());
                               }
+                              sidebarController
+                                  .changePage('Phê duyệt nhập kho');
+                              print(result.toJson());
                             },
                             child: Container(
                               decoration: BoxDecoration(
