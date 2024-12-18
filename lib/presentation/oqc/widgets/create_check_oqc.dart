@@ -528,7 +528,7 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                               }
                               sidebarController
                                   .changePage('Phê duyệt nhập kho');
-                              print(result.toJson());
+                              // print(result.toJson());
                             },
                             child: Container(
                               decoration: BoxDecoration(
