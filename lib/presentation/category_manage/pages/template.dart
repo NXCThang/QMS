@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:qms_app/common/color.dart';
 import 'package:qms_app/common/components/main_page.dart';
 import 'package:qms_app/common/extensions/date_time_format.dart';
+import 'package:qms_app/common/extensions/number_format.dart';
 import 'package:qms_app/common/icon_path.dart';
 import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
 import 'package:qms_app/common/sidebar/widgets/side_bar.dart';
@@ -157,7 +158,8 @@ class InspectionRecordPage extends StatelessWidget {
                           .toString()): 2,
                   ItemBodyWidget(
                       title: controller.templateList[index].isActive
-                          .toString()): 2,
+                              ?.displayTemplate() ??
+                          ''): 2,
                   ItemBodyWidget(
                       title: controller.templateList[index].templateType
                           .toString()): 2,

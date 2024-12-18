@@ -151,7 +151,7 @@ class _PQCFirstProblemListTemporaryState
                     controller: _controllers[index][1], // Check date
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                      border: InputBorder.none, // Xóa underline
+                      border: InputBorder.none,
                     ),
                     onChanged: (value) {
                       setState(() {

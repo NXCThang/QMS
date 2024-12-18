@@ -26,7 +26,7 @@ class ApprovalStock extends StatelessWidget {
     final sidebarController = Get.find<SideBarController>();
     final oqcInfoController = Get.find<OqcInfoController>();
     final sellOrderController = Get.find<SellOrderController>();
-
+    oqcInfoController.onInit();
     return Obx(() {
       if (oqcInfoController.isLoading.value) {
         return const Center(
@@ -114,7 +114,7 @@ class ApprovalStock extends StatelessWidget {
                               .toString()): 3,
                       ItemBodyWidget(
                           title: item.createdAt?.formatDateTime() ?? ''): 2,
-                      (item.status == 'Đã duyệt')
+                      (item.status?.trim().toLowerCase() == 'đã duyệt')
                           ? Container(
                               decoration: BoxDecoration(
                                   color: Colors.green.withOpacity(0.3),

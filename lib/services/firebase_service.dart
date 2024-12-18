@@ -104,17 +104,20 @@ class FirebaseService {
 
       for (var doc in querySnapshot.docs) {
         if (doc.id == documentId) {
+          print(doc.id);
           await _firestore
               .collection('qms')
               .doc(table)
               .collection('items')
               .doc(documentId)
               .update(data);
+
           Get.back();
           Future.microtask(() {
             Get.snackbar('Thông báo', 'Cập nhật thành công',
                 backgroundColor: Colors.green);
           });
+          break;
         }
       }
 

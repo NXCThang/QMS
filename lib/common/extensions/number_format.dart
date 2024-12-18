@@ -15,7 +15,7 @@ extension NumberExtensions on num {
     if (this == 1) {
       return 'CREATE';
     } else {
-      return 'NO';
+      return 'SENT';
     }
   }
 
@@ -32,6 +32,14 @@ extension NumberExtensions on num {
       return 'Mới tạo';
     } else {
       return 'Đã gửi QMS';
+    }
+  }
+
+  String displayTemplate() {
+    if (this == 1) {
+      return 'Đang hoạt động';
+    } else {
+      return 'Tạm dừng';
     }
   }
 }

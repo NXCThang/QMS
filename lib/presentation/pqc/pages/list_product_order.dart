@@ -9,6 +9,7 @@ import 'package:qms_app/common/extensions/number_format.dart';
 import 'package:qms_app/common/icon_path.dart';
 import 'package:qms_app/common/sidebar/controller/sidebar_c.dart';
 import 'package:qms_app/models/work_order.dart';
+import 'package:qms_app/presentation/category_manage/widgets/textfield_custom.dart';
 import 'package:qms_app/presentation/pqc/controllers/work_order_c.dart';
 import 'package:qms_app/presentation/widgets/add_error.dart';
 import 'package:qms_app/presentation/widgets/table_custom.dart';
@@ -21,6 +22,7 @@ class ListProductOrder extends StatelessWidget {
     final appLocalizations = AppLocalizations.of(context);
     final controller = Get.find<WorkOrderController>();
     final sidebarController = Get.find<SideBarController>();
+    final TextEditingController searchController = TextEditingController();
     controller.onInit();
     return Obx(() {
       if (controller.isLoading.value) {
@@ -51,6 +53,14 @@ class ListProductOrder extends StatelessWidget {
           ),
           const SizedBox(
             height: 16,
+          ),
+          TextFieldCustom(
+            label: 'Tìm kiếm',
+            textcontroller: searchController,
+            width: 400,
+            onSubmit: (_) {
+              controller.searchWorkOrder(searchController.text);
+            },
           ),
           const SizedBox(
             height: 10,

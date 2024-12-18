@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qms_app/common/color.dart';
+import 'package:qms_app/common/components/text_field_input_custom.dart';
 import 'package:qms_app/common/icon_path.dart';
 import 'package:qms_app/models/iqc_result.dart';
 import 'package:qms_app/presentation/category_manage/widgets/textfield_custom.dart';
@@ -131,55 +132,96 @@ class _IqcResultListTemporaryState extends State<IqcResultListTemporary> {
                 color: Colors.white,
                 title: {
                   ItemBodyWidget(title: stt.toString()): 1,
-                  TextFieldCustom(
-                    width: 120,
-                    label: '',
-                    textcontroller: _controllers[index][0], // Criteria Name
+                  TextFieldInputCustom(
+                    controller: _controllers[index][0],
+                    enable: widget.enable,
                   ): 3,
-                  TextFieldCustom(
-                    width: 100,
-                    label: '',
-                    textcontroller: _controllers[index][1], // Min
+                  // TextFieldCustom(
+                  //   width: 120,
+                  //   label: '',
+                  //   textcontroller: _controllers[index][0],
+                  //   enabled: widget.enable, // Criteria Name
+                  // ): 3,
+                  TextFieldInputCustom(
+                    controller: _controllers[index][1],
+                    enable: widget.enable,
                     isNumber: true,
                   ): 2,
-                  TextFieldCustom(
-                    width: 100,
-                    label: '',
-                    textcontroller: _controllers[index][2], // Max
+                  // TextFieldCustom(
+                  //   width: 100,
+                  //   label: '',
+                  //   textcontroller: _controllers[index][1], // Min
+                  //   isNumber: true,
+                  // ): 2,
+                  TextFieldInputCustom(
+                    controller: _controllers[index][2],
+                    enable: widget.enable,
                     isNumber: true,
                   ): 2,
-                  TextFieldCustom(
-                    width: 100,
-                    label: '',
-                    textcontroller: _controllers[index][3], // Unit
+                  // TextFieldCustom(
+                  //   width: 100,
+                  //   label: '',
+                  //   textcontroller: _controllers[index][2], // Max
+                  //   isNumber: true,
+                  // ): 2,
+                  TextFieldInputCustom(
+                    controller: _controllers[index][3],
+                    enable: widget.enable,
                   ): 2,
-                  TextFieldCustom(
-                    width: 100,
-                    label: '',
-                    textcontroller: _controllers[index][4], // Other Requirement
+                  // TextFieldCustom(
+                  //   width: 100,
+                  //   label: '',
+                  //   textcontroller: _controllers[index][3], // Unit
+                  // ): 2,
+                  TextFieldInputCustom(
+                    controller: _controllers[index][4],
+                    enable: widget.enable,
                   ): 2,
-                  TextFieldCustom(
-                    width: 100,
-                    label: '',
-                    textcontroller: _controllers[index][5], // Quantity
+                  // TextFieldCustom(
+                  //   width: 100,
+                  //   label: '',
+                  //   textcontroller: _controllers[index][4], // Other Requirement
+                  // ): 2,
+                  TextFieldInputCustom(
+                    controller: _controllers[index][5],
+                    enable: widget.enable,
                     isNumber: true,
                   ): 2,
-                  TextFieldCustom(
-                    width: 100,
-                    label: '',
-                    textcontroller: _controllers[index][6], // Test Result
+                  // TextFieldCustom(
+                  //   width: 100,
+                  //   label: '',
+                  //   textcontroller: _controllers[index][5], // Quantity
+                  //   isNumber: true,
+                  // ): 2,
+                  TextFieldInputCustom(
+                    controller: _controllers[index][6],
+                    enable: widget.enable,
                   ): 2,
-                  TextFieldCustom(
-                    width: 100,
-                    label: '',
-                    textcontroller: _controllers[index][7], // Conclusion
+                  // TextFieldCustom(
+                  //   width: 100,
+                  //   label: '',
+                  //   textcontroller: _controllers[index][6], // Test Result
+                  // ): 2,
+                  TextFieldInputCustom(
+                    controller: _controllers[index][7],
+                    enable: widget.enable,
                     isNumber: true,
                   ): 2,
-                  TextFieldCustom(
-                    width: 100,
-                    label: '',
-                    textcontroller: _controllers[index][8], // Note
+                  // TextFieldCustom(
+                  //   width: 100,
+                  //   label: '',
+                  //   textcontroller: _controllers[index][7], // Conclusion
+                  //   isNumber: true,
+                  // ): 2,
+                  TextFieldInputCustom(
+                    controller: _controllers[index][8],
+                    enable: widget.enable,
                   ): 2,
+                  // TextFieldCustom(
+                  //   width: 100,
+                  //   label: '',
+                  //   textcontroller: _controllers[index][8], // Note
+                  // ): 2,
                   (widget.enable == true)
                       ? InkWell(
                           onTap: () {

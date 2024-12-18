@@ -45,6 +45,23 @@ class WorkOrderController extends GetxController {
     }
   }
 
+  Future<void> searchWorkOrder(String key) async {
+    if (key.isEmpty) {
+      // Reset workorderList to the full list
+      await getWorkOrderList();
+    } else {
+      // Filter workorderList based on the key
+      final filteredList = workorderList.where((workOrder) {
+        return (workOrder.workOrderCode?.contains(key) ?? false) ||
+            (workOrder.productName?.contains(key) ?? false) ||
+            (workOrder.productId?.toString().contains(key) ??
+                false); // Assuming productId is an integer
+      }).toList();
+
+      paginatedController.setList(filteredList);
+    }
+  }
+
   Future<void> searchMaterial() async {
     await materialController.getMaterialList();
     for (var workOrder in workorderList) {

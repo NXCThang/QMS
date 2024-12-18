@@ -256,12 +256,17 @@ class _CreateCheckQualityFirstState extends State<CreateCheckQualityFirst> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextFieldCustom(
-                        width: 500,
+                        width: 320,
                         label: 'PQC',
                         textcontroller: pqcController,
                         enabled: widget.isEditable),
                     TextFieldCustom(
-                        width: 500,
+                        width: 320,
+                        label: 'Quản lý sản xuất',
+                        textcontroller: productionManagerController,
+                        enabled: widget.isEditable),
+                    TextFieldCustom(
+                        width: 320,
                         label: 'QC leader',
                         textcontroller: qcLeaderController,
                         enabled: widget.isEditable),

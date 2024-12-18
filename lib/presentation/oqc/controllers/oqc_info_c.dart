@@ -21,6 +21,8 @@ class OqcInfoController extends GetxController {
 
   Future<void> getOqcInfoList() async {
     isLoading.value = true;
+    oqcInfoList.clear();
+    filteredItems.clear();
     try {
       oqcInfoList.value = await FirebaseService().getList(
         table: 'oqc_info',
@@ -29,6 +31,7 @@ class OqcInfoController extends GetxController {
       oqcInfoList.sort((a, b) => (a.id ?? 0).compareTo(b.id ?? 0));
       await searchOQCResults();
       for (var info in oqcInfoList) {
+        print('info id: ${info.id}');
         if (info.status != "Bản nháp") {
           print('info ${info.id} has ${info.status}');
           filteredItems.add(info);
@@ -60,5 +63,20 @@ class OqcInfoController extends GetxController {
           .where((element) => element.oqcInfoId == info.id)
           .toList();
     }
+  }
+
+  Future<void> updateOQCInfo(OQCInfoModel info) async {
+    await FirebaseService().updateItem(
+        table: 'oqc_info',
+        field: 'id',
+        documentId: info.id.toString(),
+        data: info.toJson());
+    await getOqcInfoList();
+  }
+
+  Future<void> removeOQCInfo(int id) async {
+    await FirebaseService()
+        .deleteItem(table: 'oqc_info', field: 'id', documentId: id.toString());
+    await getOqcInfoList();
   }
 }

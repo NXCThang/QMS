@@ -313,7 +313,7 @@ class _CreateNewEntryState extends State<CreateNewEntry> {
                   ),
                   InkWell(
                     onTap: () async {
-                      pqcFinalResultController
+                      await pqcFinalResultController
                           .addPQCFinalResult(PQCFinalResultModel(
                         id: pqcFinalResultController.pqcFinalResultList.length +
                             1,
@@ -333,6 +333,12 @@ class _CreateNewEntryState extends State<CreateNewEntry> {
                         updatedAt: DateTime.now().toIso8601String(),
                         updatedBy: LoginSession().getUser()?.name ?? '',
                       ));
+                      sidebarController.changePageWithArguments(
+                          'Thông tin lệnh sản xuất',
+                          {
+                            'WorkOrderModel': widget.workOrderModel.toJson(),
+                          },
+                          WorkOrderType.checkQuality);
                     },
                     child: Container(
                       decoration: BoxDecoration(

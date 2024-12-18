@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qms_app/common/components/text_field_input_custom.dart';
 import 'package:qms_app/models/oqc_info.dart';
 import 'package:qms_app/models/oqc_result.dart';
 import 'package:qms_app/models/work_order.dart';
@@ -223,69 +224,86 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                       return TableCustom(
                         color: Colors.white,
                         title: {
-                          TextFieldCustom(
-                            width: 120,
-                            label: '',
-                            textcontroller: _controllers[index]
-                                [0], // Criteria Name
+                          TextFieldInputCustom(
+                            controller: _controllers[index][0],
+                            enable: widget.enable,
                           ): 3,
-                          TextFieldCustom(
-                            width: 100,
-                            label: '',
-                            textcontroller: _controllers[index][1], // Min
+                          // TextFieldCustom(
+                          //   width: 120,
+                          //   label: '',
+                          //   textcontroller: _controllers[index]
+                          //       [0], // Criteria Name
+                          // ): 3,
+                          TextFieldInputCustom(
+                            controller: _controllers[index][1],
+                            enable: widget.enable,
                             isNumber: true,
                           ): 2,
-                          TextFieldCustom(
-                            width: 100,
-                            label: '',
-                            textcontroller: _controllers[index][2], // Max
+                          // TextFieldCustom(
+                          //   width: 100,
+                          //   label: '',
+                          //   textcontroller: _controllers[index][1], // Min
+                          //   isNumber: true,
+                          // ): 2,
+                          TextFieldInputCustom(
+                            controller: _controllers[index][2],
+                            enable: widget.enable,
                             isNumber: true,
                           ): 2,
-                          TextFieldCustom(
-                            width: 100,
-                            label: '',
-                            textcontroller: _controllers[index][3], // Unit
+                          // TextFieldCustom(
+                          //   width: 100,
+                          //   label: '',
+                          //   textcontroller: _controllers[index][2], // Max
+                          //   isNumber: true,
+                          // ): 2,
+                          TextFieldInputCustom(
+                            controller: _controllers[index][3],
+                            enable: widget.enable,
                           ): 2,
+                          // TextFieldCustom(
+                          //   width: 100,
+                          //   label: '',
+                          //   textcontroller: _controllers[index][3], // Unit
+                          // ): 2,
                           Container(
-                            height: 36,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black.withOpacity(0.5),
-                                width: 1,
+                              height: 36,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.black.withOpacity(0.5),
+                                    width: 1),
                               ),
-                            ),
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 4),
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: DropdownButton<String>(
-                              isExpanded: true,
-                              underline: SizedBox.shrink(),
-                              value: widget.enable == false
-                                  ? (['OK', 'NG']
-                                          .contains(_controllers[index][4].text)
-                                      ? _controllers[index][4].text
-                                      : null)
-                                  : (item.result == 1 ? 'OK' : 'NG'),
-                              items: ['OK', 'NG']
-                                  .map((value) => DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      ))
-                                  .toList(),
-                              onChanged: widget.enable == true
-                                  ? (value) {
-                                      setState(() {
-                                        _controllers[index][4].text =
-                                            value ?? '';
-                                        item.result = (value == 'OK') ? 1 : 0;
-                                      });
-                                    }
-                                  : null, // Không cho phép thay đổi nếu enable = false
-                              disabledHint: widget.enable == false
-                                  ? Text(item.result == 1 ? 'OK' : 'NG')
-                                  : null, // Gợi ý khi bị vô hiệu hóa
-                            ),
-                          ): 2,
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 4),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                underline: SizedBox.shrink(),
+                                value: _controllers[index][4].text.isEmpty
+                                    ? null
+                                    : _controllers[index][4].text,
+                                items: ['OK', 'NG']
+                                    .map((value) => DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        ))
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _controllers[index][4].text = value ?? '';
+                                    item.result = (value == 'OK') ? 1 : 0;
+                                    // if (item.result != null &&
+                                    //     !oqcInfoController.evaluateItems
+                                    //         .contains(item)) {
+                                    //   pqcFirstResultController.evaluateItems
+                                    //       .add(item);
+                                    // } else {
+                                    //   pqcFirstResultController.evaluateItems
+                                    //       .remove(item);
+                                    // }
+                                  });
+                                },
+                              )): 2,
                           InkWell(
                             onTap: () {
                               if (widget.enable == true) {
@@ -468,18 +486,24 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                     (widget.enable == true)
                         ? InkWell(
                             onTap: () async {
-                              // await oqcInfoController.addOqcInfo(OQCInfoModel(
-                              //     createdAt: DateTime.now().toIso8601String(),
-                              //     createdBy: LoginSession().getUser()?.name ?? '',
-                              //     id: oqcInfoController.oqcInfoList.length + 1,
-                              //     isActive: 1,
-                              //     model: modelController.text,
-                              //     note: noteController.text,
-                              //     quantity: int.parse(planQuantityController.text),
-                              //     status: 'Chờ phê duyệt',
-                              //     updatedAt: DateTime.now().toIso8601String(),
-                              //     updatedBy: LoginSession().getUser()?.name ?? '',
-                              //     workOrderId: widget.workOrderModel.id));
+                              await oqcInfoController.addOqcInfo(OQCInfoModel(
+                                  createdAt: DateTime.now().toIso8601String(),
+                                  createdBy:
+                                      LoginSession().getUser()?.name ?? '',
+                                  id: oqcInfoController.oqcInfoList.length + 1,
+                                  isActive: 1,
+                                  model: modelController.text,
+                                  note: noteController.text,
+                                  quantity:
+                                      int.parse(planQuantityController.text),
+                                  status: 'Chờ phê duyệt',
+                                  updatedAt: DateTime.now().toIso8601String(),
+                                  updatedBy:
+                                      LoginSession().getUser()?.name ?? '',
+                                  workOrderId: workOrderController
+                                      .workorderList[
+                                          widget.info.workOrderId ?? 1]
+                                      .id));
                               for (int index = 0;
                                   index < _items.length;
                                   index++) {
@@ -522,28 +546,95 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                               ),
                             ),
                           )
-                        : InkWell(
-                            onTap: () {
-                              sidebarController
-                                  .changePage('Phê duyệt nhập kho');
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.black.withOpacity(0.1),
-                                      width: 1),
-                                  borderRadius: BorderRadius.circular(2)),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 4),
-                              child: const Text(
-                                'Trở lại',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
+                        : (widget.info.status != 'Đã duyệt')
+                            ? Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      // print('info id: ${widget.info.id}');
+                                      // await oqcInfoController
+                                      //     .removeOQCInfo(widget.info.id ?? 0);
+                                      sidebarController
+                                          .changePage('Phê duyệt nhập kho');
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.blueAccent,
+                                          border: Border.all(
+                                              color:
+                                                  Colors.black.withOpacity(0.1),
+                                              width: 1),
+                                          borderRadius:
+                                              BorderRadius.circular(2)),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 4),
+                                      child: const Text(
+                                        'Từ chối',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  InkWell(
+                                    onTap: () async {
+                                      await oqcInfoController.updateOQCInfo(
+                                          OQCInfoModel(
+                                              id: widget.info.id,
+                                              status: 'Đã duyệt'));
+                                      sidebarController
+                                          .changePage('Phê duyệt nhập kho');
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: QMSColor.mainorange,
+                                          border: Border.all(
+                                              color:
+                                                  Colors.black.withOpacity(0.1),
+                                              width: 1),
+                                          borderRadius:
+                                              BorderRadius.circular(2)),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 4),
+                                      child: const Text(
+                                        'Phê duyệt',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            : SizedBox.shrink(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        sidebarController.changePage('Phê duyệt nhập kho');
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.black.withOpacity(0.1), width: 1),
+                            borderRadius: BorderRadius.circular(2)),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        child: const Text(
+                          'Trở lại',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 18,
                           ),
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       width: 20,
                     ),
@@ -563,8 +654,8 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
           id: null,
           oqcInfoId: null,
           inputDate: '',
-          isActive: 1,
-          result: 0,
+          isActive: null,
+          result: null,
           createdAt: '',
           updatedAt: '',
           updatedBy: '',
@@ -579,17 +670,17 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
 
       _controllers.add([
         TextEditingController(), // inputDate
-        TextEditingController(text: '1'), // isActive
-        TextEditingController(text: '0'), // result
+        TextEditingController(text: ''), // isActive
+        TextEditingController(text: ''), // result
         TextEditingController(), // createdAt
         TextEditingController(), // updatedAt
         TextEditingController(), // updatedBy
         TextEditingController(), // createdBy
-        TextEditingController(text: '0'), // totalQuantity
-        TextEditingController(text: '0'), // testQuantity
-        TextEditingController(text: '0'), // nGQuantity
-        TextEditingController(text: '0'), // externalQuantity
-        TextEditingController(text: '0'), // featureQuantity
+        TextEditingController(text: ''), // totalQuantity
+        TextEditingController(text: ''), // testQuantity
+        TextEditingController(text: ''), // nGQuantity
+        TextEditingController(text: ''), // externalQuantity
+        TextEditingController(text: ''), // featureQuantity
       ]);
     });
   }

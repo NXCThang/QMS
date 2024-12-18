@@ -11,6 +11,7 @@ class TextFieldCustom extends StatelessWidget {
     required this.textcontroller,
     this.isNumber = false,
     this.enabled = true,
+    this.onSubmit,
   });
   final String label;
   final double width;
@@ -18,6 +19,7 @@ class TextFieldCustom extends StatelessWidget {
   final TextEditingController textcontroller;
   bool? isNumber;
   bool? enabled;
+  void Function(String)? onSubmit;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,7 @@ class TextFieldCustom extends StatelessWidget {
                 ),
               ),
             ),
+            onSubmitted: onSubmit,
           ),
         ),
       ],

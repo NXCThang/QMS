@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:qms_app/common/color.dart';
 import 'package:qms_app/common/components/build_pagination_controls.dart';
 import 'package:qms_app/common/extensions/date_time_format.dart';
+import 'package:qms_app/common/helper/export_excel.dart';
 import 'package:qms_app/common/icon_path.dart';
+import 'package:qms_app/presentation/oqc/controllers/sell_order_c.dart';
 import 'package:qms_app/presentation/report/controllers/report_ng_ok_c.dart';
 import 'package:qms_app/presentation/report/model/report_ng_ok.dart';
 import 'package:qms_app/presentation/widgets/add_error.dart';
@@ -18,6 +20,7 @@ class RateProductQuantity extends StatelessWidget {
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
     final controller = Get.find<ReportNgOkController>();
+    final sellOrderController = Get.find<SellOrderController>();
     return Obx(() {
       if (controller.isLoading.value) {
         return const Center(
@@ -46,7 +49,34 @@ class RateProductQuantity extends StatelessWidget {
             ],
           ),
           const SizedBox(
-            height: 16,
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              InkWell(
+                onTap: () => exportCustomExcelNGOK(controller.reportList),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: QMSColor.mainorange,
+                  ),
+                  padding: EdgeInsets.all(4),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.download,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        'Xuất Excel',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(
             height: 10,
@@ -57,6 +87,7 @@ class RateProductQuantity extends StatelessWidget {
           TableCustom(
             title: {
               ItemTitleWidget(title: 'STT'): 1,
+              ItemTitleWidget(title: 'Mã đơn hàng'): 2,
               ItemTitleWidget(title: 'Mã sản phẩm'): 2,
               ItemTitleWidget(title: 'Tên sản phẩm'): 4,
               ItemTitleWidget(title: 'Mã WO'): 2,
@@ -82,6 +113,11 @@ class RateProductQuantity extends StatelessWidget {
                   color: Colors.white,
                   title: {
                     ItemBodyWidget(title: '$stt'): 1,
+                    ItemBodyWidget(
+                        title: sellOrderController
+                                .sellOrderList[item.workOrderModel?.id ?? 1]
+                                .soCode ??
+                            ''): 2,
                     ItemBodyWidget(
                         title:
                             item.workOrderModel?.productId.toString() ?? ''): 2,

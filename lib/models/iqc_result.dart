@@ -33,7 +33,7 @@ class IQCResultModel {
     note = json['note'];
     otherRequirement = json['other_requirement'];
     quantity = json['quantity'];
-    testResult = json['test_result'];
+    testResult = json['test_result'].toString();
     conclusion = json['conclusion'];
     iqcReportId = json['iqc_report_id'];
   }

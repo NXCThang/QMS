@@ -15,7 +15,7 @@ class WorkOrderModel {
   String? dueDate;
   String? note;
   num? isActive;
-  int? updatedAt;
+  String? updatedAt;
   int? updatedBy;
   List<MaterialModel>? materials;
   List<PQCFirstInfoModel>? pqcFirstInfos;
@@ -53,7 +53,7 @@ class WorkOrderModel {
     dueDate = json['due_date'];
     note = json['note'];
     isActive = json['is_active'];
-    updatedAt = json['updated_at'];
+    updatedAt = json['updated_at'].toString();
     updatedBy = json['updated_by'];
     if (json['materials'] != null) {
       materials = <MaterialModel>[];

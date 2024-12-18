@@ -6,6 +6,7 @@ import 'package:qms_app/common/color.dart';
 import 'package:qms_app/common/components/build_pagination_controls.dart';
 import 'package:qms_app/common/extensions/date_time_format.dart';
 import 'package:qms_app/common/extensions/number_format.dart';
+import 'package:qms_app/common/helper/export_excel.dart';
 import 'package:qms_app/common/icon_path.dart';
 import 'package:qms_app/presentation/oqc/controllers/sell_order_c.dart';
 import 'package:qms_app/presentation/report/controllers/so_report_c.dart';
@@ -42,7 +43,34 @@ class SoReport extends StatelessWidget {
             ],
           ),
           const SizedBox(
-            height: 16,
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              InkWell(
+                onTap: () => exportCustomExcelSO(soReportController.reportList),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: QMSColor.mainorange,
+                  ),
+                  padding: EdgeInsets.all(4),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.download,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        'Xuất Excel',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(
             height: 10,

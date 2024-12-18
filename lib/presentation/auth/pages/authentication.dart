@@ -53,6 +53,10 @@ class AuthenticationPage extends StatelessWidget {
                     ),
                   ),
                   controller: usernameController,
+                  onSubmitted: (_) {
+                    controller.login(
+                        usernameController.text, passwordController.text);
+                  },
                 ),
                 SizedBox(height: 16),
                 TextField(
@@ -67,6 +71,10 @@ class AuthenticationPage extends StatelessWidget {
                     ),
                   ),
                   controller: passwordController,
+                  onSubmitted: (_) {
+                    controller.login(
+                        usernameController.text, passwordController.text);
+                  },
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
