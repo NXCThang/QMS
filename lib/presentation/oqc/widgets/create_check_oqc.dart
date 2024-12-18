@@ -266,44 +266,39 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                           //   textcontroller: _controllers[index][3], // Unit
                           // ): 2,
                           Container(
-                              height: 36,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.black.withOpacity(0.5),
-                                    width: 1),
-                              ),
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 4),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: DropdownButton<String>(
-                                isExpanded: true,
-                                underline: SizedBox.shrink(),
-                                value: _controllers[index][4].text.isEmpty
-                                    ? null
-                                    : _controllers[index][4].text,
-                                items: ['OK', 'NG']
-                                    .map((value) => DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        ))
-                                    .toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _controllers[index][4].text = value ?? '';
-                                    item.result = (value == 'OK') ? 1 : 0;
-                                    // if (item.result != null &&
-                                    //     !oqcInfoController.evaluateItems
-                                    //         .contains(item)) {
-                                    //   pqcFirstResultController.evaluateItems
-                                    //       .add(item);
-                                    // } else {
-                                    //   pqcFirstResultController.evaluateItems
-                                    //       .remove(item);
-                                    // }
-                                  });
-                                },
-                              )): 2,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.black.withOpacity(0.5),
+                                  width: 1),
+                            ),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              underline: SizedBox.shrink(),
+                              value: _controllers[index][4].text.isEmpty ||
+                                      (_controllers[index][4].text != 'OK' &&
+                                          _controllers[index][4].text != 'NG')
+                                  ? 'OK' // Chọn 'OK' nếu giá trị trống hoặc không hợp lệ
+                                  : _controllers[index][4]
+                                      .text, // Nếu có giá trị hợp lệ, dùng giá trị đó
+                              items: ['OK', 'NG']
+                                  .map((value) => DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      ))
+                                  .toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _controllers[index][4].text = value ??
+                                      'OK'; // Cập nhật lại giá trị TextEditingController
+                                  item.result = (value == 'OK') ? 1 : 0;
+                                });
+                              },
+                            ),
+                          ): 2,
                           InkWell(
                             onTap: () {
                               if (widget.enable == true) {
