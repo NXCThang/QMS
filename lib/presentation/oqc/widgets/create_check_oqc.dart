@@ -525,6 +525,8 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                                       int.parse(_controllers[index][3].text),
                                   result: _items[index].result,
                                 );
+                                sidebarController
+                                    .changePage('Phê duyệt nhập kho');
                                 print(result.toJson());
                               }
                             },
@@ -552,8 +554,8 @@ class _CreateCheckOqcState extends State<CreateCheckOqc> {
                                   InkWell(
                                     onTap: () async {
                                       // print('info id: ${widget.info.id}');
-                                      // await oqcInfoController
-                                      //     .removeOQCInfo(widget.info.id ?? 0);
+                                      await oqcInfoController
+                                          .removeOQCInfo(widget.info.id ?? 0);
                                       sidebarController
                                           .changePage('Phê duyệt nhập kho');
                                     },
